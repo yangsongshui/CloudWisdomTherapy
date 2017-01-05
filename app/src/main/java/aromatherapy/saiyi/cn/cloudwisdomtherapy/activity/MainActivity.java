@@ -1,5 +1,7 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
+import android.os.Bundle;
+
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
 
@@ -11,7 +13,9 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void init() {
+    protected void init(Bundle savedInstanceState) {
 
     }
+
+
 }

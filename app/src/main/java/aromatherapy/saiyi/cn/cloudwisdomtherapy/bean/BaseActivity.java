@@ -26,7 +26,7 @@ public abstract class BaseActivity extends Activity {
         x.view().inject(this);
         //用于显示当前位于哪个活动
         Log.d("BaseActivity", getClass().getSimpleName());
-        init();
+        init(savedInstanceState);
     }
 
     @Override
@@ -52,5 +52,5 @@ public abstract class BaseActivity extends Activity {
     protected abstract int getContentView();
 
     //初始化
-    protected abstract void init();
+    protected abstract void init(Bundle savedInstanceState);
 }
