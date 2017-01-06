@@ -16,6 +16,8 @@ public class MainActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
 
     }
+    private void getCode(){
 
+    }
 
 }
