@@ -33,7 +33,7 @@ public class MyApplication extends Application {
     /**
      * 获取单例
      *
-     * @return
+     * @return MyApplication
      */
     public static MyApplication newInstance() {
         return instance;
@@ -60,21 +60,21 @@ public class MyApplication extends Application {
     /**
      * 把活动添加到活动管理集合
      *
-     * @param acty
+     * @param activity
      */
-    public void addActyToList(Activity acty) {
-        if (!activitiesList.contains(acty))
-            activitiesList.add(acty);
+    public void addActyToList(Activity activity) {
+        if (!activitiesList.contains(activity))
+            activitiesList.add(activity);
     }
 
     /**
      * 把活动从活动管理集合移除
      *
-     * @param acty
+     * @param activity
      */
-    public void removeActyFromList(Activity acty) {
-        if (activitiesList.contains(acty))
-            activitiesList.remove(acty);
+    public void removeActyFromList(Activity activity) {
+        if (activitiesList.contains(activity))
+            activitiesList.remove(activity);
     }
 
     /**
