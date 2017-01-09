@@ -6,8 +6,6 @@ import android.app.Application;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-import org.xutils.x;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +45,7 @@ public class MyApplication extends Application {
         instance = this;
         mQueue = Volley.newRequestQueue(this);
         // 请谨慎使用，以免用户看到消息过多卸载应用。
-        x.Ext.init(this);
+
         JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);            // 初始化 JPush
 

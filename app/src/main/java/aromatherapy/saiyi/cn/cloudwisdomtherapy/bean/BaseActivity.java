@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 
-import org.xutils.x;
-
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
+import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
 
 
@@ -22,8 +21,8 @@ public abstract class BaseActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(getContentView());
+        ButterKnife.bind(this);
         JPushInterface.init(getApplicationContext());
-        x.view().inject(this);
         //用于显示当前位于哪个活动
         Log.d("BaseActivity", getClass().getSimpleName());
         init(savedInstanceState);
