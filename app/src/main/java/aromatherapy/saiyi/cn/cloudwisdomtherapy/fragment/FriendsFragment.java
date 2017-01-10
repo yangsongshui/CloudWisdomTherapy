@@ -11,7 +11,9 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends BaseFragment {
+public class FriendsFragment extends BaseFragment {
+
+
 
 
     @Override
@@ -21,7 +23,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected int getContentView() {
-        return R.layout.fragment_home;
+        return R.layout.fragment_friends;
     }
 
 }
