@@ -19,7 +19,7 @@ public class InformationFragment extends BaseFragment {
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
-        tvToolbarTitle.setText("资讯");
+        tvToolbarTitle.setText(getResources().getString(R.string.tab_1));
 
     }
 

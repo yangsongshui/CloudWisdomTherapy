@@ -30,7 +30,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initToolbar() {
-        tvToolbarTitle.setText("登录");
+       tvToolbarTitle.setText("登录");
 
     }
 }

@@ -1,5 +1,6 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -38,7 +39,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-
+        startActivity(new Intent(this,LoginActivity.class));
         initView();
         initData();
         initListener();

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
@@ -24,7 +23,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(getContentView());
         translucentStatusBar();
@@ -59,6 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //初始化
     protected abstract void init(Bundle savedInstanceState);
+    
     private void translucentStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//5.0及以上
             View decorView = getWindow().getDecorView();

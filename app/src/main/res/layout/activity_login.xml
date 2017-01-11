@@ -3,9 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    android:orientation="vertical"
     android:fitsSystemWindows="true"
     tools:context="aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.LoginActivity">
 
-
     <include layout="@layout/title_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@color/bg_bottom_navigation"
+        android:layout_height="match_parent">
+
+    </LinearLayout>
+
 </LinearLayout>
