@@ -1,6 +1,5 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,10 +8,8 @@ import android.widget.TextView;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
 import butterknife.BindView;
-import butterknife.OnClick;
 
-public class RegisterActivity extends BaseActivity {
-
+public class ForgetPasswordActivity extends BaseActivity {
     @BindView(R.id.tv_toolbar_title)
     TextView tvToolbarTitle;
     @BindView(R.id.toolbar_left_iv)
@@ -20,7 +17,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_register;
+        return R.layout.activity_forget_password;
     }
 
     @Override
@@ -29,7 +26,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void initToolbar() {
-        tvToolbarTitle.setText(getResources().getString(R.string.login_register));
+        tvToolbarTitle.setText(getResources().getString(R.string.login_forget_password));
         toolbar_left_iv.setVisibility(View.VISIBLE);
         toolbar_left_iv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,22 +34,6 @@ public class RegisterActivity extends BaseActivity {
                 finish();
             }
         });
-
-    }
-
-
-    @OnClick({R.id.register_user_iv, R.id.register_doctor_iv})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.register_user_iv:
-                startActivity(new Intent(this, UserRegisterActivity.class).putExtra("type", 0));
-                finish();
-                break;
-            case R.id.register_doctor_iv:
-                startActivity(new Intent(this, UserRegisterActivity.class).putExtra("type", 1));
-                finish();
-                break;
-        }
 
     }
 }

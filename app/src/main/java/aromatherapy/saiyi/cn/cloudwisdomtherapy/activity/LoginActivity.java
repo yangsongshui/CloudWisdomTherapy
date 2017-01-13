@@ -32,7 +32,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initToolbar() {
-        tvToolbarTitle.setText("登录");
+        tvToolbarTitle.setText(getResources().getString(R.string.login));
 
     }
 
@@ -45,10 +45,12 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.login_register_tv:
                 //注册
-                startActivity(new Intent(this,RegisterActivity.class));
+                startActivity(new Intent(this, RegisterActivity.class));
                 break;
             case R.id.login_tv:
                 //登陆
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
                 break;
             case R.id.login_qq_iv:
                 //QQ登陆

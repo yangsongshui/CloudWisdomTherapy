@@ -11,5 +11,7 @@
     <color name="common_content_bg">#f9f9fd</color>
 
     <color name="white">#FFFFFF</color>
-    <color name="gray_90">#b3b3b3</color>
+    <color name="gray_90">#E6E6E6</color>
+    <!-- 亮肉色 -->
+    <color name="darkorange">#8c8c8c</color>
 </resources>
