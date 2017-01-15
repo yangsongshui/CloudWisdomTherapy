@@ -6,6 +6,5 @@
     android:orientation="vertical"
     tools:context="aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment.InformationFragment">
 
-  <include layout="@layout/title_bar"/>
-
+    <include layout="@layout/title_bar" />
 </LinearLayout>

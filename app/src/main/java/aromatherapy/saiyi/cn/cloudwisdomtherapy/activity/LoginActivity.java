@@ -42,6 +42,7 @@ public class LoginActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.login_forget_password_tv:
                 //忘记密码
+                startActivity(new Intent(this,ForgetPasswordActivity.class));
                 break;
             case R.id.login_register_tv:
                 //注册

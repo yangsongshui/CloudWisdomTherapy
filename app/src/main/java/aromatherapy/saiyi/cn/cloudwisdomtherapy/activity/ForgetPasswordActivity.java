@@ -2,18 +2,29 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ForgetPasswordActivity extends BaseActivity {
     @BindView(R.id.tv_toolbar_title)
     TextView tvToolbarTitle;
     @BindView(R.id.toolbar_left_iv)
     ImageView toolbar_left_iv;
+    @BindView(R.id.forget_phone_et)
+    EditText forgetPhoneEt;
+    @BindView(R.id.forget_coed_et)
+    EditText forgetCoedEt;
+    @BindView(R.id.forget_psw_et)
+    EditText forgetPswEt;
+    @BindView(R.id.forget_psw2_et)
+    EditText forgetPsw2Et;
 
     @Override
     protected int getContentView() {
@@ -35,5 +46,18 @@ public class ForgetPasswordActivity extends BaseActivity {
             }
         });
 
+    }
+
+
+    @OnClick({R.id.forget_get_coed_tv, R.id.forget_complete_tv})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.forget_get_coed_tv:
+                //获取验证码
+                break;
+            case R.id.forget_complete_tv:
+                //点击完成
+                break;
+        }
     }
 }

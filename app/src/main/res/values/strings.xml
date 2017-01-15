@@ -24,9 +24,9 @@
     <string name="register_get_code">获取验证码</string>
     <string name="register_psw">请输入8~16位密码</string>
     <string name="register_psw2">请再次输入密码</string>
-    <!-- <string name="register_doctor_verification">医师认证</string>-->
     <string name="register_doctor_verification">医师认证请上传相关证件,人工审核会有延迟请见谅。</string>
     <string name="register_agreement">注册代表同意《云网智疗电子商城协议》</string>
     <string name="register_complete">完成</string>
-
+    <!--咨询界面-->
+    <string name="information">"智疗咨询"</string>
 </resources>
