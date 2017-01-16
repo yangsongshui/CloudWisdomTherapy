@@ -2,9 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg_bottom_navigation"
     android:orientation="vertical"
     tools:context="aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment.InformationFragment">
 
     <include layout="@layout/title_bar" />
+
+    <com.hr.nipuream.NRecyclerView.view.NRecyclerView
+        android:id="@+id/forum_nr_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        app:interpolator="@android:anim/overshoot_interpolator" />
 </LinearLayout>
