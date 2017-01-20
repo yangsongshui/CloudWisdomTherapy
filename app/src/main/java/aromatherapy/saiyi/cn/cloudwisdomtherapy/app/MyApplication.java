@@ -3,8 +3,7 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.app;
 import android.app.Activity;
 import android.app.Application;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ public class MyApplication extends Application {
     //private static User user = new User();
 
     private int step_number = 0;
-    private RequestQueue mQueue;
+
 
     public int getStep_number() {
         return step_number;
@@ -43,7 +42,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        mQueue = Volley.newRequestQueue(this);
+        //mQueue = Volley.newRequestQueue(this);
         // 请谨慎使用，以免用户看到消息过多卸载应用。
 
         JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
@@ -53,9 +52,9 @@ public class MyApplication extends Application {
 
 
 
-    public RequestQueue getmQueue() {
+/*    public RequestQueue getmQueue() {
         return mQueue;
-    }
+    }*/
 
     /**
      * 把活动添加到活动管理集合

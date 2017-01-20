@@ -6,7 +6,7 @@
     <string name="tab_4">购物车</string>
     <string name="tab_5">我的</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>sh
     <!--登陆界面-->
     <string name="login">登录</string>
     <string name="login_phone">请输入手机号</string>
@@ -29,6 +29,14 @@
     <string name="register_complete">完成</string>
     <!--咨询界面-->
     <string name="information">"智疗咨询"</string>
+    <!--商城界面-->
+    <string name="shopping_search_msg">输入你要找的商品</string>
+    <string name="shopping_title">全部</string>
+    <string name="shopping_title1">类型1</string>
+    <string name="shopping_title2">类型2</string>
+    <string name="shopping_title3">类型3</string>
+    <string name="shopping_title4">类型4</string>
+    <string name="shopping_title5">类型5</string>
 
 
     <string-array name="data">
