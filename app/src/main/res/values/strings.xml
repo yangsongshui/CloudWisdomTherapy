@@ -37,7 +37,18 @@
     <string name="shopping_title3">类型3</string>
     <string name="shopping_title4">类型4</string>
     <string name="shopping_title5">类型5</string>
-
+    <!--我的-->
+    <string name="me_order">我的订单</string>
+    <string name="me_all_order">查看全部订单</string>
+    <string name="me_pending_payment">待付款</string>
+    <string name="me_waiting_for_delivery">待发货</string>
+    <string name="me_receiving_goods">待收货</string>
+    <string name="me_already_buy">已买到</string>
+    <string name="me_customer_service">退货售后</string>
+    <string name="me_address">收货地址</string>
+    <string name="me_discount">优惠方案</string>
+    <string name="me_product">产品介绍</string>
+    <string name="me_install">设置</string>
 
     <string-array name="data">
 
