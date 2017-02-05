@@ -71,10 +71,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="13dp"
                 android:text="@string/me_order"
                 android:textColor="@color/tuatara"
-                android:textSize="17dp" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/imageView"
@@ -91,6 +91,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/imageView"
                 android:paddingRight="10dp"
+                android:textSize="14sp"
                 android:text="@string/me_all_order" />
         </RelativeLayout>
 
@@ -165,7 +166,7 @@
                 android:padding="10dp"
                 android:text="@string/me_address"
                 android:textColor="@color/tuatara"
-                android:textSize="17dp" />
+                android:textSize="16dp" />
 
             <ImageView
 
@@ -193,7 +194,7 @@
                 android:padding="10dp"
                 android:text="@string/me_discount"
                 android:textColor="@color/tuatara"
-                android:textSize="17dp" />
+                android:textSize="16dp" />
 
             <ImageView
 
@@ -220,7 +221,7 @@
                 android:padding="10dp"
                 android:text="@string/me_product"
                 android:textColor="@color/tuatara"
-                android:textSize="17dp" />
+                android:textSize="16dp" />
 
             <ImageView
 
@@ -247,7 +248,7 @@
                 android:padding="10dp"
                 android:text="@string/me_install"
                 android:textColor="@color/tuatara"
-                android:textSize="17dp" />
+                android:textSize="16dp" />
 
             <ImageView
 
