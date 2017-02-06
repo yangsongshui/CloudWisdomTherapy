@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:id="@+id/shopping_cart_null_ll"
+    android:visibility="gone"
+    android:layout_height="match_parent">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/gouwuche_gray_big_icon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/shopping_cart_msg"
+            android:textColor="@color/magnesium"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/shopping_cart_go_tv"
+            style="@style/LoginTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_rim"
+            android:text="@string/shopping_cart_go"
+            android:textColor="@color/white" />
+</LinearLayout>

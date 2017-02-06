@@ -51,6 +51,12 @@
     <string name="me_install">设置</string>
     <!--购物车-->
     <string name="shopping_cart_add">添加</string>
+    <string name="shopping_cart_msg">你的购物车空空如也</string>
+    <string name="shopping_cart_go">去逛逛</string>
+    <string name="shopping_cart_settlement">结算</string>
+    <string name="shopping_cart_complete">完成</string>
+    <string name="shopping_cart_select">全选</string>
+    <string name="shopping_cart_mall">云网智疗网上商城</string>
     <string-array name="data">
 
         <item>material</item>

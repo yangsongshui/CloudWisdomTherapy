@@ -25,4 +25,5 @@ public class ShoppingCartFragment extends BaseFragment {
     protected int getContentView() {
         return R.layout.fragment_shopping_cart;
     }
+
 }

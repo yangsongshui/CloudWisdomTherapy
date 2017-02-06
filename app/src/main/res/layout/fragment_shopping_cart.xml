@@ -6,6 +6,49 @@
     android:orientation="vertical"
     tools:context="aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment.ShoppingCartFragment">
 
-    <include layout="@layout/title_bar"/>
+    <include layout="@layout/title_bar" />
+
+    <include layout="@layout/shopping_cart_null" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/shopping_cart_goods_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/linearLayout"/>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shopping_cart_text"
+                android:button="@null" />
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:gravity="center"
+                 android:layout_height="match_parent"
+                 android:text="@string/shopping_cart_select"/>
+
+            <TextView
+                android:id="@+id/shopping_cart_go_tv"
+                style="@style/ShoppingTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_rim"
+                android:text="@string/shopping_cart_go"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+
 
 </LinearLayout>
