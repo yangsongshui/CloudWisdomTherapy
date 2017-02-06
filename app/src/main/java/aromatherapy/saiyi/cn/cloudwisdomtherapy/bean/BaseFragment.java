@@ -82,6 +82,6 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        Log.e(TAG, "hidden:" + hidden);
+       // Log.e(TAG, "hidden:" + hidden);
     }
 }

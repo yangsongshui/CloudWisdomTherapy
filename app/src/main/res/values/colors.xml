@@ -5,11 +5,11 @@
     <color name="colorAccent">#FF4081</color>
 
     <!-- Bottom Navigation -->
-    <color name="bg_bottom_navigation">#f6f7f8</color>
+    <color name="bg_bottom_navigation">#f7f7f7</color>
     <color name="accent_bottom_navigation">#0096E3</color>
     <color name="inactive_bottom_navigation">#9b9b9b</color>
     <color name="common_content_bg">#f9f9fd</color>
-
+    <color name="text_color">#999999</color>
     <color name="white">#FFFFFF</color>
     <color name="gray_90">#E6E6E6</color>
     <color name="darkorange">#8c8c8c</color>

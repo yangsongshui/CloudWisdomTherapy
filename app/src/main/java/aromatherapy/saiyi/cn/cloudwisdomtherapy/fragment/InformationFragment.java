@@ -35,6 +35,7 @@ import butterknife.BindView;
  * A simple {@link Fragment} subclass.
  */
 public class InformationFragment extends BaseFragment implements BaseLayout.RefreshAndLoadingListener {
+    private static final String TAG = InformationFragment.class.getName();
     @BindView(R.id.tv_toolbar_title)
     TextView tvToolbarTitle;
 
@@ -295,7 +296,6 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
 
             }
         });
-        // 滚动条自动滚动
         setVpagerAutoScroll();
     }
 
@@ -315,6 +315,19 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
             }
         };
         handler.postDelayed(tempRun, 5000);
+    }
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+         Log.e(TAG, "hidden:" + hidden);
+        if (hidden){
+            handler.removeCallbacks(tempRun);
+        }else {
+            handler.postDelayed(tempRun, 5000);
+        }
+
     }
 
 }
