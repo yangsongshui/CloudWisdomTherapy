@@ -14,7 +14,7 @@
     <color name="gray_90">#E6E6E6</color>
     <color name="darkorange">#8c8c8c</color>
     <color name="gray">#808080</color>
-    <color name="black">#2b000000</color>
+    <color name="black2">#2b000000</color>
     <color name="gray2">#cccccc</color>
     <color name="gray3">#989898</color>
     <color name="gray4">#E1E3E5</color>
@@ -22,4 +22,6 @@
     <color name="zircon">#DFDFE5</color>
     <color name="steel">#666768</color>
     <color name="magnesium">#B2B2B3</color>
+    <color name="dark_jungle_green">#1E2021</color>
+    <color name="black">#000000</color>
 </resources>
