@@ -14,40 +14,74 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/shopping_cart_goods_rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/linearLayout"/>
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
 
-            <RadioButton
+            <CheckBox
+                android:id="@+id/shopping_cart_all_cb"
                 android:layout_width="wrap_content"
-                android:gravity="center"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shopping_cart_text"
-                android:button="@null" />
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:gravity="center"
-                 android:layout_height="match_parent"
-                 android:text="@string/shopping_cart_select"/>
+                android:layout_centerVertical="true"
+                android:button="@null"
+                android:drawableLeft="@drawable/shopping_cart_text"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/shopping_cart_select"
+                android:textColor="@color/text_color" />
+            <!--<TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color"
+                android:text="(2)"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/radioButton" />-->
 
             <TextView
-                android:id="@+id/shopping_cart_go_tv"
+                android:id="@+id/shopping_cart_settlement_tv"
                 style="@style/ShoppingTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/login_rim"
-                android:text="@string/shopping_cart_go"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/shopping_rim"
+                android:text="@string/shopping_cart_settlement"
                 android:textColor="@color/white" />
-        </LinearLayout>
+
+            <TextView
+                android:id="@+id/shopping_cart_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:layout_toStartOf="@+id/shopping_cart_settlement_tv"
+                android:text="¥0.00"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/shopping_cart_goods_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/imageView" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_above="@id/relativeLayout"
+            android:background="@color/zircon" />
+
     </RelativeLayout>
 
 
