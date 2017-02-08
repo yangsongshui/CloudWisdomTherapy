@@ -10,11 +10,31 @@
 
     <include layout="@layout/shopping_cart_null" />
 
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/linearLayout">
 
+            <CheckBox
+                android:id="@+id/shopping_cart_mall_cb"
+                style="@style/ShoppingCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/shopping_cart_mall"
+                android:textColor="@color/black" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/zircon" />
+        </LinearLayout>
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
@@ -23,22 +43,14 @@
             android:orientation="horizontal">
 
             <CheckBox
-                style="@style/ShoppingCheckBox"
                 android:id="@+id/shopping_cart_all_cb"
+                style="@style/ShoppingCheckBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="@string/shopping_cart_select"
                 android:textColor="@color/text_color" />
-            <!--<TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_color"
-                android:text="(2)"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/radioButton" />-->
+
 
             <TextView
                 android:id="@+id/shopping_cart_settlement_tv"
@@ -67,7 +79,8 @@
             android:id="@+id/shopping_cart_goods_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/imageView" />
+            android:layout_above="@id/imageView"
+            android:layout_below="@+id/linearLayout" />
 
         <ImageView
             android:id="@+id/imageView"

@@ -1,6 +1,8 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
@@ -9,8 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.ShoppingCartAdapter;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Commodity;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -29,12 +36,15 @@ public class ShoppingCartFragment extends BaseFragment {
     RelativeLayout relativeLayout;
     @BindView(R.id.shopping_cart_goods_rv)
     RecyclerView shoppingCartGoodsRv;
-
+    List<Commodity> mList;
+    ShoppingCartAdapter adapter;
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
         tvToolbarTitle.setText(getResources().getString(R.string.tab_4));
         tv_toolbar_right.setVisibility(View.VISIBLE);
-        tv_toolbar_right.setText(getResources().getString(R.string.shopping_cart_add));
+        tv_toolbar_right.setText(getResources().getString(R.string.shopping_cart_edit));
+        shoppingCartAllCb.setText(getResources().getString(R.string.shopping_cart_select)+"(3)");
+        mList = new ArrayList<>();
 
         shoppingCartAllCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -47,13 +57,14 @@ public class ShoppingCartFragment extends BaseFragment {
             }
         });
 
-
+        initLisr();
     }
 
     @Override
     protected int getContentView() {
 
         return R.layout.fragment_shopping_cart;
+
 
 
     }
@@ -73,5 +84,17 @@ public class ShoppingCartFragment extends BaseFragment {
                 tv_toolbar_right.setText(getResources().getString(R.string.shopping_cart_complete));
                 break;
         }
+    }
+    private void initLisr(){
+        mList.add(new Commodity("大力丸", "保健品", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg"));
+        mList.add(new Commodity("无上神丹", "药品", "http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg"));
+        mList.add(new Commodity("无上神水", "药品", "http://img.my.csdn.net/uploads/201407/26/1406383291_8239.jpg"));
+
+        adapter=new ShoppingCartAdapter(getActivity(),mList);
+        shoppingCartGoodsRv.setItemAnimator(new DefaultItemAnimator());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        shoppingCartGoodsRv.setLayoutManager(layoutManager);
+        shoppingCartGoodsRv.setAdapter(adapter);
     }
 }

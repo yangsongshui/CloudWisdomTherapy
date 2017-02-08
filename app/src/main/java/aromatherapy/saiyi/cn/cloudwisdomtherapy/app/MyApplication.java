@@ -3,7 +3,8 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.app;
 import android.app.Activity;
 import android.app.Application;
 
-
+import com.android.volley.cache.DiskLruBasedCache;
+import com.android.volley.cache.plus.SimpleImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +44,11 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
         //mQueue = Volley.newRequestQueue(this);
-        // 请谨慎使用，以免用户看到消息过多卸载应用。
+        DiskLruBasedCache.ImageCacheParams cacheParams = new DiskLruBasedCache.ImageCacheParams(getApplicationContext(), "CacheDirectory");
+        cacheParams.setMemCacheSizePercent(0.5f);
+        mImageLoader = new SimpleImageLoader(getApplicationContext(),cacheParams);
 
+        // 请谨慎使用，以免用户看到消息过多卸载应用。
         JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);            // 初始化 JPush
 
@@ -137,6 +141,10 @@ public class MyApplication extends Application {
         editor.commit();
     }
 */
+private SimpleImageLoader mImageLoader;
 
+    public SimpleImageLoader getmImageLoader() {
+        return mImageLoader;
+    }
 
 }
