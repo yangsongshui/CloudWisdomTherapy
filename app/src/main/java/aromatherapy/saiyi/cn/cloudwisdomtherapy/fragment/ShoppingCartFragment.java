@@ -36,8 +36,9 @@ public class ShoppingCartFragment extends BaseFragment {
     RelativeLayout relativeLayout;
     @BindView(R.id.shopping_cart_goods_rv)
     RecyclerView shoppingCartGoodsRv;
-    List<Commodity> mList;
-    ShoppingCartAdapter adapter;
+   private List<Commodity> mList;
+    private ShoppingCartAdapter adapter;
+    private  boolean complete=false;
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
         tvToolbarTitle.setText(getResources().getString(R.string.tab_4));
