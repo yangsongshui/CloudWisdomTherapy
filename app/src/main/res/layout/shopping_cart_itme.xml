@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
+    android:background="@color/white"
+    android:padding="10dp"
     android:orientation="horizontal">
 
     <CheckBox
@@ -26,7 +27,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,16 +59,18 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@drawable/cart_type_rim"
-                android:gravity="center"
-                android:padding="10dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:text="种类:东北药业;规格:3g*20粒"
+                android:drawableRight="@drawable/arrow_down_icon"
+                android:drawablePadding="5dp"
                 android:textColor="@color/steel"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -78,6 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
+        android:visibility="gone"
         android:layout_marginRight="10dp"
         android:orientation="vertical">
 
@@ -94,6 +98,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+
             android:layout_weight="1"
             android:orientation="horizontal">
 

@@ -36,15 +36,16 @@ public class ShoppingCartFragment extends BaseFragment {
     RelativeLayout relativeLayout;
     @BindView(R.id.shopping_cart_goods_rv)
     RecyclerView shoppingCartGoodsRv;
-   private List<Commodity> mList;
+    private List<Commodity> mList;
     private ShoppingCartAdapter adapter;
-    private  boolean complete=false;
+    private boolean complete = false;
+
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
         tvToolbarTitle.setText(getResources().getString(R.string.tab_4));
         tv_toolbar_right.setVisibility(View.VISIBLE);
         tv_toolbar_right.setText(getResources().getString(R.string.shopping_cart_edit));
-        shoppingCartAllCb.setText(getResources().getString(R.string.shopping_cart_select)+"(3)");
+        shoppingCartAllCb.setText(getResources().getString(R.string.shopping_cart_select) + "(3)");
         mList = new ArrayList<>();
 
         shoppingCartAllCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -67,7 +68,6 @@ public class ShoppingCartFragment extends BaseFragment {
         return R.layout.fragment_shopping_cart;
 
 
-
     }
 
 
@@ -82,16 +82,27 @@ public class ShoppingCartFragment extends BaseFragment {
                 break;
             case R.id.tv_toolbar_right:
                 //编辑按钮
-                tv_toolbar_right.setText(getResources().getString(R.string.shopping_cart_complete));
+
+                if (complete){
+                    tv_toolbar_right.setText(getResources().getString(R.string.shopping_cart_complete));
+                    adapter.setConceal(complete);
+                    complete=false;
+                }else {
+                    tv_toolbar_right.setText(getResources().getString(R.string.shopping_cart_edit));
+                    adapter.setConceal(complete);
+                    complete=true;
+                }
+
                 break;
         }
     }
-    private void initLisr(){
+
+    private void initLisr() {
         mList.add(new Commodity("大力丸", "保健品", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg"));
         mList.add(new Commodity("无上神丹", "药品", "http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg"));
         mList.add(new Commodity("无上神水", "药品", "http://img.my.csdn.net/uploads/201407/26/1406383291_8239.jpg"));
 
-        adapter=new ShoppingCartAdapter(getActivity(),mList);
+        adapter = new ShoppingCartAdapter(getActivity(), mList);
         shoppingCartGoodsRv.setItemAnimator(new DefaultItemAnimator());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

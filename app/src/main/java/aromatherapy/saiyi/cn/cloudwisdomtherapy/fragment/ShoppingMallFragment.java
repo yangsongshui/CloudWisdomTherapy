@@ -118,8 +118,8 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                //再次选中tab的逻辑
-                Log.e("再次选中", tab.getPosition() + "");
+                //上一次tab的逻辑
+                Log.e("上一次选中", tab.getPosition() + "");
             }
         });
     }

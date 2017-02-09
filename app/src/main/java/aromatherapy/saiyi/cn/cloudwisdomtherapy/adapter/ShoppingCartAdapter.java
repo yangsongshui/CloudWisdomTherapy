@@ -26,6 +26,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
     private List<Commodity> data;
     private Context context;
+    private boolean isConceal = false;
 
     public ShoppingCartAdapter(Context context, List<Commodity> data) {
         this.data = data;
@@ -50,6 +51,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
         spannableString.setSpan(strikethroughSpan, 0, 6, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         holder.cart_item_purchase_price_tv.setText(spannableString);
+        if (isConceal) {
+            holder.cart_item_information_ll.setVisibility(View.GONE);
+            holder.cart_item_edit_ll.setVisibility(View.VISIBLE);
+        } else {
+            holder.cart_item_information_ll.setVisibility(View.VISIBLE);
+            holder.cart_item_edit_ll.setVisibility(View.GONE);
+        }
 
     }
 
@@ -83,5 +91,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         }
     }
 
+    public void setConceal(boolean isConceal) {
+        this.isConceal = isConceal;
+        notifyDataSetChanged();
+    }
 
 }

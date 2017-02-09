@@ -1,6 +1,7 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.IndentActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -48,6 +50,7 @@ public class MeFragment extends BaseFragment {
                 break;
             case R.id.me_order_rl:
 //               订单
+                startActivity(new Intent(getActivity(), IndentActivity.class));
                 break;
             case R.id.me_pending_payment_tv:
 //待付款

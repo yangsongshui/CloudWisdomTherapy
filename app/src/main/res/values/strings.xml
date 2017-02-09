@@ -58,6 +58,12 @@
     <string name="shopping_cart_edit">编辑</string>
     <string name="shopping_cart_select">全选</string>
     <string name="shopping_cart_mall">云网智疗网上商城</string>
+    <!--我的订单-->
+    <string name="indent_all">全部</string>
+    <string name="indent_obligation">待付款</string>
+    <string name="indent_committed">待发货</string>
+    <string name="indent_collect">待收货</string>
+    <string name="indent_buy">已买到</string>
     <string-array name="data">
 
         <item>material</item>
