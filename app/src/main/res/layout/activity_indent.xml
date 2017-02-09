@@ -26,5 +26,11 @@
             android:layout_height="wrap_content"
             app:tabBackground="@color/bg_bottom_navigation"
             app:tabMode="fixed" />
+
+        <com.hr.nipuream.NRecyclerView.view.NRecyclerView
+            android:id="@+id/recyclerMagicView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
     </LinearLayout>
 </LinearLayout>

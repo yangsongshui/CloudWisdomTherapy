@@ -49,7 +49,14 @@
         <item name="android:paddingTop">13dp</item>
         <item name="android:gravity">center</item>
     </style>
-
+    <style name="IndentTextView">
+        <item name="android:textSize">15sp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingRight">25dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:gravity">center</item>
+    </style>
     <style name="ToolbarRightText">
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>

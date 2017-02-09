@@ -4,13 +4,21 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.model;
  * Created by Administrator on 2017/2/8.
  */
 public class Commodity {
+    //商品名称
     private String name;
+    /*商品图片*/
     private String picture;
+    /*商品种类*/
     private String type;
+    /*商品规格*/
     private String standard;
+    /*商品价格*/
     private String price;
+    /*商品原价格*/
     private String purchase_price;
+    /*商品购买数量*/
     private String num;
+    /*购物车是否选中购买*/
     private boolean choice;
 
 
@@ -21,6 +29,17 @@ public class Commodity {
         this.name = name;
         this.type = type;
         this.picture = picture;
+    }
+
+    public Commodity(String name, String picture, String type, String standard, String price, String purchase_price, String num) {
+        this.name = name;
+        this.picture = picture;
+        this.type = type;
+        this.standard = standard;
+        this.price = price;
+        this.purchase_price = purchase_price;
+        this.num = num;
+
     }
 
     public String getName() {
