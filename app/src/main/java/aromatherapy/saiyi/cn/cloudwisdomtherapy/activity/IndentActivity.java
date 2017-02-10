@@ -107,8 +107,8 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
     }
 
     private void initRecyclerView() {
-        mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.8", "2", 1, "24.80"));
-        mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.8", "1", 2, "10.00"));
+        mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 1, "24.80"));
+        mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 2, "10.00"));
         mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 3, "15.00"));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -151,14 +151,14 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
             protected void onPostExecute(Integer integer) {
                 super.onPostExecute(integer);
                 Log.e("-------load", "onPostExecute");
-               /* if (mList.size() > 5) {
-                    *//*没有更多数据*//*
+                if (mList.size() > 5) {
+                    //没有更多数据
                     recyclerMagicView.pullNoMoreEvent();
                 } else {
 
                     //关闭加载圆形进度条
                     recyclerMagicView.endLoadingMore();
-                }*/
+                }
 
             }
         }.execute();

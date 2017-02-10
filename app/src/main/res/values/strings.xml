@@ -68,6 +68,9 @@
     <string name="indent_payment">待付款</string>
     <string name="indent_logistics">查询物流</string>
     <string name="indent_confirm">确认收货</string>
+    <string name="indent_type">类型:</string>
+    <string name="indent_standard">规格:</string>
+    <string name="indent_rmb">¥</string>
     <string-array name="data">
 
         <item>material</item>
