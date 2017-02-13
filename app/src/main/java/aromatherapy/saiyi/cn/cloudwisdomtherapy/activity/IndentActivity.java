@@ -15,7 +15,9 @@ import com.hr.nipuream.NRecyclerView.view.NRecyclerView;
 import com.hr.nipuream.NRecyclerView.view.base.BaseLayout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
@@ -35,7 +37,7 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
     NRecyclerView recyclerMagicView;
     IndentAdapter adapter;
     List<Indent> mList;
-
+    Map<String,List<Indent>> mMap;
     @Override
     protected int getContentView() {
         return R.layout.activity_indent;
@@ -45,6 +47,7 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
     protected void init(Bundle savedInstanceState) {
         initTab();
         mList = new ArrayList<>();
+        mMap=new HashMap<>();
         initRecyclerView();
         tvToolbarTitle.setText(getResources().getString(R.string.me_order));
         toolbar_left_iv.setVisibility(View.VISIBLE);
@@ -70,23 +73,21 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
                 Log.i("选中了", tab.getPosition() + "");
                 switch (tab.getPosition()) {
                     case 0:
-
+                    adapter.setmList(mMap.get("0"));
                         break;
                     case 1:
-
+                        adapter.setmList(mMap.get("1"));
                         break;
                     case 2:
-
+                        adapter.setmList(mMap.get("2"));
                         break;
                     case 3:
-
+                        adapter.setmList(mMap.get("3"));
                         break;
                     case 4:
-
+                        adapter.setmList(mMap.get("4"));
                         break;
-                    case 5:
 
-                        break;
                     default:
                         break;
                 }
@@ -110,6 +111,27 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
         mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 1, "24.80"));
         mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 2, "10.00"));
         mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 3, "15.00"));
+        mMap.put("0",mList);
+        mList.clear();
+        mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 1, "24.80"));
+        mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 1, "10.00"));
+        mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 1, "15.00"));
+        mMap.put("1",mList);
+        mList.clear();
+        mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 4, "24.80"));
+        mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 4, "10.00"));
+        mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 4, "15.00"));
+        mMap.put("4",mList);
+        mList.clear();
+        mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 2, "24.80"));
+        mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 2, "10.00"));
+        mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 2, "15.00"));
+        mMap.put("2",mList);
+        mList.clear();
+        mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 3, "24.80"));
+        mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 3, "10.00"));
+        mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 3, "15.00"));
+        mMap.put("3",mList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerMagicView.setLayoutManager(layoutManager);
