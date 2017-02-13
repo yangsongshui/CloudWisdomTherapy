@@ -14,9 +14,7 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
 public class FriendFragment extends BaseFragment {
 
 
-    public FriendFragment() {
-        // Required empty public constructor
-    }
+
 
 
     @Override

@@ -107,6 +107,6 @@ public class IndentAdapter extends RecyclerView.Adapter<IndentAdapter.ViewHoader
     public void setmList(List<Indent> list){
 
         this.mList = list;
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 }

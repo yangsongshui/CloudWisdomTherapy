@@ -34,4 +34,9 @@
             android:src="@drawable/add" />
 
     </android.support.v7.widget.Toolbar>
+    <include layout="@layout/search_head" />
+    <FrameLayout
+        android:id="@+id/fragment_fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

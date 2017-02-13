@@ -71,6 +71,11 @@
     <string name="indent_type">类型:</string>
     <string name="indent_standard">规格:</string>
     <string name="indent_rmb">¥</string>
+    <!--好友-->
+    <string name="friends_news">消息</string>
+    <string name="friends_friends">好友</string>
+    <string name="friends_head">输入ID/昵称/医院/科</string>
+
     <string-array name="data">
 
         <item>material</item>

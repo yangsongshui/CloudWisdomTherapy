@@ -5,6 +5,9 @@
     android:background="@color/bg_bottom_navigation"
     tools:context="aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment.FriendFragment">
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/shopping_cart_complete"/>
 
 </LinearLayout>

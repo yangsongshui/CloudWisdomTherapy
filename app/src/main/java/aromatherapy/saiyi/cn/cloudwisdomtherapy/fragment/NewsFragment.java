@@ -3,19 +3,19 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
+import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class NewsFragment extends BaseFragment {
-
-    public NewsFragment() {
-        // Required empty public constructor
-    }
+    @BindView(R.id.news_information_rv)
+    RecyclerView news_information_rv;
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
@@ -26,5 +26,4 @@ public class NewsFragment extends BaseFragment {
     protected int getContentView() {
         return R.layout.fragment_news;
     }
-
 }
