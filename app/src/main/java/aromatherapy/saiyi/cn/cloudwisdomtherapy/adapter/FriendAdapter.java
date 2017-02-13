@@ -1,31 +1,23 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
-import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.News;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by Administrator on 2017/2/13.
+ * Created by yangsong on 2017/2/13.
  */
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHoader> {
-    List<News> mList;
 
-    public NewsAdapter(List<News> mList) {
-        this.mList = mList;
-    }
+public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader>{
+
 
     @Override
     public ViewHoader onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false);
-        return new NewsAdapter.ViewHoader(view);
+        return null;
     }
 
     @Override
@@ -35,7 +27,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHoader> {
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return 0;
     }
 
     public class ViewHoader extends RecyclerView.ViewHolder {

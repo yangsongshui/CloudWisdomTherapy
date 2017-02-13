@@ -117,7 +117,7 @@ public class FriendsFragment extends BaseFragment implements TabLayout.OnTabSele
 
 
     @OnClick({R.id.friend_search_tv, R.id.tv_toolbar_right})
-    private void onClick(View view) {
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.friend_search_tv:
                 break;

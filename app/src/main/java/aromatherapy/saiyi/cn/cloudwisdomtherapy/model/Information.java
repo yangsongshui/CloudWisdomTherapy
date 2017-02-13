@@ -7,6 +7,14 @@ public class Information {
     String content;
     int sign;
 
+    public Information() {
+    }
+
+    public Information(String content, int sign) {
+        this.content = content;
+        this.sign = sign;
+    }
+
     public String getContent() {
         return content;
     }

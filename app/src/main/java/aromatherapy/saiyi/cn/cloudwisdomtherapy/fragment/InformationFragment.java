@@ -152,16 +152,11 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
                 }
             }
         }.execute();
-        /*实时更新vpager中image图片*/
-      /*  ImageView iv = (ImageView) vpager.findViewWithTag(imgvsResId[0]);
-        imgvsResId[0]=R.drawable.weixin_icon;
-
-        iv.setImageResource( imgvsResId[0]);*/
     }
 
     @Override
     public void load() {
-        //下拉加载
+        //上拉加载
         currentPage++;
         new AsyncTask<Void, Void, Integer>() {
             @Override

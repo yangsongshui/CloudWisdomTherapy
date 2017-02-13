@@ -3,10 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/bg_bottom_navigation"
     tools:context="aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment.NewsFragment">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/news_information_rv"
+    <com.hr.nipuream.NRecyclerView.view.NRecyclerView
+        android:id="@+id/recyclerMagicView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 
 </LinearLayout>

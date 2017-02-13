@@ -73,7 +73,7 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
                 Log.i("选中了", tab.getPosition() + "");
                 switch (tab.getPosition()) {
                     case 0:
-                    adapter.setmList(mMap.get("0"));
+                        adapter.setmList(mMap.get("0"));
                         break;
                     case 1:
                         adapter.setmList(mMap.get("1"));
