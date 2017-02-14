@@ -13,16 +13,37 @@ public class User {
     private String age;
     private String height;
     private String width;
+    private String hospital;
+    private String department;
+    private String address;
+    private int type;
+
+
 
     public User() {
     }
 
-    public User(String name, String pic, String phone) {
+    public User(String name, String pic, String phone,int type) {
         this.name = name;
         this.pic = pic;
         this.phone = phone;
+        this.type = type;
+    }
+    public int getType() {
+        return type;
     }
 
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
     public String getName() {
         return name;
     }
@@ -85,5 +106,20 @@ public class User {
 
     public void setWidth(String width) {
         this.width = width;
+    }
+    public String getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(String hospital) {
+        this.hospital = hospital;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 }

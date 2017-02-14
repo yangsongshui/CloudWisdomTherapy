@@ -11,12 +11,6 @@ public class doctor extends User {
     public doctor() {
     }
 
-    public doctor(String name, String pic, String phone, String hospital, String department) {
-        super(name, pic, phone);
-        this.hospital = hospital;
-        this.department = department;
-    }
-
     public String getHospital() {
         return hospital;
     }
