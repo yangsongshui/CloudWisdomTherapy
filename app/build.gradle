@@ -34,6 +34,7 @@ buildscript {
     repositories {
         jcenter()
     }
+
 }
 
 dependencies {
@@ -56,4 +57,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.zhy:base-rvadapter:3.0.3'
     compile 'dev.dworks.libs:volleyplus:+'
+    compile 'com.github.hackware1993:MagicIndicator:1.5.0'
 }

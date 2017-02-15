@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hr.nipuream.NRecyclerView.view.NRecyclerView;
 import com.hr.nipuream.NRecyclerView.view.base.BaseLayout;
@@ -38,6 +39,7 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
     IndentAdapter adapter;
     List<Indent> mList;
     Map<String,List<Indent>> mMap;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_indent;
@@ -60,7 +62,8 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
     }
 
     private void initTab() {
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+
+     tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.indent_all)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.indent_obligation)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.indent_committed)));
@@ -105,6 +108,7 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
                 Log.i("上一次选中", tab.getPosition() + "");
             }
         });
+
     }
 
     private void initRecyclerView() {
