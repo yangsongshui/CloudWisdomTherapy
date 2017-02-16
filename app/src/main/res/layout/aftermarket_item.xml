@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,14 +13,14 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/indent_item_pic_iv"
+            android:id="@+id/aftermarket_pic_iv"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginLeft="10dp"
             android:src="@drawable/zhifubao_icon" />
 
         <LinearLayout
-            android:id="@+id/cart_item_information_ll"
+            android:id="@+id/aftermarket_information_ll"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
@@ -30,7 +30,7 @@
             android:visibility="visible">
 
             <TextView
-                android:id="@+id/indent_item_name_tv"
+                android:id="@+id/aftermarket_name_tv"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginTop="3dp"
@@ -44,8 +44,8 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
 
-                android:orientation="horizontal"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -61,7 +61,7 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/indent_item_type_tv"
+                        android:id="@+id/aftermarket_type_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -83,7 +83,7 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/indent_item_standard_tv"
+                        android:id="@+id/aftermarket_standard_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -115,7 +115,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/intent_rmb_tv"
+                        android:id="@+id/aftermarket_rmb_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -124,7 +124,7 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/indent_item_purchase_price_tv"
+                        android:id="@+id/aftermarket_purchase_price_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -150,7 +150,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/indent_item_price_tv"
+                        android:id="@+id/aftermarket_price_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -176,7 +176,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/indent_item_num_tv"
+                    android:id="@+id/aftermarket_num_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -216,6 +216,7 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
+                android:layout_marginLeft="5dp"
                 android:layout_height="wrap_content">
 
                 <TextView
@@ -228,7 +229,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/indent_item_total_tv"
+                    android:id="@+id/aftermarket_total_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -236,53 +237,39 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="19sp" />
             </LinearLayout>
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/zircon" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:gravity="end|center_vertical"
-            android:orientation="horizontal"
-            android:padding="5dp">
 
             <TextView
-                android:id="@+id/indent_item_confirm_tv"
-                style="@style/IndentTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/login_rim"
-                android:text="@string/indent_confirm"
-                android:textColor="@color/white"
-                android:visibility="gone" />
+                android:text="@string/aftermarket_reimburse"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/text_color"
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/indent_item_logistics_tv"
-                style="@style/IndentTextView"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/login_rim"
-                android:text="@string/indent_logistics"
-                android:textColor="@color/white"
-                android:visibility="gone" />
+                android:layout_marginLeft="5dp"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/indent_item_payment_tv"
-                style="@style/IndentTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/login_rim"
-                android:text="@string/indent_payment"
-                android:textColor="@color/white"
-                android:visibility="visible" />
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="¥"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp" />
+
+                <TextView
+
+                    android:id="@+id/aftermarket_reimburse_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="0.00"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="19sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <ImageView

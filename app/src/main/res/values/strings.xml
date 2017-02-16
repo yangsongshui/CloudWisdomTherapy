@@ -76,6 +76,13 @@
     <string name="friends_friends">好友</string>
     <string name="friends_head">输入ID/昵称/医院/科</string>
     <string name="friends_new">新好友</string>
+    <!--退货售后-->
+    <string name="aftermarket_title">退货／售后</string>
+    <string name="aftermarket_state1">请尽快将商品寄回</string>
+    <string name="aftermarket_state2">卖家处理中</string>
+    <string name="aftermarket_state3">已退款</string>
+    <string name="aftermarket_reimburse">退款金额</string>
+
     <string-array name="data">
 
         <item>material</item>

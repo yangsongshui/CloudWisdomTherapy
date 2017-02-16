@@ -158,7 +158,8 @@
         <activity android:name=".activity.UserRegisterActivity" />
         <activity android:name=".activity.ForgetPasswordActivity" />
         <activity android:name=".activity.IndentActivity" />
-        <activity android:name=".activity.MyInformationActivity"></activity>
+        <activity android:name=".activity.MyInformationActivity" />
+        <activity android:name=".activity.AftermarketActivity"></activity>
     </application>
 
 </manifest>
