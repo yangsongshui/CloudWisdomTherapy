@@ -82,6 +82,22 @@
     <string name="aftermarket_state2">卖家处理中</string>
     <string name="aftermarket_state3">已退款</string>
     <string name="aftermarket_reimburse">退款金额</string>
+    <!--个人信息-->
+    <string name="information_phone">智疗ID:</string>
+    <string name="information_address">所在地区:</string>
+    <string name="information_hospital">所属医院:</string>
+    <string name="information_family">所属科:</string>
+    <string name="information_birthday">生日:</string>
+    <string name="information_height">身高:</string>
+    <string name="information_weight">体重:</string>
+    <string name="information_compile">编辑资料</string>
+    <string name="information_kg">Kg</string>
+    <string name="information_cm">cm</string>
+    <!--修改资料-->
+    <string name="compile_pic">头像</string>
+    <string name="compile_name">昵称</string>
+    <string name="compile_address">所在地</string>
+    <string name="compile_sex">性别</string>
 
     <string-array name="data">
 

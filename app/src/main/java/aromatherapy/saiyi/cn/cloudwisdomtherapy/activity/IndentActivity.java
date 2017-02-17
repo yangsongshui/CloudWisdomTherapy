@@ -67,7 +67,13 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.indent_committed)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.indent_collect)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.indent_buy)));
-        tabLayout.getTabAt(3).select();
+        int type=getIntent().getIntExtra("type",-1);
+        if (type==-1){
+            tabLayout.getTabAt(0).select();
+        }else {
+            tabLayout.getTabAt(type).select();
+        }
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

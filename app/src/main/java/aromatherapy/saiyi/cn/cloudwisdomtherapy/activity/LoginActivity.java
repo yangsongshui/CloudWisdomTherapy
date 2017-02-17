@@ -12,8 +12,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
-    @BindView(R.id.tv_toolbar_title)
-    TextView tvToolbarTitle;
+   @BindView(R.id.tv_toolbar_title)
+   TextView tvToolbarTitle;
 
     @BindView(R.id.login_phone_et)
     EditText loginPhoneEt;
@@ -28,11 +28,11 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        initToolbar();
+      initToolbar();
     }
 
     private void initToolbar() {
-        tvToolbarTitle.setText(getResources().getString(R.string.login));
+       tvToolbarTitle.setText(getResources().getString(R.string.login));
 
     }
 

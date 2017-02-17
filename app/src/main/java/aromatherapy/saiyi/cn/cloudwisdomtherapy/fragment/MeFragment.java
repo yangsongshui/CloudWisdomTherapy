@@ -11,6 +11,7 @@ import android.widget.TextView;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.AftermarketActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.IndentActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.MyInformationActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -48,22 +49,27 @@ public class MeFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.me_pic_cv:
 //                点击头像
+                startActivity(new Intent(getActivity(), MyInformationActivity.class));
                 break;
             case R.id.me_order_rl:
 //               订单
-                startActivity(new Intent(getActivity(), IndentActivity.class));
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type",0));
                 break;
             case R.id.me_pending_payment_tv:
 //待付款
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type",1));
                 break;
             case R.id.me_waiting_for_delivery_tv:
 //                待发货
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type",2));
                 break;
             case R.id.me_receiving_goods_tv:
 //                待收货
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type",3));
                 break;
             case R.id.me_already_buy_tv:
 //                已买到
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type",4));
                 break;
             case R.id.me_customer_service_tv:
 //                售后服务
