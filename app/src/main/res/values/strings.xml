@@ -94,10 +94,17 @@
     <string name="information_kg">Kg</string>
     <string name="information_cm">cm</string>
     <!--修改资料-->
+
+    <string name="compile_title">个人信息</string>
     <string name="compile_pic">头像</string>
     <string name="compile_name">昵称</string>
     <string name="compile_address">所在地</string>
     <string name="compile_sex">性别</string>
+    <string name="compile_phone">智疗ID</string>
+    <string name="compile_height">身高</string>
+    <string name="compile_weight">体重</string>
+    <string name="compile_hospital">所属医院</string>
+    <string name="compile_family">科</string>
 
     <string-array name="data">
 

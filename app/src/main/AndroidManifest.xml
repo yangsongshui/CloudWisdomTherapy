@@ -160,7 +160,8 @@
         <activity android:name=".activity.IndentActivity" />
         <activity android:name=".activity.MyInformationActivity" />
         <activity android:name=".activity.AftermarketActivity" />
-        <activity android:name=".activity.CompileActivity"></activity>
+        <activity android:name=".activity.CompileActivity" />
+        <activity android:name=".activity.InstallActivity"></activity>
     </application>
 
 </manifest>
