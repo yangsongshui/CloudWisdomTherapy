@@ -25,6 +25,9 @@ public class ForgetPasswordActivity extends BaseActivity {
     EditText forgetPswEt;
     @BindView(R.id.forget_psw2_et)
     EditText forgetPsw2Et;
+    int type = 0;
+    @BindView(R.id.forget_phone_tv)
+    TextView forgetPhoneTv;
 
     @Override
     protected int getContentView() {
@@ -37,7 +40,17 @@ public class ForgetPasswordActivity extends BaseActivity {
     }
 
     private void initToolbar() {
-        tvToolbarTitle.setText(getResources().getString(R.string.login_forget_password));
+        type = getIntent().getIntExtra("type", -1);
+        if (type == 1) {
+            tvToolbarTitle.setText(getResources().getString(R.string.login_change));
+            forgetPhoneTv.setVisibility(View.VISIBLE);
+            forgetPhoneEt.setVisibility(View.GONE);
+        } else {
+            tvToolbarTitle.setText(getResources().getString(R.string.login_forget_password));
+            forgetPhoneTv.setVisibility(View.GONE);
+            forgetPhoneEt.setVisibility(View.VISIBLE);
+        }
+
         toolbar_left_iv.setVisibility(View.VISIBLE);
         toolbar_left_iv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,5 +72,12 @@ public class ForgetPasswordActivity extends BaseActivity {
                 //点击完成
                 break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
