@@ -5,7 +5,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@color/white"
+    android:background="@color/colorPrimary"
     android:theme="@style/AppTheme.AppBarOverlay">
 
     <ImageView
@@ -13,11 +13,11 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:visibility="gone"
-        android:src="@drawable/btn_back" />
+        android:src="@drawable/btn_backzt" />
 
     <TextView
         android:id="@+id/tv_toolbar_white_title"
-        style="@style/ToolbarCenterTitleWhite"
+        style="@style/ToolbarCenterTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

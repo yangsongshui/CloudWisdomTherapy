@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hr.nipuream.NRecyclerView.view.NRecyclerView;
@@ -25,6 +26,7 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.IndentAdapter;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Indent;
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAndLoadingListener {
     @BindView(R.id.tv_toolbar_title)
@@ -35,9 +37,13 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
     TabLayout tabLayout;
     @BindView(R.id.recyclerMagicView)
     NRecyclerView recyclerMagicView;
+    @BindView(R.id.indent_cart_go_ll)
+    LinearLayout indent_cart_go_ll;
+
     IndentAdapter adapter;
     List<Indent> mList;
-    Map<String,List<Indent>> mMap;
+    Map<String, List<Indent>> mMap;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_indent;
@@ -47,7 +53,14 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
     protected void init(Bundle savedInstanceState) {
         initTab();
         mList = new ArrayList<>();
-        mMap=new HashMap<>();
+        mMap = new HashMap<>();
+        if (mList.size()>0){
+            indent_cart_go_ll.setVisibility(View.GONE);
+            recyclerMagicView.setVisibility(View.VISIBLE);
+        }else {
+            indent_cart_go_ll.setVisibility(View.VISIBLE);
+            recyclerMagicView.setVisibility(View.GONE);
+        }
         initRecyclerView();
         tvToolbarTitle.setText(getResources().getString(R.string.me_order));
         toolbar_left_iv.setVisibility(View.VISIBLE);
@@ -67,10 +80,10 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.indent_committed)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.indent_collect)));
         tabLayout.addTab(tabLayout.newTab().setText(getResources().getString(R.string.indent_buy)));
-        int type=getIntent().getIntExtra("type",-1);
-        if (type==-1){
+        int type = getIntent().getIntExtra("type", -1);
+        if (type == -1) {
             tabLayout.getTabAt(0).select();
-        }else {
+        } else {
             tabLayout.getTabAt(type).select();
         }
 
@@ -120,27 +133,27 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
         mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 1, "24.80"));
         mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 2, "10.00"));
         mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 3, "15.00"));
-        mMap.put("0",mList);
+        mMap.put("0", mList);
         mList.clear();
         mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 1, "24.80"));
         mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 1, "10.00"));
         mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 1, "15.00"));
-        mMap.put("1",mList);
+        mMap.put("1", mList);
         mList.clear();
         mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 4, "24.80"));
         mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 4, "10.00"));
         mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 4, "15.00"));
-        mMap.put("4",mList);
+        mMap.put("4", mList);
         mList.clear();
         mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 2, "24.80"));
         mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 2, "10.00"));
         mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 2, "15.00"));
-        mMap.put("2",mList);
+        mMap.put("2", mList);
         mList.clear();
         mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 3, "24.80"));
         mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 3, "10.00"));
         mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 3, "15.00"));
-        mMap.put("3",mList);
+        mMap.put("3", mList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerMagicView.setLayoutManager(layoutManager);
@@ -156,6 +169,8 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
         adapter = new IndentAdapter(mList, this);
         recyclerMagicView.setAdapter(adapter);
         recyclerMagicView.setTotalPages(5);
+
+
     }
 
     @Override
@@ -193,5 +208,10 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
 
             }
         }.execute();
+    }
+
+    @OnClick(R.id.indent_cart_go_tv)
+    public void onClick() {
+        finish();
     }
 }

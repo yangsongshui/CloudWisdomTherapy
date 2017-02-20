@@ -72,6 +72,7 @@
     <string name="indent_type">类型:</string>
     <string name="indent_standard">规格:</string>
     <string name="indent_rmb">¥</string>
+    <string name="indent_msg">还没有订单哦,点击按钮去商城下单吧!</string>
     <!--好友-->
     <string name="friends_news">消息</string>
     <string name="friends_friends">好友</string>
@@ -111,6 +112,24 @@
     <string name="install_suggest">投诉与建议</string>
     <string name="install_about">关于我们</string>
     <string name="install_out">退出登录</string>
+    <string name="suggest_input">请输入您的宝贵建议</string>
+    <string name="suggest_submit">提交</string>
+    <!--订单详情-->
+    <string name="details_logistics">物流公司:</string>
+    <string name="details_number">物流单号:</string>
+    <string name="details_information">物流信息</string>
+    <string name="details_dispatching">配送方式:</string>
+    <string name="details_freight">快递运费:</string>
+    <string name="details_name">收货人:</string>
+    <string name="details_price">价格合计:</string>
+    <string name="details_recommender">推荐人号码:</string>
+    <string name="details_order">订单编号:</string>
+    <string name="details_time">提交时间:</string>
+    <string name="details_discount">优惠信息:</string>
+    <string name="details_total">总价:</string>
+    <string name="details_payment">确认下单</string>
+    <string name="details_receipt">确认收货</string>
+    <string name="details_out">退货/退款</string>
     <string-array name="data">
 
         <item>material</item>

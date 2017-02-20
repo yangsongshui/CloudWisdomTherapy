@@ -40,10 +40,13 @@ public class InstallActivity extends BaseActivity {
                 startActivity(new Intent(this, ForgetPasswordActivity.class).putExtra("type", 1));
                 break;
             case R.id.install_suggest:
+                startActivity(new Intent(this,SuggestActivity.class));
                 break;
             case R.id.install_about:
+                startActivity(new Intent(this,AboutActivity.class));
                 break;
             case R.id.install_out:
+                finish();
                 break;
         }
     }

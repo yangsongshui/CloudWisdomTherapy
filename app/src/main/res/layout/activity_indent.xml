@@ -26,9 +26,42 @@
             app:tabBackground="@color/bg_bottom_navigation"
             app:tabMode="fixed" />
 
+        <LinearLayout
+            android:id="@+id/indent_cart_go_ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/wudingdan_big_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="@string/indent_msg" />
+
+            <TextView
+                android:id="@+id/indent_cart_go_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="27dp"
+                android:background="@drawable/login_rim"
+                android:gravity="center"
+                android:paddingBottom="13dp"
+                android:paddingTop="13dp"
+                android:text="@string/shopping_cart_go"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+
         <com.hr.nipuream.NRecyclerView.view.NRecyclerView
             android:id="@+id/recyclerMagicView"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical" />
