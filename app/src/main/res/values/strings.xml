@@ -130,6 +130,10 @@
     <string name="details_payment">确认下单</string>
     <string name="details_receipt">确认收货</string>
     <string name="details_out">退货/退款</string>
+    <string name="details_h">小时</string>
+    <string name="details_m">分钟后取消订单</string>
+
+
     <string-array name="data">
 
         <item>material</item>
