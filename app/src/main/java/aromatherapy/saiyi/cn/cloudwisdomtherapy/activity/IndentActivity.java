@@ -1,5 +1,6 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -24,11 +25,12 @@ import java.util.concurrent.TimeUnit;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.IndentAdapter;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Indent;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAndLoadingListener {
+public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAndLoadingListener, OnItemClickListener {
     @BindView(R.id.tv_toolbar_title)
     TextView tvToolbarTitle;
     @BindView(R.id.toolbar_left_iv)
@@ -54,10 +56,10 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
         initTab();
         mList = new ArrayList<>();
         mMap = new HashMap<>();
-        if (mList.size()>0){
+        if (mList.size() > 0) {
             indent_cart_go_ll.setVisibility(View.GONE);
             recyclerMagicView.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             indent_cart_go_ll.setVisibility(View.VISIBLE);
             recyclerMagicView.setVisibility(View.GONE);
         }
@@ -111,6 +113,13 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
 
                     default:
                         break;
+                }
+                if (mList.size() > 0) {
+                    indent_cart_go_ll.setVisibility(View.GONE);
+                    recyclerMagicView.setVisibility(View.VISIBLE);
+                } else {
+                    indent_cart_go_ll.setVisibility(View.VISIBLE);
+                    recyclerMagicView.setVisibility(View.GONE);
                 }
             }
 
@@ -169,6 +178,7 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
         adapter = new IndentAdapter(mList, this);
         recyclerMagicView.setAdapter(adapter);
         recyclerMagicView.setTotalPages(5);
+        adapter.setListener(this);
 
 
     }
@@ -213,5 +223,10 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
     @OnClick(R.id.indent_cart_go_tv)
     public void onClick() {
         finish();
+    }
+
+    @Override
+    public void onItemClick(View holder, int position) {
+        startActivity(new Intent(this, DetailsActivity.class).putExtra("indent", mList.get(position)));
     }
 }

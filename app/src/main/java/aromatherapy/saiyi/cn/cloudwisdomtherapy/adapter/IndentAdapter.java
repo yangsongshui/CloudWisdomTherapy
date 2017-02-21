@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Indent;
 
 /**
@@ -21,6 +23,11 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Indent;
 public class IndentAdapter extends RecyclerView.Adapter<IndentAdapter.ViewHoader> {
     List<Indent> mList;
     Context context;
+    OnItemClickListener listener;
+
+    public void setListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
     public IndentAdapter(List<Indent> mList, Context context) {
         this.mList = mList;
@@ -34,7 +41,7 @@ public class IndentAdapter extends RecyclerView.Adapter<IndentAdapter.ViewHoader
     }
 
     @Override
-    public void onBindViewHolder(ViewHoader holder, int position) {
+    public void onBindViewHolder(ViewHoader holder, final int position) {
         Indent indent = mList.get(position);
         holder.indent_item_name_tv.setText(indent.getName());
         MyApplication.newInstance().getmImageLoader().get(indent.getPicture(), holder.indent_item_pic_iv);
@@ -63,10 +70,16 @@ public class IndentAdapter extends RecyclerView.Adapter<IndentAdapter.ViewHoader
             holder.indent_item_payment_bt.setVisibility(View.GONE);
             //物流信息按钮
             holder.indent_item_logistics_bt.setVisibility(View.VISIBLE);
+
         } else if (indent.getState() == 2) {
             //待发货
         }
-
+        holder.indent_item_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(v, position);
+            }
+        });
     }
 
     @Override
@@ -82,9 +95,12 @@ public class IndentAdapter extends RecyclerView.Adapter<IndentAdapter.ViewHoader
                 indent_item_type_tv, indent_item_standard_tv, indent_item_num_tv, indent_item_total_tv,
                 indent_item_payment_bt, indent_item_logistics_bt, indent_item_confirm_bt, intent_rmb_tv;
 
+        private LinearLayout indent_item_ll;
 
         public ViewHoader(View itemView) {
             super(itemView);
+
+            indent_item_ll = (LinearLayout) itemView.findViewById(R.id.indent_item_ll);
 
             indent_item_pic_iv = (ImageView) itemView.findViewById(R.id.indent_item_pic_iv);
             indent_item_name_tv = (TextView) itemView.findViewById(R.id.indent_item_name_tv);
@@ -104,7 +120,8 @@ public class IndentAdapter extends RecyclerView.Adapter<IndentAdapter.ViewHoader
 
         }
     }
-    public void setmList(List<Indent> list){
+
+    public void setmList(List<Indent> list) {
 
         this.mList = list;
         this.notifyDataSetChanged();

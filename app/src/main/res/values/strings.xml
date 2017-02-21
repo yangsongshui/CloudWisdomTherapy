@@ -132,7 +132,14 @@
     <string name="details_out">退货/退款</string>
     <string name="details_h">小时</string>
     <string name="details_m">分钟后取消订单</string>
-
+    <string name="details_title">订单详情</string>
+    <string name="details_title2">待付款订单</string>
+    <!--退货退款-->
+    <string name="after_msg">退货且退款</string>
+    <string name="after_title">退货退款</string>
+    <string name="after_msg2">需要退回已收到的商品</string>
+    <string name="after_msg3">退款</string>
+    <string name="after_msg4">未收到商品,或协商一致</string>
 
     <string-array name="data">
 

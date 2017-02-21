@@ -1,9 +1,11 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator on 2017/2/8.
  */
-public class Commodity {
+public class Commodity implements Serializable {
     //商品名称
     private String name;
     /*商品图片*/
