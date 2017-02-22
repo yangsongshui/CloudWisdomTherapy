@@ -65,7 +65,7 @@ public class DetailsActivity extends BaseActivity {
     @BindView(R.id.details_total_price_tv)
     TextView details_total_price_tv;//总价
     @BindView(R.id.details_h_tv)
-    TextView details_m;//剩余小时
+    TextView details_h_tv;//剩余小时
     @BindView(R.id.details_m_tv)
     TextView details_m_tv;//剩余分钟
     @BindView(R.id.details_payment_tv)
@@ -84,6 +84,7 @@ public class DetailsActivity extends BaseActivity {
         toolbar_left_iv.setVisibility(View.VISIBLE);
         if (indent.getType().equals("1")) {
             tv_toolbar_title.setText(getResources().getString(R.string.details_title2));
+         detailsOutTv.setVisibility(View.GONE);
         } else {
             tv_toolbar_title.setText(getResources().getString(R.string.details_title));
         }
@@ -103,7 +104,7 @@ public class DetailsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.details_out_tv:
-            startActivity(new Intent(this,AfterSalesActivity.class));
+                startActivity(new Intent(this, AfterSalesActivity.class));
                 break;
         }
     }

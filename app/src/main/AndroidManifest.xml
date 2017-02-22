@@ -165,7 +165,8 @@
         <activity android:name=".activity.SuggestActivity" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.DetailsActivity" />
-        <activity android:name=".activity.AfterSalesActivity"></activity>
+        <activity android:name=".activity.AfterSalesActivity" />
+        <activity android:name=".activity.AddressActivity"></activity>
     </application>
 
 </manifest>
