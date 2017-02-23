@@ -9,7 +9,6 @@ import android.widget.TextView;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ForgetPasswordActivity extends BaseActivity {
@@ -74,10 +73,5 @@ public class ForgetPasswordActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.AddressActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.AftermarketActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.IndentActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.InstallActivity;
@@ -78,6 +79,7 @@ public class MeFragment extends BaseFragment {
                 break;
             case R.id.me_address_rl:
 //                收货地址
+                startActivity(new Intent(getActivity(), AddressActivity.class));
                 break;
             case R.id.me_discount_rl:
 //                优惠方案
