@@ -13,16 +13,23 @@ import android.widget.TextView;
 import java.util.List;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Mall;
 
 /**
  * Created by Administrator on 2017/1/17.
  */
 public class MallImageAdapter extends RecyclerView.Adapter<MallImageAdapter.ViewHolder> {
-    private List<String> images;
+    private List<Mall> images;
 
     private int largeCardHeight, smallCardHeight;
+    private OnItemClickListener onItemClickListener;
 
-    public MallImageAdapter(List<String> images, Activity activity) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public MallImageAdapter(List<Mall> images, Activity activity) {
         this.images = images;
         DisplayMetrics dm = new DisplayMetrics();
         //获取屏幕信息
@@ -38,10 +45,17 @@ public class MallImageAdapter extends RecyclerView.Adapter<MallImageAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.merchandise_name_tv.setText(images.get(position));
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        //holder.merchandise_name_tv.setText(images.get(position));
 
-
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(v, position);
+                }
+            }
+        });
         //MyApplication.newInstance().getmImageLoader().get(images.get(position),holder.iv);
 
     }
@@ -51,7 +65,7 @@ public class MallImageAdapter extends RecyclerView.Adapter<MallImageAdapter.View
         return images.size();
     }
 
-    public void setItems(List<String> images) {
+    public void setItems(List<Mall> images) {
         this.images = images;
         this.notifyDataSetChanged();
     }

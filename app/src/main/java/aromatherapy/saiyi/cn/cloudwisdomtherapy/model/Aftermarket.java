@@ -6,6 +6,7 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.model;
 public class Aftermarket extends Indent{
     private String reimburse;
 
+
     public Aftermarket(String name, String type, String picture, int state, String total) {
         super(name, type, picture, state, total);
     }

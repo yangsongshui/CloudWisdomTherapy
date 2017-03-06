@@ -1,11 +1,10 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -77,19 +76,29 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
     }
 
 
-    private void setDefault(int position, boolean isChecked) {
+    private void setDefault(int position) {
         for (int i = 0; i < mList.size(); i++) {
-            if (!mList.get(i).isDefa()||position==i)
-                return;
-            else{
+            if (!mList.get(i).isDefa() || position == i) {
+
+            } else {
                 mList.get(i).setDefa(false);
-                adapter.notifyItemChanged(i, mList.get(i));
+                mList.get(position).setDefa(true);
+                specialUpdate();
             }
         }
 
 
     }
 
+    private void specialUpdate() {
+        Handler handler = new Handler();
+        final Runnable r = new Runnable() {
+            public void run() {
+                adapter.setmList(mList);
+            }
+        };
+        handler.post(r);
+    }
     @OnClick({R.id.toolbar_left_iv, R.id.tv_toolbar_right})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -104,8 +113,7 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
     }
 
     @Override
-    public void onViewChecked(CompoundButton buttonView, int position, boolean isChecked) {
-        setDefault(position, isChecked);
-        Log.e("onViewChecked", position + " " + isChecked);
+    public void onViewChecked(View buttonView, int position) {
+        setDefault(position);
     }
 }

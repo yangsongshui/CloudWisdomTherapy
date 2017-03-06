@@ -35,7 +35,7 @@ public class LoadingActivity extends BaseActivity {
             }
         };
 
-        MPermissions.requestPermissions(LoadingActivity.this, REQUECT_CODE_COARSE, Manifest.permission.ACCESS_COARSE_LOCATION);
+        MPermissions.requestPermissions(LoadingActivity.this, REQUECT_CODE_COARSE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

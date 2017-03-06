@@ -1,6 +1,7 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,15 +19,17 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.ChatActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.NewsAdapter;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.News;
 import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsFragment extends BaseFragment implements BaseLayout.RefreshAndLoadingListener {
+public class NewsFragment extends BaseFragment implements BaseLayout.RefreshAndLoadingListener, OnItemClickListener {
     @BindView(R.id.recyclerMagicView)
     NRecyclerView recyclerMagicView;
     List<News> mList;
@@ -59,6 +62,7 @@ public class NewsFragment extends BaseFragment implements BaseLayout.RefreshAndL
         recyclerMagicView.setPullLoadEnable(false);
 
         adapter = new NewsAdapter(mList);
+        adapter.setOnItemClickListener(this);
         recyclerMagicView.setAdapter(adapter);
 
         recyclerMagicView.setTotalPages(5);
@@ -91,5 +95,10 @@ public class NewsFragment extends BaseFragment implements BaseLayout.RefreshAndL
     @Override
     public void load() {
 
+    }
+
+    @Override
+    public void onItemClick(View holder, int position) {
+        startActivity(new Intent(getActivity(), ChatActivity.class));
     }
 }

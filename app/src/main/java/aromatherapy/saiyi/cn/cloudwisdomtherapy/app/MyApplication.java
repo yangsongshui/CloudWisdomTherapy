@@ -5,7 +5,6 @@ import android.app.Application;
 
 import com.android.volley.cache.DiskLruBasedCache;
 import com.android.volley.cache.plus.SimpleImageLoader;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,11 +45,14 @@ public class MyApplication extends Application {
         //mQueue = Volley.newRequestQueue(this);
         DiskLruBasedCache.ImageCacheParams cacheParams = new DiskLruBasedCache.ImageCacheParams(getApplicationContext(), "CacheDirectory");
         cacheParams.setMemCacheSizePercent(0.5f);
-        mImageLoader = new SimpleImageLoader(getApplicationContext(),cacheParams);
+        mImageLoader = new SimpleImageLoader(getApplicationContext(), cacheParams);
 
         // 请谨慎使用，以免用户看到消息过多卸载应用。
         JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);            // 初始化 JPush
+
+       //EaseUI.getInstance().init(instance, null);
+        //EMClient.getInstance().setDebugMode(true);
 
     }
 
@@ -95,53 +97,53 @@ public class MyApplication extends Application {
 		}*/
     }
 
-/*
-    public void setUser(User user) {
-        this.user = user;
-        //获取SharedPreferences对象
-        SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
-        //获取Editor对象
-        SharedPreferences.Editor editor = sharedPre.edit();
-        //设置参数
-        editor.putString("username", user.getPhone());
-        editor.putString("password", user.getPassWord());
-        //极光推送用户ID设置
-         JPushInterface.setAliasAndTags(this, "2474978944", null, this);
-        editor.putString("UserID", user.getUserID());
-        //提交
-        editor.commit();
+    /*
+        public void setUser(User user) {
+            this.user = user;
+            //获取SharedPreferences对象
+            SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
+            //获取Editor对象
+            SharedPreferences.Editor editor = sharedPre.edit();
+            //设置参数
+            editor.putString("username", user.getPhone());
+            editor.putString("password", user.getPassWord());
+            //极光推送用户ID设置
+             JPushInterface.setAliasAndTags(this, "2474978944", null, this);
+            editor.putString("UserID", user.getUserID());
+            //提交
+            editor.commit();
 
-    }
+        }
 
-    public User getUser() {
-        //获取SharedPreferences对象
-        SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
-        String username = sharedPre.getString("username", "");
-        String password = sharedPre.getString("password", "");
-        String UserID = sharedPre.getString("UserID", "");
-        Log.e("------", username + " " + password);
-        if (username.equals("") || password.equals(""))
-            return null;
-        user.setPhone(username);
-        user.setPassWord(password);
-        user.setUserID(UserID);
+        public User getUser() {
+            //获取SharedPreferences对象
+            SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
+            String username = sharedPre.getString("username", "");
+            String password = sharedPre.getString("password", "");
+            String UserID = sharedPre.getString("UserID", "");
+            Log.e("------", username + " " + password);
+            if (username.equals("") || password.equals(""))
+                return null;
+            user.setPhone(username);
+            user.setPassWord(password);
+            user.setUserID(UserID);
 
-        return user;
-    }
+            return user;
+        }
 
-    public void outLogin() {
-        user = null;
-        SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
-        //获取Editor对象
-        SharedPreferences.Editor editor = sharedPre.edit();
-        //设置参数
-        editor.putString("username", "");
-        editor.putString("password", "");
-        //提交
-        editor.commit();
-    }
-*/
-private SimpleImageLoader mImageLoader;
+        public void outLogin() {
+            user = null;
+            SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
+            //获取Editor对象
+            SharedPreferences.Editor editor = sharedPre.edit();
+            //设置参数
+            editor.putString("username", "");
+            editor.putString("password", "");
+            //提交
+            editor.commit();
+        }
+    */
+    private SimpleImageLoader mImageLoader;
 
     public SimpleImageLoader getmImageLoader() {
         return mImageLoader;

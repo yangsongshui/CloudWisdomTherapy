@@ -163,7 +163,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="13dp"
                 android:text="@string/me_address"
                 android:textColor="@color/tuatara"
                 android:textSize="16dp" />
@@ -191,7 +191,7 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="13dp"
                 android:text="@string/me_discount"
                 android:textColor="@color/tuatara"
                 android:textSize="16dp" />
@@ -218,7 +218,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="13dp"
                 android:text="@string/me_product"
                 android:textColor="@color/tuatara"
                 android:textSize="16dp" />
@@ -245,7 +245,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:padding="13dp"
                 android:text="@string/me_install"
                 android:textColor="@color/tuatara"
                 android:textSize="16dp" />

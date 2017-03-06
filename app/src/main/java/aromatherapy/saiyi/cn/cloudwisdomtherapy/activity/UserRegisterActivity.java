@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -43,6 +44,7 @@ public class UserRegisterActivity extends BaseActivity {
     @BindView(R.id.toolbar_left_iv)
     ImageView toolbar_left_iv;
 
+    Toastor toastor;
     private int type = -1;
 
     @Override
@@ -52,6 +54,7 @@ public class UserRegisterActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        toastor = new Toastor(this);
         type = getIntent().getIntExtra("type", -1);
         initToolbar();
         initView();
@@ -76,14 +79,14 @@ public class UserRegisterActivity extends BaseActivity {
             tvToolbarTitle.setText(getResources().getString(R.string.register_doctor));
             registerVerificationLl.setVisibility(View.VISIBLE);
         }
-        SpannableStringBuilder spannableStringBuilder=new SpannableStringBuilder();
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         spannableStringBuilder.append(getResources().getString(R.string.register_doctor_verification));
         //设置字体大小
-        AbsoluteSizeSpan absoluteSizeSpan=new AbsoluteSizeSpan(50);
+        AbsoluteSizeSpan absoluteSizeSpan = new AbsoluteSizeSpan(50);
         //设置需要改变字体大小的位置
         spannableStringBuilder.setSpan(absoluteSizeSpan, 0, 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         //设置字体颜色
-        ForegroundColorSpan foregroundColorSpan=new ForegroundColorSpan(Color.parseColor("#333333"));
+        ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.parseColor("#333333"));
         //设置需要改变字体颜色的位置
         spannableStringBuilder.setSpan(foregroundColorSpan, 0, 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         registerVerificationTv.setText(spannableStringBuilder);
@@ -98,8 +101,24 @@ public class UserRegisterActivity extends BaseActivity {
             case R.id.register_add_iv4:
                 break;
             case R.id.register_complete_tv:
+                registerUser();
                 break;
         }
     }
 
+    private void registerUser() {
+       /* new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    EMClient.getInstance().createAccount(registeredNameEt.getText().toString().trim(), registeredPswEt.getText().toString().trim());
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+
+                    Log.d("HyphenateException", e.getMessage());
+
+                }
+            }
+        }).start();*/
+    }
 }

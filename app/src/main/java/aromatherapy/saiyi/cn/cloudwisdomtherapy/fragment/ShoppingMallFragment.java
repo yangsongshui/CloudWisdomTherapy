@@ -1,6 +1,7 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -20,30 +21,34 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.MallActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.MallImageAdapter;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Mall;
 import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShoppingMallFragment extends BaseFragment implements BaseLayout.RefreshAndLoadingListener {
+public class ShoppingMallFragment extends BaseFragment implements BaseLayout.RefreshAndLoadingListener, OnItemClickListener {
     @BindView(R.id.recyclerMagicView)
     NRecyclerView recyclerMagicView;
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
     MallImageAdapter adapter;
-    List<String> mList;
+    List<Mall> mList;
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
 
         mList = new ArrayList<>();
-        mList.add("akjsdhaj");
-        mList.add("435346");
-        mList.add("hdgdfg");
-        mList.add("asdafdgg");
-        mList.add("sdgdfhrtexf");
+        mList.add(new Mall());
+        mList.add(new Mall());
+        mList.add(new Mall());
+        mList.add(new Mall());
+        mList.add(new Mall());
+
         initRecyclerView();
 
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -61,48 +66,48 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
                 switch (tab.getPosition()) {
                     case 0:
                         mList.clear();
-                        mList.add("akjsdhaj");
-                        mList.add("435346");
-                        mList.add("hdgdfg");
-                        mList.add("asdafdgg");
-                        mList.add("sdgdfhrtexf");
+                        mList.add(new Mall());
+                        mList.add(new Mall());
+                        mList.add(new Mall());
+                        mList.add(new Mall());
+                        mList.add(new Mall());
                         adapter.setItems(mList);
                         break;
                     case 1:
                         mList.clear();
-                        mList.add("akjsdhaj");
-                        mList.add("435346");
+                        mList.add(new Mall());
+                        mList.add(new Mall());
                         adapter.setItems(mList);
                         break;
                     case 2:
                         mList.clear();
-
-                        mList.add("hdgdfg");
-                        mList.add("asdafdgg");
-                        mList.add("sdgdfhrtexf");
+                        mList.add(new Mall());
+                        mList.add(new Mall());
+                        mList.add(new Mall());
+                        mList.add(new Mall());
                         adapter.setItems(mList);
                         break;
                     case 3:
                         mList.clear();
-                        mList.add("akjsdhaj");
-                        mList.add("ak124sfjsdhaj");
-                        mList.add("fsdfdsfsd");
-                        mList.add("fsdfd23123sfsd");
+                        mList.add(new Mall());
+                        mList.add(new Mall());
+                        mList.add(new Mall());
 
                         adapter.setItems(mList);
                         break;
                     case 4:
                         mList.clear();
-                        mList.add("akjsdhaj");
-                        mList.add("435346");
-                        mList.add("hdgdfg");
+                        mList.add(new Mall());
+                        mList.add(new Mall());
+                        mList.add(new Mall());
 
                         adapter.setItems(mList);
                         break;
                     case 5:
                         mList.clear();
-                        mList.add("asdafdgg");
-                        mList.add("sdgdfhrtexf");
+                        mList.add(new Mall());
+                        mList.add(new Mall());
+                        mList.add(new Mall());
                         adapter.setItems(mList);
                         break;
                     default:
@@ -144,9 +149,11 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
 
         recyclerMagicView.setBottomView(bottomView);
         adapter = new MallImageAdapter(mList, getActivity());
+        adapter.setOnItemClickListener(this);
         recyclerMagicView.setAdapter(adapter);
 
         recyclerMagicView.setTotalPages(5);
+
     }
 
     @Override
@@ -184,5 +191,10 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
             }
         }.execute();
 
+    }
+
+    @Override
+    public void onItemClick(View holder, int position) {
+        startActivity(new Intent(getActivity(), MallActivity.class).putExtra("mall",mList.get(position)));
     }
 }

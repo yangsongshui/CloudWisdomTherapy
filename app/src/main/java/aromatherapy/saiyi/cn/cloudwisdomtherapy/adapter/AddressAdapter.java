@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -51,6 +50,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHoad
         holder.address_username_tv.setText(address.getName());
         holder.details_address_tv.setText(address.getAddress());
         holder.address_default_tv.setChecked(address.isDefa());
+
+        if (address.isDefa()) {
+            holder.address_default_tv.setEnabled(false);
+        } else {
+            holder.address_default_tv.setEnabled(true);
+        }
+
         holder.address_edit_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,11 +71,12 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHoad
                     onViewClickListener.OnViewClick(v, position, 1);
             }
         });
-        holder.address_default_tv.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        holder.address_default_tv.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            public void onClick(View v) {
                 if (onCheckedListener != null)
-                    onCheckedListener.onViewChecked(buttonView, position, isChecked);
+                    onCheckedListener.onViewChecked(v, position);
             }
         });
     }
@@ -97,6 +104,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHoad
             address_delete_tv = (TextView) itemView.findViewById(R.id.address_delete_tv);
         }
     }
+
     public void setmList(List<Address> list) {
 
         this.mList = list;

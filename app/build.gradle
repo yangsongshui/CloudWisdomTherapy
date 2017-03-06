@@ -1,3 +1,6 @@
+//noinspection GradleCompatible
+//noinspection GradleCompatible
+//noinspection GradleCompatible
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.jakewharton.butterknife'
@@ -25,6 +28,7 @@ android {
         }
     }
 
+
 }
 task clean(type: Delete) {
     delete rootProject.buildDir
@@ -34,6 +38,7 @@ buildscript {
     repositories {
         jcenter()
     }
+
 
 }
 

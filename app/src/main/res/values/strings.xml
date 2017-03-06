@@ -152,6 +152,21 @@
     <string name="address_postcode">邮政编码:</string>
     <string name="address_provincial">省市区:</string>
     <string name="address_detailed">详细地址:</string>
+    <!--商品详情-->
+    <string name="mall_sold">售出</string>
+    <string name="mall_inventory">库存</string>
+    <string name="mall_original">商品价 ¥</string>
+    <string name="mall_describe">商品描述</string>
+    <string name="mall_factory">生产企业:</string>
+    <string name="mall_describe2">商品详情</string>
+    <string name="mall_service">客服</string>
+    <string name="mall_share">分享</string>
+    <string name="mall_purchase">立即购买</string>
+    <string name="mall_join">加入购物车</string>
+    <string name="mall_msg">单号录入为人工操作,存在延时</string>
+
+    <!--聊天界面-->
+    <string name="chat_send">发送</string>
     <string-array name="data">
 
         <item>material</item>
