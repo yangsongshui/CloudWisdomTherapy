@@ -12,8 +12,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
+
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -107,7 +111,7 @@ public class UserRegisterActivity extends BaseActivity {
     }
 
     private void registerUser() {
-       /* new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -115,10 +119,10 @@ public class UserRegisterActivity extends BaseActivity {
                 } catch (HyphenateException e) {
                     e.printStackTrace();
 
-                    Log.d("HyphenateException", e.getMessage());
+                  Log.d("HyphenateException", e.getMessage());
 
                 }
             }
-        }).start();*/
+        }).start();
     }
 }

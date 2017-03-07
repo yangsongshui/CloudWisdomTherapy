@@ -62,4 +62,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.zhy:base-rvadapter:3.0.3'
     compile 'dev.dworks.libs:volleyplus:+'
+    compile project(':easeui')
 }

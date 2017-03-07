@@ -6,7 +6,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
+import com.hyphenate.easeui.widget.EaseChatMessageList;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
@@ -22,8 +22,8 @@ public class ChatActivity extends BaseActivity {
     TextView tv_toolbar_title;
     @BindView(R.id.char_msg_et)
     EditText charMsgEt;
-/*    @BindView(R.id.message_list)
-    EaseChatMessageList messageList;*/
+    @BindView(R.id.message_list)
+    EaseChatMessageList messageList;
 
     @Override
     protected int getContentView() {
