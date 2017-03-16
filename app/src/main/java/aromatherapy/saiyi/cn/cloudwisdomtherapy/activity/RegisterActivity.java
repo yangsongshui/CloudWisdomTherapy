@@ -45,7 +45,7 @@ public class RegisterActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.register_user_iv:
-                startActivity(new Intent(this, UserRegisterActivity.class).putExtra("type", 0));
+                startActivity(new Intent(this, UserRegisterActivity.class).putExtra("type", 2));
                 finish();
                 break;
             case R.id.register_doctor_iv:

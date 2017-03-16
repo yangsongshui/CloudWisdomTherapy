@@ -6,12 +6,18 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.MD5;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -24,6 +30,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.login_psw_et)
     EditText loginPswEt;
 
+    Map<String, String> map;
 
     @Override
     protected int getContentView() {
@@ -37,6 +44,7 @@ public class LoginActivity extends BaseActivity {
 
     private void initToolbar() {
         tvToolbarTitle.setText(getResources().getString(R.string.login));
+        map = new HashMap<>();
 
     }
 
@@ -67,7 +75,18 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void login() {
-        new Thread(new Runnable() {
+        String phone = loginPhoneEt.getText().toString().trim();
+        String psw = loginPswEt.getText().toString().trim();
+        map.clear();
+        map.put("phoneNumber", phone);
+        map.put("passWord", MD5.getMD5(psw));
+        NetworkRequests.GetRequests(this, Constant.LOGIN, map, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                Log.e("LoginActivity", jsonObject.toString());
+            }
+        });
+     /*   new Thread(new Runnable() {
             @Override
             public void run() {
                 EMClient.getInstance().login(loginPhoneEt.getText().toString().trim(), loginPswEt.getText().toString().trim(), new EMCallBack() {//回调
@@ -91,6 +110,6 @@ public class LoginActivity extends BaseActivity {
                     }
                 });
             }
-        }).start();
+        }).start();*/
     }
 }

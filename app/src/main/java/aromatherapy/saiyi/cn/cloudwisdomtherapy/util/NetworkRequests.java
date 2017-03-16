@@ -20,20 +20,26 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
 public class NetworkRequests {
 
 
-    public static void GetRequests(final Context context, String url, Map<String, String> map, final JsonDataReturnListener jsonListener) {
-        RequestQueue mQueue = MyApplication.newInstance().getmQueue();
-        mQueue.add(new NormalPostRequest(url, new Response.Listener<JSONObject>() {
+    public static void GetRequests(final Context context, final String url, final Map<String, String> map, final JsonDataReturnListener jsonListener) {
+        new Thread(new Runnable() {
             @Override
-            public void onResponse(JSONObject jsonObject) {
-                jsonListener.jsonListener(jsonObject);
+            public void run() {
+                RequestQueue mQueue = MyApplication.newInstance().getmQueue();
+                mQueue.add(new NormalPostRequest(url, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonObject) {
+                        jsonListener.jsonListener(jsonObject);
 
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        new Toastor(context).showSingletonToast("服务器连接失败");
+                    }
+                }, map));
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                new Toastor(context).showSingletonToast("服务器连接失败");
-            }
-        }, map));
+        }).start();
+
 
     }
 
