@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_compile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_bottom_navigation"
+    android:background="?attr/colorPrimary"
     android:fitsSystemWindows="true"
     tools:context="aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.CompileActivity">
 
@@ -12,7 +13,9 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/bg_bottom_navigation"
         android:orientation="vertical">
+
         <include layout="@layout/title_bar_white" />
 
         <ImageView
@@ -206,6 +209,42 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/zircon" />
+        <LinearLayout
+            android:id="@+id/compile_birthday_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="15dp"
+                android:text="@string/compile_birthday" />
+
+            <TextView
+                android:id="@+id/compile_birthday_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="5dp"
+                android:text="1993-09-12" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:src="@drawable/arrow_right_icon" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/zircon" />
 
         <LinearLayout
             android:id="@+id/compile_height_ll"
@@ -348,4 +387,4 @@
                 android:src="@drawable/arrow_right_icon" />
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

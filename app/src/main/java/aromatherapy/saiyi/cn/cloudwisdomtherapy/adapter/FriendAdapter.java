@@ -12,6 +12,7 @@ import java.util.List;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.User;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -21,7 +22,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader> {
     List<User> mList;
+    private OnItemClickListener onItemClickListener;
 
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
     public FriendAdapter(List<User> mList) {
         this.mList = mList;
     }
@@ -33,7 +39,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader
     }
 
     @Override
-    public void onBindViewHolder(ViewHoader holder, int position) {
+    public void onBindViewHolder(ViewHoader holder, final int position) {
         User user = mList.get(position);
         holder.friend_name_tv.setText(user.getName());
         //holder.friend_address_tv.setText(user.getAddress());
@@ -47,6 +53,13 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader
             holder.friend_authentication_iv.setVisibility(View.GONE);
         }
         MyApplication.newInstance().getmImageLoader().get(mList.get(position).getPic(), holder.friend_pic_cv);
+        holder.friend_item_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener!=null)
+                    onItemClickListener.onItemClick(v,position);
+            }
+        });
     }
 
     @Override
@@ -60,7 +73,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader
         private CircleImageView friend_pic_cv;
         private TextView friend_name_tv, friend_hospital_tv, friend_department_tv, friend_address_tv;
         private ImageView friend_sex_tv, friend_authentication_iv;
-        private LinearLayout friend_hospital_ll;
+        private LinearLayout friend_hospital_ll,friend_item_ll;
 
         public ViewHoader(View itemView) {
             super(itemView);
@@ -72,6 +85,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader
             friend_sex_tv = (ImageView) itemView.findViewById(R.id.friend_sex_tv);
             friend_authentication_iv = (ImageView) itemView.findViewById(R.id.friend_authentication_iv);//认证信息
             friend_hospital_ll = (LinearLayout) itemView.findViewById(R.id.friend_hospital_ll);
+            friend_item_ll = (LinearLayout) itemView.findViewById(R.id.friend_item_ll);
 
         }
     }

@@ -151,11 +151,12 @@
         <!-- </>值来自开发者平台取得的AppKey -->
 
 
-        <!-- 设置环信应用的AppKey -->
+<!--
+        &lt;!&ndash; 设置环信应用的AppKey &ndash;&gt;
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1140170228178386#云网智疗" />
-        <!-- 声明SDK所需的service SDK核心功能 -->
+        &lt;!&ndash; 声明SDK所需的service SDK核心功能 &ndash;&gt;
         <service
             android:name="com.hyphenate.chat.EMChatService"
             android:exported="true" />
@@ -163,19 +164,20 @@
             android:name="com.hyphenate.chat.EMJobService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <!-- 声明SDK所需的receiver -->
+        &lt;!&ndash; 声明SDK所需的receiver &ndash;&gt;
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
                 <data android:scheme="package" />
             </intent-filter>
-            <!-- 可选filter -->
+            &lt;!&ndash; 可选filter &ndash;&gt;
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+-->
 
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.LoginActivity" />
@@ -200,7 +202,17 @@
         <activity android:name=".activity.AfterSalesActivity" />
         <activity android:name=".activity.AddressActivity" />
         <activity android:name=".activity.MallActivity" />
-        <activity android:name=".activity.ChatActivity"></activity>
+        <activity android:name=".activity.ChatActivity" />
+
+        <activity android:name=".activity.ReturnGoodsActivity" />
+        <activity android:name=".activity.ReturnInfoActivity" />
+        <activity android:name=".activity.LogisticsInfoActivity" />
+        <activity android:name=".activity.LogisticsActivity" />
+        <activity android:name=".activity.AddLocationActivity" />
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.NewFriendActivity" />
+        <activity android:name=".activity.ConfirmActivity" />
+        <activity android:name=".activity.PaymentActivity"></activity>
     </application>
 
 </manifest>

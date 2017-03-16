@@ -1,1 +1,1 @@
-include ':app', ':NRecyclerView', ':easeui'
+include ':app', ':NRecyclerView'

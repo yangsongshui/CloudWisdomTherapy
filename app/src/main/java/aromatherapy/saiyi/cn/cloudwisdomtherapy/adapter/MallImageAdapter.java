@@ -79,7 +79,7 @@ public class MallImageAdapter extends RecyclerView.Adapter<MallImageAdapter.View
         public ViewHolder(View itemView) {
             super(itemView);
             cardView = (CardView) itemView.findViewById(R.id.merchandise_image_cardview);
-            iv = (ImageView) itemView.findViewById(R.id.merchandise_image_iv);
+            iv = (ImageView) itemView.findViewById(R.id.merchandise_pic_iv);
             merchandise_name_tv = (TextView) itemView.findViewById(R.id.merchandise_name_tv);
             merchandise_price_tv = (TextView) itemView.findViewById(R.id.merchandise_price_tv);
             merchandise_original_price_tv = (TextView) itemView.findViewById(R.id.merchandise_original_price_tv);

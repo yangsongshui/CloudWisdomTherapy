@@ -3,10 +3,11 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.app;
 import android.app.Activity;
 import android.app.Application;
 
+import com.android.volley.RequestQueue;
 import com.android.volley.cache.DiskLruBasedCache;
-import com.android.volley.cache.plus.SimpleImageLoader;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.easeui.controller.EaseUI;
+import com.android.volley.cache.SimpleImageLoader;
+import com.android.volley.toolbox.Volley;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,11 @@ public class MyApplication extends Application {
     private static MyApplication instance;
     public static List<Activity> activitiesList = new ArrayList<Activity>(); // 活动管理集合
 
-    //private static User user = new User();
 
     private int step_number = 0;
 
+
+    private RequestQueue mQueue;
 
     public int getStep_number() {
         return step_number;
@@ -45,7 +47,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        //mQueue = Volley.newRequestQueue(this);
+        mQueue = Volley.newRequestQueue(this);
         DiskLruBasedCache.ImageCacheParams cacheParams = new DiskLruBasedCache.ImageCacheParams(getApplicationContext(), "CacheDirectory");
         cacheParams.setMemCacheSizePercent(0.5f);
         mImageLoader = new SimpleImageLoader(getApplicationContext(), cacheParams);
@@ -54,16 +56,16 @@ public class MyApplication extends Application {
         JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);            // 初始化 JPush
 
-        EaseUI.getInstance().init(instance, null);
-        EMClient.getInstance().setDebugMode(true);
+      /*  EaseUI.getInstance().init(instance, null);
+        EMClient.getInstance().setDebugMode(true);*/
 
     }
 
 
 
-/*    public RequestQueue getmQueue() {
+    public RequestQueue getmQueue() {
         return mQueue;
-    }*/
+    }
 
     /**
      * 把活动添加到活动管理集合

@@ -27,6 +27,14 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:src="@drawable/fanhui_round_icon" />
+
+            <ImageView
+                android:id="@+id/information_delete_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:padding="10dp"
+                android:src="@drawable/trash_black_icon" />
         </RelativeLayout>
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -133,9 +141,9 @@
                 android:id="@+id/information_hospital_ll"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:visibility="gone"
                 android:layout_weight="1"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/InformationText"
@@ -160,8 +168,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:visibility="gone"
-                android:background="@color/white">
+                android:background="@color/white"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/InformationText"
@@ -290,9 +298,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/shopping_rim"
                 android:gravity="center"
-                android:layout_marginTop="10dp"
                 android:text="@string/information_compile"
                 android:textColor="@color/white" />
         </RelativeLayout>

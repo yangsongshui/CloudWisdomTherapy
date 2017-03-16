@@ -113,7 +113,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/daifukuang_icon"
-
                 android:text="@string/me_pending_payment" />
 
             <TextView
@@ -166,7 +165,7 @@
                 android:padding="13dp"
                 android:text="@string/me_address"
                 android:textColor="@color/tuatara"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
 
             <ImageView
 
@@ -194,7 +193,7 @@
                 android:padding="13dp"
                 android:text="@string/me_discount"
                 android:textColor="@color/tuatara"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
 
             <ImageView
 
@@ -221,7 +220,7 @@
                 android:padding="13dp"
                 android:text="@string/me_product"
                 android:textColor="@color/tuatara"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
 
             <ImageView
 
@@ -248,7 +247,7 @@
                 android:padding="13dp"
                 android:text="@string/me_install"
                 android:textColor="@color/tuatara"
-                android:textSize="16dp" />
+                android:textSize="14dp" />
 
             <ImageView
                 android:layout_width="wrap_content"

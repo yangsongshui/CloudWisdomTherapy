@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/CloudWisdomTherapy.iml" filepath="$PROJECT_DIR$/CloudWisdomTherapy.iml" />
       <module fileurl="file://$PROJECT_DIR$/NRecyclerView/NRecyclerView.iml" filepath="$PROJECT_DIR$/NRecyclerView/NRecyclerView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/easeui/easeui.iml" filepath="$PROJECT_DIR$/easeui/easeui.iml" />
     </modules>
   </component>
 </project>

@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Aftermarket;
 
 /**
@@ -21,6 +23,11 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Aftermarket;
 public class AftermarketAdapter extends RecyclerView.Adapter<AftermarketAdapter.ViewHoader> {
     List<Aftermarket> mList;
     Context context;
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
     public AftermarketAdapter(List<Aftermarket> mList, Context context) {
         this.mList = mList;
@@ -34,7 +41,7 @@ public class AftermarketAdapter extends RecyclerView.Adapter<AftermarketAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHoader holder, int position) {
+    public void onBindViewHolder(ViewHoader holder, final int position) {
         Aftermarket aftermarket = mList.get(position);
         holder.aftermarket_name_tv.setText(aftermarket.getName());
         MyApplication.newInstance().getmImageLoader().get(aftermarket.getPicture(), holder.aftermarket_pic_iv);
@@ -54,6 +61,13 @@ public class AftermarketAdapter extends RecyclerView.Adapter<AftermarketAdapter.
         } else if (aftermarket.getState() == 8) {
 
         }
+        holder.aftermarket_item_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null)
+                    onItemClickListener.onItemClick(v, position);
+            }
+        });
 
     }
 
@@ -70,6 +84,7 @@ public class AftermarketAdapter extends RecyclerView.Adapter<AftermarketAdapter.
                 aftermarket_type_tv, aftermarket_standard_tv, aftermarket_num_tv, aftermarket_total_tv,
                 aftermarket_rmb_tv, aftermarket_state_tv, aftermarket_reimburse_tv;
 
+        private LinearLayout aftermarket_item_ll;
 
         public ViewHoader(View itemView) {
             super(itemView);
@@ -87,6 +102,7 @@ public class AftermarketAdapter extends RecyclerView.Adapter<AftermarketAdapter.
             aftermarket_num_tv = (TextView) itemView.findViewById(R.id.aftermarket_num_tv);
             aftermarket_state_tv = (TextView) itemView.findViewById(R.id.aftermarket_state_tv);
             aftermarket_reimburse_tv = (TextView) itemView.findViewById(R.id.aftermarket_reimburse_tv);
+            aftermarket_item_ll = (LinearLayout) itemView.findViewById(R.id.aftermarket_item_ll);
 
 
         }

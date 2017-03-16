@@ -1,6 +1,7 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.SearchActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -19,6 +21,7 @@ import butterknife.OnClick;
 public class FriendsFragment extends BaseFragment implements TabLayout.OnTabSelectedListener {
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
+
     private Fragment[] frags = new Fragment[2];
     protected BaseFragment currentFragment;
     private NewsFragment newsFragment;
@@ -120,6 +123,7 @@ public class FriendsFragment extends BaseFragment implements TabLayout.OnTabSele
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.friend_search_tv:
+                startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
             case R.id.tv_toolbar_right:
                 break;

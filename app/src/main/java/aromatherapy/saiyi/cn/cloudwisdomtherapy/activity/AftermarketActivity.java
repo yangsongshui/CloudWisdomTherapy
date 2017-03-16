@@ -1,5 +1,6 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,10 +21,11 @@ import java.util.concurrent.TimeUnit;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.AftermarketAdapter;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Aftermarket;
 import butterknife.BindView;
 
-public class AftermarketActivity extends BaseActivity implements BaseLayout.RefreshAndLoadingListener {
+public class AftermarketActivity extends BaseActivity implements BaseLayout.RefreshAndLoadingListener, OnItemClickListener {
 
     @BindView(R.id.tv_toolbar_title)
     TextView tvToolbarTitle;
@@ -68,6 +70,7 @@ public class AftermarketActivity extends BaseActivity implements BaseLayout.Refr
 
         aftermarketListRv.setBottomView(bottomView);
         adapter = new AftermarketAdapter(mList, this);
+        adapter.setOnItemClickListener(this);
         aftermarketListRv.setAdapter(adapter);
         aftermarketListRv.setTotalPages(5);
     }
@@ -107,5 +110,10 @@ public class AftermarketActivity extends BaseActivity implements BaseLayout.Refr
 
             }
         }.execute();
+    }
+
+    @Override
+    public void onItemClick(View holder, int position) {
+        startActivity(new Intent(this,ReturnInfoActivity.class));
     }
 }

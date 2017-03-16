@@ -1,5 +1,6 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,6 +34,7 @@ public class AfterSalesActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.after_return_goods_rl:
+                startActivity(new Intent(this, ReturnGoodsActivity.class));
                 break;
             case R.id.after_refund_rl:
                 break;

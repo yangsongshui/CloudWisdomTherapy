@@ -59,7 +59,7 @@ public class ShoppingCartFragment extends BaseFragment {
             }
         });
 
-        initLisr();
+        initList();
     }
 
     @Override
@@ -97,7 +97,7 @@ public class ShoppingCartFragment extends BaseFragment {
         }
     }
 
-    private void initLisr() {
+    private void initList() {
         mList.add(new Commodity("大力丸", "保健品", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg"));
         mList.add(new Commodity("无上神丹", "药品", "http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg"));
         mList.add(new Commodity("无上神水", "药品", "http://img.my.csdn.net/uploads/201407/26/1406383291_8239.jpg"));

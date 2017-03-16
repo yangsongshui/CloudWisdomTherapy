@@ -1,5 +1,6 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -99,6 +100,7 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
         };
         handler.post(r);
     }
+
     @OnClick({R.id.toolbar_left_iv, R.id.tv_toolbar_right})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -106,7 +108,7 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
                 finish();
                 break;
             case R.id.tv_toolbar_right:
-
+                startActivity(new Intent(this, AddLocationActivity.class));
                 break;
         }
 

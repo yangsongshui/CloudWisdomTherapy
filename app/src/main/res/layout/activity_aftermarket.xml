@@ -11,7 +11,7 @@
 
     <include layout="@layout/title_bar" />
 
-    <com.hr.nipuream.NRecyclerView.view.NRecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/aftermarket_list_rv"
         android:layout_width="match_parent"
         android:background="@color/bg_bottom_navigation"

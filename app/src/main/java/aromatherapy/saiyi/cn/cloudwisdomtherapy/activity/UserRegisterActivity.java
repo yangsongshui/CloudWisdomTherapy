@@ -12,12 +12,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -26,6 +32,8 @@ public class UserRegisterActivity extends BaseActivity {
 
     @BindView(R.id.registered_name_et)
     EditText registeredNameEt;
+    @BindView(R.id.registered_phone_et)
+    EditText registered_phone_et;
     @BindView(R.id.registered_coed_et)
     EditText registeredCoedEt;
     @BindView(R.id.registered_psw_et)
@@ -48,8 +56,9 @@ public class UserRegisterActivity extends BaseActivity {
     @BindView(R.id.toolbar_left_iv)
     ImageView toolbar_left_iv;
 
-    Toastor toastor;
+    Toastor toasr;
     private int type = -1;
+    Map<String, String> map;
 
     @Override
     protected int getContentView() {
@@ -58,10 +67,13 @@ public class UserRegisterActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-        toastor = new Toastor(this);
+        map = new HashMap<>();
+        toasr = new Toastor(this);
         type = getIntent().getIntExtra("type", -1);
         initToolbar();
         initView();
+
+
     }
 
     private void initToolbar() {
@@ -101,6 +113,22 @@ public class UserRegisterActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.registered_getcoed_tv:
+
+                String phone = registered_phone_et.getText().toString().trim();
+                if (phone.length() == 11) {
+                    map.clear();
+                    map.put("type", "0");
+                    map.put("phoneNumber", phone);
+                    NetworkRequests.GetRequests(this, Constant.GETIDENTIFY, map, new JsonDataReturnListener() {
+                        @Override
+                        public void jsonListener(JSONObject jsonObject) {
+                            Log.e("User", jsonObject.toString());
+                        }
+                    });
+                }else {
+                    toasr.showSingletonToast("手机号码长度不正确");
+                }
+
                 break;
             case R.id.register_add_iv4:
                 break;
@@ -111,7 +139,7 @@ public class UserRegisterActivity extends BaseActivity {
     }
 
     private void registerUser() {
-        new Thread(new Runnable() {
+      /*  new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -119,10 +147,10 @@ public class UserRegisterActivity extends BaseActivity {
                 } catch (HyphenateException e) {
                     e.printStackTrace();
 
-                  Log.d("HyphenateException", e.getMessage());
+                    Log.d("HyphenateException", e.getMessage());
 
                 }
             }
-        }).start();
+        }).start();*/
     }
 }

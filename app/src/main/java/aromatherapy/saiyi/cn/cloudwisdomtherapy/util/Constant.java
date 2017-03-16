@@ -2,8 +2,8 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.util;
 
 public class Constant {
 
-    //  public static final String BASE_URL = "http://172.16.5.100:8080/insu-web/t_user_app";
-    public static final String BASE_URL = "http://120.76.99.18:8080/insu-web/t_user_app";
+
+    public static final String BASE_URL = "http://119.23.72.141:8080/t_user_app";
     /**
      * 获取验证码
      **/
@@ -19,87 +19,76 @@ public class Constant {
     /**
      * 修改密码
      **/
-    public static final String UPDATEPWD = BASE_URL + "/findPwd";
+    public static final String UPDATEPWD = BASE_URL + "/updatePwd";
+
     /**
-     * 注册之后填写资料
-     **/
-    public static final String ADDTDETAILEDUSER = BASE_URL + "/addtDetaileduser";
-    /**
-     * 密码找回
-     **/
-    public static final String FINDPWD = BASE_URL + "/findPwd";
-    /**
-     * 查询个人资料
-     **/
-    public static final String FINDPERSONAL = BASE_URL + "/findpersonal";
-    /**
-     * 修改用户资料
+     * 更新用户资料
      **/
     public static final String UPDATEUSER = BASE_URL + "/updateUser";
     /**
-     * 用户绑定设备
+     * 查询咨询
      **/
-    public static final String UPDATEEQUIPMENT = BASE_URL + "/updateequipment";
+    public static final String FINDINFORMATIONS = BASE_URL + "/findInformations";
     /**
-     * 查询首页的心率和计步等数据
+     * 查询商品信息
      **/
-    public static final String FINDHEARTRATEMOTION = BASE_URL + "/findheartratemotion";
+    public static final String FINDCOMMODITYS = BASE_URL + "/findCommoditys";
     /**
-     * 查询总步数和卡路里，运动时间
+     * 增加购物车信息
      **/
-    public static final String FINDMOTIONSUM = BASE_URL + "/findheartratemotion";
+    public static final String ADDSHOPPINGCAR = BASE_URL + "/addShoppingCar";
     /**
-     * 按时间查询步数数据
+     * 删除购物车信息
      **/
-    public static final String FINDMOTIONBYTIME = BASE_URL + "/findmotionbytime";
+    public static final String DELETESHOPPINGCAR = BASE_URL + "/deleteShoppingCar";
     /**
-     * 按时间查询距离
+     * 查询购物车信息
      **/
-    public static final String FINDJULIBYTIME = BASE_URL + "/findjulibytime";
+    public static final String FINDSHOPPINGCAR = BASE_URL + "/findShoppingCar";
     /**
-     * 按时间查询速度
+     * 添加好友
      **/
-    public static final String FINDSHUDUBYTIME = BASE_URL + "/findshudubytime";
+    public static final String ADDFRIEND = BASE_URL + "/addFriend";
     /**
-     * 按时间查询心率
+     * 添加订单
      **/
-    public static final String FINDXINGTIAOBYTIME = BASE_URL + "/findxingtiaobytime";
+    public static final String INSERTORDER = BASE_URL + "/insertOrder";
     /**
-     * QQ 微信登陆
+     * 查询订单
      **/
-    public static final String QQLOGIN = BASE_URL + "/qqlogin";
+    public static final String FINDORDER = BASE_URL + "/findOrder";
     /**
-     * QQ 微信用户注册
+     * 添加收货地址
      **/
-    public static final String QQREGISTER = BASE_URL + "/qqregister";
+    public static final String ADDADDRESS = BASE_URL + "/addAddress";
     /**
-     * 解绑设备
+     * 删除收货地址
      **/
-    public static final String JIEBANG = BASE_URL + "/jiebang";
+    public static final String DELETEADDRESS = BASE_URL + "/deleteAddress";
     /**
-     * 通过用户ID查询设备
+     * 查询收货地址
      **/
-    public static final String FIND_SHEBEI = BASE_URL + "/find_shebei";
-   /**
-    * 获取地理位置
-    * **/
-    public static final String FINDPOSITION = BASE_URL + "/findposition";
-   /**
-    *教练首页
-    **/
-    public static final String FIND_STUDENT = BASE_URL + "/find_student";
-   /**
-    * 教练添加学员
-    * **/
+    public static final String FINDADDRESS = BASE_URL + "/findAddress";
+    /**
+     * 更改默认地址
+     **/
+    public static final String UPDATEADDRESSDEFAULT = BASE_URL + "/updateAddressDefault";
+    /**
+     * 投诉与建议
+     **/
+    public static final String INSERTSUGGEST = BASE_URL + "/insertSuggest";
+    /**
+     * 教练添加学员
+     **/
     public static final String ADD_STUDENT = BASE_URL + "/add_Student";
-   /**
-    * 教练删除学员
-    * **/
+    /**
+     * 教练删除学员
+     **/
     public static final String DELETESTUDENT = BASE_URL + "/deletestudent";
-   /**
-    * 教练备注学员
-    * **/
-   public static final String UPDATEBEIZHU = BASE_URL + "/updatebeizhu";
+    /**
+     * 教练备注学员
+     **/
+    public static final String UPDATEBEIZHU = BASE_URL + "/updatebeizhu";
 
 
 }

@@ -42,10 +42,10 @@
     </style>
     <style name="LoginTextView">
         <item name="android:textSize">18sp</item>
-        <item name="android:paddingBottom">13dp</item>
+        <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingLeft">60dp</item>
         <item name="android:paddingRight">60dp</item>
-        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingTop">10dp</item>
         <item name="android:gravity">center</item>
     </style>
     <style name="ShoppingTextView">
@@ -107,7 +107,7 @@
         <item name="android:textColor">@color/text_color</item>
     </style>
     <style name="Me_TextView">
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textCheckMarkInverse">@color/steel</item>
         <item name="android:padding">5dp</item>
         <item name="android:drawablePadding">5dp</item>

@@ -20,7 +20,6 @@ import java.util.Map;
 public class NormalPostRequest extends Request<JSONObject> {
     private Map<String, String> mMap;
     private Response.Listener<JSONObject> mListener;
-
     public NormalPostRequest(String url, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener, Map<String, String> map) {
         super(Request.Method.POST, url, errorListener);
 

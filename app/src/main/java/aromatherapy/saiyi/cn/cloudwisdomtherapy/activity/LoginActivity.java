@@ -50,8 +50,8 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.login_tv:
                 //登陆
-                startActivity(new Intent(this, MainActivity.class));
-                finish();
+                //login();
+
                 break;
             case R.id.login_qq_iv:
                 //QQ登陆
@@ -61,4 +61,32 @@ public class LoginActivity extends BaseActivity {
                 break;
         }
     }
+
+/*    private void login() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                EMClient.getInstance().login(loginPhoneEt.getText().toString().trim(), loginPswEt.getText().toString().trim(), new EMCallBack() {//回调
+                    @Override
+                    public void onSuccess() {
+                        EMClient.getInstance().groupManager().loadAllGroups();
+                        EMClient.getInstance().chatManager().loadAllConversations();
+                        Log.d("main", "登录聊天服务器成功！");
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    }
+
+                    @Override
+                    public void onProgress(int progress, String status) {
+
+                    }
+
+                    @Override
+                    public void onError(int code, String message) {
+                        Log.d("main", "登录聊天服务器失败！");
+                    }
+                });
+            }
+        }).start();
+    }*/
 }

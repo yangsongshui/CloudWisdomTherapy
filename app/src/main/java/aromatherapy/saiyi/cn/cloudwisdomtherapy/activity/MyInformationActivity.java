@@ -19,6 +19,8 @@ public class MyInformationActivity extends BaseActivity {
     TextView informationNameTv;
     @BindView(R.id.information_sex_tv)
     ImageView informationSexTv;
+    @BindView(R.id.information_delete_iv)
+    ImageView information_delete_iv;
     @BindView(R.id.information_age_tc)
     TextView informationAgeTc;
     @BindView(R.id.information_phone_tv)
@@ -57,7 +59,7 @@ public class MyInformationActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.information_back_iv, R.id.information_compile_tv})
+    @OnClick({R.id.information_back_iv, R.id.information_compile_tv,R.id.information_delete_iv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.information_back_iv:
@@ -66,6 +68,9 @@ public class MyInformationActivity extends BaseActivity {
                 break;
             case R.id.information_compile_tv:
                 startActivity(new Intent(this, CompileActivity.class));
+                break;
+            case R.id.information_delete_iv:
+               //删除好友
                 break;
         }
     }

@@ -16,19 +16,21 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/mall_pic"
+        <ImageView
+            android:id="@+id/mall_goods_iv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:src="@drawable/zhifubao_icon" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="1.3"
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/mall_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -42,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:paddingLeft="5dp">
 
                 <TextView
                     style="@style/MallText"
@@ -51,6 +53,7 @@
                     android:text="@string/mall_sold" />
 
                 <TextView
+                    android:id="@+id/mall_sold_tv"
                     style="@style/MallText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,6 +67,7 @@
                     android:text="@string/mall_inventory" />
 
                 <TextView
+                    android:id="@+id/mall_inventory_tc"
                     style="@style/MallText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -85,6 +89,7 @@
                     android:textColor="@color/red" />
 
                 <TextView
+                    android:id="@+id/mall_money_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="12.23"
@@ -100,6 +105,7 @@
                     android:text="@string/mall_original" />
 
                 <TextView
+                    android:id="@+id/mall_original_tv"
                     style="@style/MallText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -133,17 +139,18 @@
                     android:text="@string/mall_factory" />
 
                 <TextView
+                    android:id="@+id/mall_factory_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="不知道名字的生产厂家" />
             </LinearLayout>
 
             <TextView
+                android:id="@+id/mall_introduce_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:ellipsize="end"
-
                 android:maxLines="1"
                 android:text="kjasdjxncasdasdadadaadasdsdasdasda" />
 
@@ -152,22 +159,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/mall_msg" />
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/zircon" />
 
             <TextView
+                android:id="@+id/mall_describe_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/arrow_right_icon"
                 android:padding="10dp"
                 android:text="@string/mall_describe2"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:layout_width="match_parent"
@@ -179,8 +187,10 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/mall_back_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:padding="10dp"
         android:src="@drawable/fanhui_round_icon" />
 
@@ -203,9 +213,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/mall_service_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -220,6 +232,7 @@
             android:background="@color/zircon" />
 
         <TextView
+            android:id="@+id/mall_share_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -229,6 +242,7 @@
             android:text="@string/mall_share" />
 
         <TextView
+            android:id="@+id/mall_join_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
@@ -239,6 +253,7 @@
             android:textColor="@color/white" />
 
         <TextView
+            android:id="@+id/mall_purchase_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
