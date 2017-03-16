@@ -7,7 +7,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.cache.DiskLruBasedCache;
 import com.android.volley.cache.SimpleImageLoader;
 import com.android.volley.toolbox.Volley;
-
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.controller.EaseUI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +57,8 @@ public class MyApplication extends Application {
         JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
         JPushInterface.init(this);            // 初始化 JPush
 
-      /*  EaseUI.getInstance().init(instance, null);
-        EMClient.getInstance().setDebugMode(true);*/
+        EaseUI.getInstance().init(instance, null);
+        EMClient.getInstance().setDebugMode(true);
 
     }
 

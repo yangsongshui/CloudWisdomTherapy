@@ -1,19 +1,33 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.hyphenate.EMCallBack;
+import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.easeui.widget.EaseChatMessageList;
+
+import java.util.List;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ChatActivity extends BaseActivity  {
+public class ChatActivity extends BaseActivity implements EMCallBack {
 
 
     @BindView(R.id.toolbar_left_iv)
@@ -22,14 +36,14 @@ public class ChatActivity extends BaseActivity  {
     TextView tv_toolbar_title;
     @BindView(R.id.char_msg_et)
     EditText charMsgEt;
-/*    @BindView(R.id.message_list)
-    EaseChatMessageList messageList;*/
+   @BindView(R.id.message_list)
+   EaseChatMessageList messageList;
 
     SwipeRefreshLayout swipeRefreshLayout;
     protected ListView listView;
     protected boolean haveMoreData = true;
     protected boolean isloading;
-    //protected EMConversation conversation;
+    protected EMConversation conversation;
     protected int pagesize = 20;
 
     @Override
@@ -41,15 +55,14 @@ public class ChatActivity extends BaseActivity  {
     protected void init(Bundle savedInstanceState) {
         toolbar_left_iv.setVisibility(View.VISIBLE);
         tv_toolbar_title.setText("张师");
-       /* messageList.init("12345678", 1, null);
+        messageList.init("12345678", 1, null);
         listView = messageList.getListView();
         swipeRefreshLayout = messageList.getSwipeRefreshLayout();
-        //.setCustomChatRowProvider();
         swipeRefreshLayout.setColorSchemeResources(com.hyphenate.easeui.R.color.holo_blue_bright, com.hyphenate.easeui.R.color.holo_green_light,
                 com.hyphenate.easeui.R.color.holo_orange_light, com.hyphenate.easeui.R.color.holo_red_light);
         onConversationInit();
         setRefreshLayoutListener();
-        EMClient.getInstance().chatManager().addMessageListener(msgListener);*/
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
 
 
@@ -59,12 +72,12 @@ public class ChatActivity extends BaseActivity  {
             case R.id.char_msg_et:
                 break;
             case R.id.char_send_tv:
-             /*   //创建一条文本消息，content为消息文字内容，toChatUsername为对方用户或者群聊的id，后文皆是如此
+                //创建一条文本消息，content为消息文字内容，toChatUsername为对方用户或者群聊的id，后文皆是如此
                 EMMessage message = EMMessage.createTxtSendMessage(charMsgEt.getText().toString(), "12345678");
                 message.setMessageStatusCallback(this);
                 //发送消息
                 EMClient.getInstance().chatManager().sendMessage(message);
-                charMsgEt.setText("");*/
+                charMsgEt.setText("");
                 break;
             case R.id.toolbar_left_iv:
                 finish();
@@ -72,7 +85,7 @@ public class ChatActivity extends BaseActivity  {
         }
     }
 
-    /*protected void setRefreshLayoutListener() {
+    protected void setRefreshLayoutListener() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
@@ -182,7 +195,7 @@ public class ChatActivity extends BaseActivity  {
     @Override
     public void onProgress(int i, String s) {
         Log.d("ChatActivity", i + " " + s);
-    }*/
+    }
 
 
 }

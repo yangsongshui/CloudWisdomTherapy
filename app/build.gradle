@@ -63,4 +63,5 @@ dependencies {
     compile 'com.zhy:base-rvadapter:3.0.3'
     compile 'dev.dworks.libs:volleyplus:+'
     compile 'com.contrarywind:Android-PickerView:3.0.8'
+    compile project(':easeui')
 }

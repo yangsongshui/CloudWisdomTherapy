@@ -6,8 +6,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -50,7 +54,7 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.login_tv:
                 //登陆
-                //login();
+                login();
 
                 break;
             case R.id.login_qq_iv:
@@ -62,7 +66,7 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-/*    private void login() {
+    private void login() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -88,5 +92,5 @@ public class LoginActivity extends BaseActivity {
                 });
             }
         }).start();
-    }*/
+    }
 }
