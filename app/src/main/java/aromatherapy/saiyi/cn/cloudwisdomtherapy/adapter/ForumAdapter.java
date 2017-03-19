@@ -4,22 +4,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Information;
 
 
 /**
  * Created by Administrator on 2016/12/22.
  */
 public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHoader> {
-    private List<String> data;
+    private List<Information> data;
     private ItemClickListener mListener;
 
 
-    public ForumAdapter(List<String> data) {
+    public ForumAdapter(List<Information> data) {
         this.data = data;
     }
 
@@ -32,8 +35,10 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHoader> 
 
     @Override
     public void onBindViewHolder(ViewHoader holder, final int position) {
-        String str = data.get(position);
-        holder.forum_time_tv.setText(str);
+        Information information = data.get(position);
+        holder.forum_time_tv.setText(information.getDate());
+        holder.forum_title_tv.setText(information.getTitle());
+        MyApplication.newInstance().getmImageLoader().get(information.getTopPic(), holder.forum_pic_iv);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +47,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHoader> 
         });
     }
 
-    public void setItems(List<String> data) {
+    public void setItems(List<Information> data) {
         this.data = data;
         this.notifyDataSetChanged();
     }
@@ -61,13 +66,14 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHoader> 
 
         private TextView forum_title_tv;
         private TextView forum_time_tv;
-
+        ImageView forum_pic_iv;
         public ViewHoader(View itemView) {
             super(itemView);
 
             forum_title_tv = (TextView) itemView.findViewById(R.id.forum_title_tv);
             //时间
             forum_time_tv = (TextView) itemView.findViewById(R.id.forum_time_tv);
+            forum_pic_iv = (ImageView) itemView.findViewById(R.id.forum_pic_iv);
         }
     }
 

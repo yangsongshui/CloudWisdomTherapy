@@ -1,12 +1,17 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.provider.MediaStore;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,11 +30,14 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.MD5;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.PicUtil;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class UserRegisterActivity extends BaseActivity {
+    private static final int RESULT = 1;
+    private static final int PHOTO_REQUEST_CUT = 2;
 
     @BindView(R.id.registered_name_et)
     EditText registeredNameEt;
@@ -58,6 +66,19 @@ public class UserRegisterActivity extends BaseActivity {
     TextView tvToolbarTitle;
     @BindView(R.id.toolbar_left_iv)
     ImageView toolbar_left_iv;
+    @BindView(R.id.registered_hospital_et)
+    EditText registeredHospitalEt;
+    @BindView(R.id.registered_consultingRoom_et)
+    EditText registeredConsultingRoomEt;
+    @BindView(R.id.register_add_iv4)
+    ImageView registerAddIv4;
+    @BindView(R.id.register_complete_tv)
+    TextView registerCompleteTv;
+    @BindView(R.id.registered_hospital_ll)
+    LinearLayout registeredHospitalLl;
+    @BindView(R.id.registered_consultingRoom_ll)
+    LinearLayout registeredConsultingRoomLl;
+
     private String CODE = "";
     Toastor toasr;
     private int type = -1;
@@ -107,9 +128,13 @@ public class UserRegisterActivity extends BaseActivity {
         if (type == 2) {
             tvToolbarTitle.setText(getResources().getString(R.string.register_user));
             registerVerificationLl.setVisibility(View.GONE);
+            registeredHospitalLl.setVisibility(View.GONE);
+            registeredConsultingRoomLl.setVisibility(View.GONE);
         } else if (type == 1) {
             tvToolbarTitle.setText(getResources().getString(R.string.register_doctor));
             registerVerificationLl.setVisibility(View.VISIBLE);
+            registeredHospitalLl.setVisibility(View.VISIBLE);
+            registeredConsultingRoomLl.setVisibility(View.VISIBLE);
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         spannableStringBuilder.append(getResources().getString(R.string.register_doctor_verification));
@@ -125,7 +150,7 @@ public class UserRegisterActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.registered_getcoed_tv, R.id.register_add_iv4, R.id.register_complete_tv})
+    @OnClick({R.id.registered_getcoed_tv, R.id.register_add_iv1, R.id.register_add_iv2, R.id.register_add_iv3, R.id.register_add_iv4, R.id.register_complete_tv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.registered_getcoed_tv:
@@ -152,7 +177,23 @@ public class UserRegisterActivity extends BaseActivity {
                 }
 
                 break;
+            case R.id.register_add_iv1:
+                openGallery();
+                indext = 1;
+                break;
+            case R.id.register_add_iv2:
+                openGallery();
+                indext = 2;
+                break;
+            case R.id.register_add_iv3:
+                openGallery();
+                indext = 3;
+                break;
             case R.id.register_add_iv4:
+                if (photo1 == null || photo2 == null || photo3 == null) {
+                    openGallery();
+                    indext = 4;
+                }
                 break;
             case R.id.register_complete_tv:
                 registerUser();
@@ -166,29 +207,50 @@ public class UserRegisterActivity extends BaseActivity {
         String phone = registered_phone_et.getText().toString().trim();
         String name = registeredNameEt.getText().toString().trim();
         String code = registeredCoedEt.getText().toString().trim();
+        String hospital = registeredHospitalEt.getText().toString().trim();
+        String consultingRoom = registeredConsultingRoomEt.getText().toString().trim();
         if (phone.length() == 11) {
             if (CODE.equals(code)) {
                 if (psw.length() >= 6 && psw.length() <= 16) {
                     if (psw.equals(psw2)) {
                         if (name.length() > 0) {
-                            if (type == 2) {
-                                //用户注册
-                                map.clear();
-                                map.put("phoneNumber", phone);
-                                map.put("passWord", MD5.getMD5(psw));
-                                map.put("flag", type + "");
-                                map.put("nickName", name);
+                            //用户注册
+                            map.clear();
+                            map.put("phoneNumber", phone);
+                            map.put("passWord", MD5.getMD5(psw));
+                            map.put("role", type + "");
+                            map.put("nickName", name);
+                            map.put("isThird", "0");
+                            //医生注册
+                            if (photo2 != null && photo1 != null && photo3 != null) {
+                                map.put("checkPicByte1", photo1);
+                                map.put("checkPicByte2", photo2);
+                                map.put("checkPicByte3", photo3);
+                                if (hospital.length() > 0 && consultingRoom.length() > 0) {
+                                    map.put("hospital", hospital);
+                                    map.put("consultingRoom", consultingRoom);
+                                } else {
+                                    return;
+                                }
 
-                                NetworkRequests.GetRequests(this, Constant.REGISTER, map, new JsonDataReturnListener() {
-                                    @Override
-                                    public void jsonListener(JSONObject jsonObject) {
-                                        Log.e("jsonListener", jsonObject.toString());
-
-                                    }
-                                });
                             } else {
-                                //医生注册
+                                return;
                             }
+
+                            NetworkRequests.GetRequests(this, Constant.REGISTER, map, new JsonDataReturnListener() {
+                                @Override
+                                public void jsonListener(JSONObject jsonObject) {
+                                    Log.e("jsonListener", jsonObject.toString());
+                                    if (jsonObject.optInt("resCode") == 0) {
+                                        toasr.showSingletonToast(jsonObject.optString("resMessage"));
+                                        finish();
+                                    } else {
+                                        toasr.showSingletonToast(jsonObject.optString("resMessage"));
+                                    }
+
+                                }
+                            });
+
                         } else
                             toasr.showSingletonToast("昵称不能为空");
                     } else
@@ -200,18 +262,89 @@ public class UserRegisterActivity extends BaseActivity {
         } else {
             toasr.showSingletonToast("手机号码长度不正确");
         }
-      /*  new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    EMClient.getInstance().createAccount(registeredNameEt.getText().toString().trim(), registeredPswEt.getText().toString().trim());
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
+    }
 
-                    Log.d("HyphenateException", e.getMessage());
+    /**
+     * 打开相册
+     */
+    public void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);// 打开相册
+        intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
+        intent.setType("image/*");
+        startActivityForResult(intent, RESULT);
+    }
+
+    private void crop(Uri uri) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 350);
+        intent.putExtra("outputY", 350);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, PHOTO_REQUEST_CUT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RESULT) {
+            if (data != null) {
+                Uri uri = data.getData();
+                crop(uri);
+            }
+        } else if (requestCode == PHOTO_REQUEST_CUT) {
+            if (data != null) {
+                setImageToHeadView(data);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    String photo1, photo2, photo3;
+    int indext = 0;
+
+
+    private void setImageToHeadView(Intent intent) {
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            Bitmap bitmap = extras.getParcelable("data");
+
+            if (indext == 1) {
+                registerAddIv1.setImageBitmap(bitmap);
+                byte[] bytes = PicUtil.bitmap2Bytes(bitmap);
+                photo1 = Base64.encodeToString(bytes, 0, bytes.length, Base64.DEFAULT);
+            } else if (indext == 2) {
+                registerAddIv2.setImageBitmap(bitmap);
+                byte[] bytes = PicUtil.bitmap2Bytes(bitmap);
+                photo2 = Base64.encodeToString(bytes, 0, bytes.length, Base64.DEFAULT);
+
+            } else if (indext == 3) {
+                registerAddIv3.setImageBitmap(bitmap);
+                byte[] bytes = PicUtil.bitmap2Bytes(bitmap);
+                photo3 = Base64.encodeToString(bytes, 0, bytes.length, Base64.DEFAULT);
+
+            } else {
+                if (photo1 == null) {
+                    byte[] bytes = PicUtil.bitmap2Bytes(bitmap);
+                    photo1 = Base64.encodeToString(bytes, 0, bytes.length, Base64.DEFAULT);
+                    registerAddIv1.setImageBitmap(bitmap);
+                } else if (photo2 == null) {
+                    registerAddIv2.setImageBitmap(bitmap);
+                    byte[] bytes = PicUtil.bitmap2Bytes(bitmap);
+                    photo2 = Base64.encodeToString(bytes, 0, bytes.length, Base64.DEFAULT);
+
+                } else {
+                    registerAddIv3.setImageBitmap(bitmap);
+                    byte[] bytes = PicUtil.bitmap2Bytes(bitmap);
+                    photo3 = Base64.encodeToString(bytes, 0, bytes.length, Base64.DEFAULT);
 
                 }
             }
-        }).start();*/
+
+            // bitmap.recycle();
+        }
     }
+
 }

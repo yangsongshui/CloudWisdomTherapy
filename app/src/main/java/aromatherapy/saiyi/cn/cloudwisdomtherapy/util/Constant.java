@@ -77,18 +77,6 @@ public class Constant {
      * 投诉与建议
      **/
     public static final String INSERTSUGGEST = BASE_URL + "/insertSuggest";
-    /**
-     * 教练添加学员
-     **/
-    public static final String ADD_STUDENT = BASE_URL + "/add_Student";
-    /**
-     * 教练删除学员
-     **/
-    public static final String DELETESTUDENT = BASE_URL + "/deletestudent";
-    /**
-     * 教练备注学员
-     **/
-    public static final String UPDATEBEIZHU = BASE_URL + "/updatebeizhu";
 
 
 }

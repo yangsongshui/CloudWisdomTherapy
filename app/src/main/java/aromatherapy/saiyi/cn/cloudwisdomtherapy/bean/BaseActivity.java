@@ -11,7 +11,7 @@ import android.view.WindowManager;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import butterknife.ButterKnife;
-import cn.jpush.android.api.JPushInterface;
+
 
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -27,7 +27,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getContentView());
         translucentStatusBar();
         ButterKnife.bind(this);
-        JPushInterface.init(getApplicationContext());
         //用于显示当前位于哪个活动
         Log.d("BaseActivity", getClass().getSimpleName());
         init(savedInstanceState);
@@ -40,18 +39,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        JPushInterface.onResume(this);
-    }
 
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        JPushInterface.onPause(this);
-    }
     //注入布局
     protected abstract int getContentView();
 

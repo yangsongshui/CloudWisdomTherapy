@@ -1,6 +1,9 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.util;
 
+import android.graphics.Bitmap;
 import android.os.Environment;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by yangsong on 2017/3/11.
@@ -28,5 +31,12 @@ public class PicUtil {
             return false;
         }
     }
-
+    /***
+     * 照片转二进制
+     */
+    public static byte[] bitmap2Bytes(Bitmap bm) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
+    }
 }

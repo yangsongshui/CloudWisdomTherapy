@@ -8,7 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.User;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.DateUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -47,6 +50,7 @@ public class MyInformationActivity extends BaseActivity {
     LinearLayout activityMyInformation;
     @BindView(R.id.information_pic_iv)
     CircleImageView informationPicIv;
+    User user;
 
     @Override
     protected int getContentView() {
@@ -57,9 +61,36 @@ public class MyInformationActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
 
     }
+    private void initView(){
+        user = (User) getIntent().getSerializableExtra("user");
+        if (user == null) {
+            user = MyApplication.newInstance().getUser();
+        }
 
+        if (user.getPic().length() > 0)
+            MyApplication.newInstance().getmImageLoader().get(user.getPic(), informationPicIv);
+        informationNameTv.setText(user.getName());
+        if (user.getSex() != null && user.getSex().equals("女")) {
+            informationSexTv.setImageDrawable(getResources().getDrawable(R.drawable.woman_icon));
+        } else {
+            informationSexTv.setImageDrawable(getResources().getDrawable(R.drawable.man_icon));
+        }
+        if (user.getBirthday().length() > 0)
+            informationAgeTc.setText(DateUtil.yearDiff(DateUtil.getCurrDate(DateUtil.LONG_DATE_FORMAT), user.getBirthday()) + "");
+        informationPhoneTv.setText(user.getPhone());
+        informationAddressTv.setText(user.getAddress());
+        if (user.getType() == 1) {
+            informationFamilyLl.setVisibility(View.VISIBLE);
+            informationHospitalLl.setVisibility(View.VISIBLE);
+            informationHospitalTv.setText(user.getHospital());
+            informationFamilyTv.setText(user.getDepartment());
+        }
+        informationBirthdayTv.setText(user.getBirthday());
+        informationHeightTv.setText(user.getHeight());
+        informationWeightTv.setText(user.getWidth());
+    }
 
-    @OnClick({R.id.information_back_iv, R.id.information_compile_tv,R.id.information_delete_iv})
+    @OnClick({R.id.information_back_iv, R.id.information_compile_tv, R.id.information_delete_iv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.information_back_iv:
@@ -70,8 +101,14 @@ public class MyInformationActivity extends BaseActivity {
                 startActivity(new Intent(this, CompileActivity.class));
                 break;
             case R.id.information_delete_iv:
-               //删除好友
+                //删除好友
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initView();
     }
 }

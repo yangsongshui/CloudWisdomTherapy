@@ -1,21 +1,24 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by yangsong on 2017/2/24.
  */
 
 public class Mall extends Commodity implements Serializable {
-    private String describe;
-    private String factory;
+    private String describe;//商品描述
     private int sold;
     private int inventory;
+    private String productionFactory;//厂家
+    private String GoogsType;
+    private List<String> picList;
 
-    public Mall(String name, String type, String picture, String describe, String factory, int sold, int inventory) {
+
+    public Mall(String name, String type, String picture, String describe, int sold, int inventory) {
         super(name, type, picture);
         this.describe = describe;
-        this.factory = factory;
         this.sold = sold;
         this.inventory = inventory;
     }
@@ -24,21 +27,19 @@ public class Mall extends Commodity implements Serializable {
 
     }
 
+    public String getGoogsType() {
+        return GoogsType;
+    }
 
+    public void setGoogsType(String googsType) {
+        GoogsType = googsType;
+    }
     public String getDescribe() {
         return describe;
     }
 
     public void setDescribe(String describe) {
         this.describe = describe;
-    }
-
-    public String getFactory() {
-        return factory;
-    }
-
-    public void setFactory(String factory) {
-        this.factory = factory;
     }
 
     public int getSold() {
@@ -55,5 +56,20 @@ public class Mall extends Commodity implements Serializable {
 
     public void setInventory(int inventory) {
         this.inventory = inventory;
+    }
+    public String getProductionFactory() {
+        return productionFactory;
+    }
+
+    public void setProductionFactory(String productionFactory) {
+        this.productionFactory = productionFactory;
+    }
+
+    public List<String> getPicList() {
+        return picList;
+    }
+
+    public void setPicList(List<String> picList) {
+        this.picList = picList;
     }
 }

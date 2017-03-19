@@ -4,6 +4,7 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +15,9 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.AftermarketActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.IndentActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.InstallActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.MyInformationActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.User;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -33,9 +36,20 @@ public class MeFragment extends BaseFragment {
     TextView meNameTv;
     @BindView(R.id.me_phone_tv)
     TextView mePhoneTv;
+    User user;
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
+        user = MyApplication.newInstance().getUser();
+        if (user.getType() == 1)
+            meDoctorRenzhengIv.setVisibility(View.VISIBLE);
+        else
+            meDoctorRenzhengIv.setVisibility(View.GONE);
+        Log.e("MeFragment", user.getPic());
+        if (user.getPic().length() > 0)
+            MyApplication.newInstance().getmImageLoader().get(user.getPic(), mePicCv);
+        meNameTv.setText(user.getName());
+        mePhoneTv.setText(user.getPhone());
 
     }
 
@@ -55,23 +69,23 @@ public class MeFragment extends BaseFragment {
                 break;
             case R.id.me_order_rl:
 //               订单
-                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type",0));
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 0));
                 break;
             case R.id.me_pending_payment_tv:
 //待付款
-                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type",1));
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 1));
                 break;
             case R.id.me_waiting_for_delivery_tv:
 //                待发货
-                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type",2));
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 2));
                 break;
             case R.id.me_receiving_goods_tv:
 //                待收货
-                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type",3));
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 3));
                 break;
             case R.id.me_already_buy_tv:
 //                已买到
-                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type",4));
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 4));
                 break;
             case R.id.me_customer_service_tv:
 //                售后服务
@@ -92,5 +106,21 @@ public class MeFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), InstallActivity.class));
                 break;
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        user = MyApplication.newInstance().getUser();
+        if (user.getType() == 1)
+            meDoctorRenzhengIv.setVisibility(View.VISIBLE);
+        else
+            meDoctorRenzhengIv.setVisibility(View.GONE);
+        Log.e("MeFragment", user.getPic());
+        if (user.getPic().length() > 0)
+            MyApplication.newInstance().getmImageLoader().get(user.getPic(), mePicCv);
+        meNameTv.setText(user.getName());
+        mePhoneTv.setText(user.getPhone());
     }
 }

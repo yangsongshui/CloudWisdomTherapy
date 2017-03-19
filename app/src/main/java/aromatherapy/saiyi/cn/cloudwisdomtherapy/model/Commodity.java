@@ -22,7 +22,15 @@ public class Commodity implements Serializable {
     private String num;
     /*购物车是否选中购买*/
     private boolean choice;
+    private String ID;
 
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
 
     public Commodity() {
     }
@@ -31,6 +39,18 @@ public class Commodity implements Serializable {
         this.name = name;
         this.type = type;
         this.picture = picture;
+
+    }
+
+    public Commodity(String name, String type, String picture, boolean choice) {
+        this.name = name;
+        this.type = type;
+        this.picture = picture;
+        this.choice = choice;
+    }
+
+    public Commodity(boolean choice) {
+        this.choice = choice;
     }
 
     public Commodity(String name, String picture, String type, String standard, String price, String purchase_price, String num) {

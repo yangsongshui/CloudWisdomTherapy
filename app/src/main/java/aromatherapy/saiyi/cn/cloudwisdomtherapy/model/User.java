@@ -1,10 +1,12 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.model;
 
+import java.io.Serializable;
+
 /**
  * Created by yangsong on 2017/2/13.
  */
 
-public class User {
+public class User implements Serializable{
     private String name;
     private String pic;
     private String phone;
@@ -17,8 +19,15 @@ public class User {
     private String department;
     private String address;
     private int type;
+    private String psw;
 
+    public String getPsw() {
+        return psw;
+    }
 
+    public void setPsw(String psw) {
+        this.psw = psw;
+    }
 
     public User() {
     }

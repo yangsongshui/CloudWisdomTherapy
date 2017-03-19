@@ -11,17 +11,16 @@
     <include layout="@layout/shopping_cart_null" />
 
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="vertical"
-            android:id="@+id/linearLayout">
+            android:orientation="vertical">
 
             <CheckBox
                 android:id="@+id/shopping_cart_mall_cb"
@@ -31,11 +30,13 @@
                 android:layout_centerVertical="true"
                 android:text="@string/shopping_cart_mall"
                 android:textColor="@color/black" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="@color/zircon" />
         </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
@@ -66,13 +67,23 @@
                 android:textColor="@color/white" />
 
             <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/shopping_cart_price_tv"
+                android:text="¥"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
+
+            <TextView
                 android:id="@+id/shopping_cart_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_margin="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_toStartOf="@+id/shopping_cart_settlement_tv"
-                android:text="¥0.00"
+                android:text="0.00"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp" />
         </RelativeLayout>

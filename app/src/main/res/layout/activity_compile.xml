@@ -70,7 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="13dp"
                 android:text="@string/compile_name" />
 
             <TextView
@@ -109,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:padding="15dp"
+                android:padding="13dp"
                 android:text="@string/compile_phone" />
 
             <TextView
@@ -148,7 +148,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="13dp"
                 android:text="@string/compile_address" />
 
             <TextView
@@ -184,7 +184,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="13dp"
                 android:text="@string/compile_sex" />
 
             <TextView
@@ -209,6 +209,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/zircon" />
+
         <LinearLayout
             android:id="@+id/compile_birthday_ll"
             android:layout_width="match_parent"
@@ -220,7 +221,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="13dp"
                 android:text="@string/compile_birthday" />
 
             <TextView
@@ -258,7 +259,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="13dp"
                 android:text="@string/compile_height" />
 
             <TextView
@@ -300,7 +301,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="13dp"
                 android:text="@string/compile_weight" />
 
             <TextView
@@ -332,13 +333,14 @@
             android:layout_marginTop="10dp"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="13dp"
                 android:text="@string/compile_hospital" />
 
             <TextView
@@ -361,14 +363,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="13dp"
                 android:text="@string/compile_family" />
 
             <TextView

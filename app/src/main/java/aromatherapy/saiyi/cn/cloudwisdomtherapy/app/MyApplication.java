@@ -2,6 +2,7 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.app;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.cache.DiskLruBasedCache;
@@ -9,11 +10,15 @@ import com.android.volley.cache.SimpleImageLoader;
 import com.android.volley.toolbox.Volley;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.controller.EaseUI;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.jpush.android.api.JPushInterface;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.User;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
 
 public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
@@ -21,18 +26,13 @@ public class MyApplication extends Application {
     private static MyApplication instance;
     public static List<Activity> activitiesList = new ArrayList<Activity>(); // 活动管理集合
 
-
-    private int step_number = 0;
-
-
+    private User user;
     private RequestQueue mQueue;
 
-    public int getStep_number() {
-        return step_number;
-    }
-
-    public void setStep_number(int step_number) {
-        this.step_number = step_number;
+    {
+        PlatformConfig.setWeixin("wx815938a2f5f56950", "eb8b6aaf7817ac50e35e53d2c935a1dd");
+        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        Config.DEBUG = true;
     }
 
     /**
@@ -52,16 +52,12 @@ public class MyApplication extends Application {
         DiskLruBasedCache.ImageCacheParams cacheParams = new DiskLruBasedCache.ImageCacheParams(getApplicationContext(), "CacheDirectory");
         cacheParams.setMemCacheSizePercent(0.5f);
         mImageLoader = new SimpleImageLoader(getApplicationContext(), cacheParams);
-
-        // 请谨慎使用，以免用户看到消息过多卸载应用。
-        JPushInterface.setDebugMode(true);    // 设置开启日志,发布时请关闭日志
-        JPushInterface.init(this);            // 初始化 JPush
-
         EaseUI.getInstance().init(instance, null);
+        UMShareAPI.get(this);
         EMClient.getInstance().setDebugMode(true);
 
-    }
 
+    }
 
 
     public RequestQueue getmQueue() {
@@ -103,52 +99,47 @@ public class MyApplication extends Application {
 		}*/
     }
 
-    /*
-        public void setUser(User user) {
-            this.user = user;
-            //获取SharedPreferences对象
-            SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
-            //获取Editor对象
-            SharedPreferences.Editor editor = sharedPre.edit();
-            //设置参数
-            editor.putString("username", user.getPhone());
-            editor.putString("password", user.getPassWord());
-            //极光推送用户ID设置
-             JPushInterface.setAliasAndTags(this, "2474978944", null, this);
-            editor.putString("UserID", user.getUserID());
-            //提交
-            editor.commit();
 
-        }
+    public void setUser(User user) {
+        this.user = user;
+        //获取SharedPreferences对象
+        SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
+        //获取Editor对象
+        SharedPreferences.Editor editor = sharedPre.edit();
+        //设置参数
+        editor.putString("username", user.getPhone());
+        editor.putString("password", user.getPsw());
 
-        public User getUser() {
-            //获取SharedPreferences对象
-            SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
-            String username = sharedPre.getString("username", "");
-            String password = sharedPre.getString("password", "");
-            String UserID = sharedPre.getString("UserID", "");
-            Log.e("------", username + " " + password);
-            if (username.equals("") || password.equals(""))
-                return null;
-            user.setPhone(username);
-            user.setPassWord(password);
-            user.setUserID(UserID);
+        //提交
+        editor.commit();
 
-            return user;
-        }
+    }
 
-        public void outLogin() {
-            user = null;
-            SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
-            //获取Editor对象
-            SharedPreferences.Editor editor = sharedPre.edit();
-            //设置参数
-            editor.putString("username", "");
-            editor.putString("password", "");
-            //提交
-            editor.commit();
-        }
-    */
+    public User getUser() {
+        //获取SharedPreferences对象
+        SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
+        String username = sharedPre.getString("username", "");
+        String password = sharedPre.getString("password", "");
+        Log.e("------", username + " " + password);
+        if (username.equals("") || password.equals(""))
+            return null;
+        user.setPhone(username);
+        user.setPsw(password);
+        return user;
+    }
+
+    public void outLogin() {
+        user = null;
+        SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
+        //获取Editor对象
+        SharedPreferences.Editor editor = sharedPre.edit();
+        //设置参数
+        editor.putString("username", "");
+        editor.putString("password", "");
+        //提交
+        editor.commit();
+    }
+
     private SimpleImageLoader mImageLoader;
 
     public SimpleImageLoader getmImageLoader() {

@@ -16,16 +16,25 @@ import android.view.ViewGroup;
 import com.hr.nipuream.NRecyclerView.view.NRecyclerView;
 import com.hr.nipuream.NRecyclerView.view.base.BaseLayout;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.MallActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.MallImageAdapter;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Mall;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
 
 /**
@@ -38,26 +47,22 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
     TabLayout mTabLayout;
     MallImageAdapter adapter;
     List<Mall> mList;
+    Toastor toastor;
+    Map<String, String> map;
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
-
+        toastor = new Toastor(getActivity());
+        map = new HashMap<>();
         mList = new ArrayList<>();
-        mList.add(new Mall());
-        mList.add(new Mall());
-        mList.add(new Mall());
-        mList.add(new Mall());
-        mList.add(new Mall());
-
         initRecyclerView();
 
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mTabLayout.addTab(mTabLayout.newTab().setText("全部"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("类型1"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("类型2"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("类型3"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("类型4"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("类型5"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("美白牙齿"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("妇儿保健"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("疼痛健康"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("养生家居"));
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -66,49 +71,24 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
                 switch (tab.getPosition()) {
                     case 0:
                         mList.clear();
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        adapter.setItems(mList);
+                        getMall("100");
                         break;
                     case 1:
                         mList.clear();
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        adapter.setItems(mList);
+                        getMall("0");
                         break;
                     case 2:
                         mList.clear();
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        adapter.setItems(mList);
+                        getMall("1");
                         break;
                     case 3:
                         mList.clear();
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        mList.add(new Mall());
 
-                        adapter.setItems(mList);
+                        getMall("2");
                         break;
                     case 4:
                         mList.clear();
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-
-                        adapter.setItems(mList);
-                        break;
-                    case 5:
-                        mList.clear();
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        mList.add(new Mall());
-                        adapter.setItems(mList);
+                        getMall("3");
                         break;
                     default:
                         break;
@@ -127,6 +107,7 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
                 Log.e("上一次选中", tab.getPosition() + "");
             }
         });
+
     }
 
     @Override
@@ -195,6 +176,48 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
 
     @Override
     public void onItemClick(View holder, int position) {
-        startActivity(new Intent(getActivity(), MallActivity.class).putExtra("mall",mList.get(position)));
+        startActivity(new Intent(getActivity(), MallActivity.class).putExtra("mall", mList.get(position)));
     }
+
+    private void getMall(String type) {
+        map.put("type", type);
+        NetworkRequests.GetRequests(getActivity(), Constant.FINDCOMMODITYS, map, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                Log.e("jsonListener", jsonObject.toString());
+                if (jsonObject.optInt("resCode") == 0) {
+                    getItem(jsonObject.optJSONObject("resBody").optJSONArray("lists"));
+                }
+
+            }
+        });
+    }
+
+    private void getItem(JSONArray jsonArray) {
+        mList.clear();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            Mall mall = new Mall();
+            JSONObject jsonObject = jsonArray.optJSONObject(i);
+            mall.setName(jsonObject.optString("commodityName"));
+            mall.setPrice(jsonObject.optString("discountPrice"));
+            mall.setID(jsonObject.optString("id"));
+            if (jsonObject.optString("type").equals("0")) {
+                mall.setGoogsType("美白牙齿");
+            } else if (jsonObject.optString("type").equals("1")) {
+                mall.setGoogsType("妇儿保健");
+            } else if (jsonObject.optString("type").equals("2")) {
+                mall.setGoogsType("疼痛健康");
+            } else if (jsonObject.optString("type").equals("3")) {
+                mall.setGoogsType("养生家居");
+            }
+
+            mall.setPurchase_price(jsonObject.optString("originalPrice"));
+            mall.setPicture(jsonObject.optString("commodityPic"));
+            mall.setStandard(jsonObject.optString("specifications"));
+            mall.setProductionFactory(jsonObject.optString("productionFactory"));
+            mall.setDescribe(jsonObject.optString("productionFactory"));
+            mList.add(mall);
+        }
+    }
+
 }

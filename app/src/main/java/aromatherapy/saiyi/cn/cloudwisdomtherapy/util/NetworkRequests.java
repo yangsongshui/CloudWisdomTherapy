@@ -1,5 +1,6 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.util;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 
 import com.android.volley.RequestQueue;
@@ -19,8 +20,11 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
 
 public class NetworkRequests {
 
+    private static ProgressDialog progressDialog;
 
     public static void GetRequests(final Context context, final String url, final Map<String, String> map, final JsonDataReturnListener jsonListener) {
+        initViw(context);
+        progressDialog.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -29,12 +33,14 @@ public class NetworkRequests {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
                         jsonListener.jsonListener(jsonObject);
+                        progressDialog.dismiss();
 
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         new Toastor(context).showSingletonToast("服务器连接失败");
+                        progressDialog.dismiss();
                     }
                 }, map));
             }
@@ -43,5 +49,13 @@ public class NetworkRequests {
 
     }
 
+    public static void initViw(Context context) {
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("加载中...");
+        progressDialog.setTitle("");
+        progressDialog.setIndeterminate(false);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+    }
 
 }

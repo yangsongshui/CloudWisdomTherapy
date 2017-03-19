@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.method.DigitsKeyListener;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,13 +23,24 @@ import android.widget.Toast;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.bigkoo.pickerview.TimePickerView;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.User;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.GetCity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.PicUtil;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.view.CompilePopupWindow;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -82,6 +94,10 @@ public class CompileActivity extends BaseActivity {
     GetCity getCity;
     //自定义的弹出框类
     CompilePopupWindow menuWindow;
+    String photo = "";
+    Map<String, String> map;
+    Toast toast;
+    User user;
 
     @Override
     protected int getContentView() {
@@ -90,6 +106,9 @@ public class CompileActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        user = MyApplication.newInstance().getUser();
+        map = new HashMap<>();
+        toast = new Toast(this);
         tv_toolbar_white_title.setText(getResources().getString(R.string.compile_title));
         toolbar_left_white_iv.setVisibility(View.VISIBLE);
         tvToolbarWhiteRight.setVisibility(View.VISIBLE);
@@ -103,6 +122,7 @@ public class CompileActivity extends BaseActivity {
         getCity = new GetCity(this);
 
         initView();
+        initInfor();
         //实例化SelectPicPopupWindow
         menuWindow = new CompilePopupWindow(this, itemsOnClick);
     }
@@ -139,9 +159,71 @@ public class CompileActivity extends BaseActivity {
                 break;
             case R.id.tv_toolbar_white_right:
                 //保存
+                saveInfor();
                 break;
         }
     }
+
+    private void initInfor() {
+        if (user.getPic().length() > 0)
+            MyApplication.newInstance().getmImageLoader().get(user.getPic(), compilePicIv);
+        compileNameTv.setText(user.getName());
+        if (user.getSex() != null && user.getSex().equals("女")) {
+            compileSexTv.setText(user.getSex());
+        } else {
+            compileSexTv.setText("男");
+        }
+        if (user.getBirthday().length() > 0)
+            compileBirthdayTv.setText(user.getBirthday());
+        compilePhoneTv.setText(user.getPhone());
+        compileAddressTv.setText(user.getAddress());
+        if (user.getType() == 1) {
+            compileFamilyLl.setVisibility(View.VISIBLE);
+            compileHospitalLl.setVisibility(View.VISIBLE);
+            compileHospitalTv.setText(user.getHospital());
+            compileFamilyTv.setText(user.getDepartment());
+        }
+        compileBirthdayTv.setText(user.getBirthday());
+        compileHeightTv.setText(user.getHeight());
+        compileWeightTv.setText(user.getWidth());
+    }
+
+    private void saveInfor() {
+        String phone = compilePhoneTv.getText().toString().trim();
+        String name = compileNameTv.getText().toString().trim();
+        String addtess = compileAddressTv.getText().toString().trim();
+        String brithday = compileBirthdayTv.getText().toString().trim();
+        String height = compileHeightTv.getText().toString().trim();
+        String weight = compileWeightTv.getText().toString().trim();
+        String sex = compileSexTv.getText().toString().trim();
+        map.clear();
+        map.put("phoneNumber", phone);
+        map.put("nickName", name);
+        if (photo.length() > 0)
+            map.put("headPicByte", photo);
+        map.put("city", addtess);
+        map.put("sex", sex);
+        map.put("birthday", brithday);
+        map.put("weight", weight);
+        map.put("height", height);
+        user.setBirthday(brithday);
+        user.setSex(sex);
+        user.setHeight(height);
+        user.setWidth(weight);
+        user.setAddress(addtess);
+        user.setName(name);
+        NetworkRequests.GetRequests(this, Constant.UPDATEUSER, map, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                Log.e("CompileActivity", jsonObject.toString());
+                user.setPic(jsonObject.optJSONObject("resBody").optString("headPic"));
+                MyApplication.newInstance().setUser(user);
+                finish();
+            }
+        });
+
+    }
+
 
     private void showDialog(final TextView textView) {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(CompileActivity.this);
@@ -358,6 +440,8 @@ public class CompileActivity extends BaseActivity {
         if (extras != null) {
             bitmap = extras.getParcelable("data");
             compilePicIv.setImageBitmap(bitmap);
+            byte[] bytes = PicUtil.bitmap2Bytes(bitmap);
+            photo = Base64.encodeToString(bytes, 0, bytes.length, Base64.DEFAULT);
             bitmap.recycle();
         }
     }

@@ -26,6 +26,8 @@
     <string name="register_get_code">获取验证码</string>
     <string name="register_psw">请输入8~16位密码</string>
     <string name="register_psw2">请再次输入密码</string>
+    <string name="register_hospital">所属医院</string>
+    <string name="register_consultingRoom">所属科室</string>
     <string name="register_doctor_verification">医师认证请上传相关证件,人工审核会有延迟请见谅。</string>
     <string name="register_agreement">注册代表同意《云网智疗电子商城协议》</string>
     <string name="register_complete">完成</string>
@@ -56,6 +58,7 @@
     <string name="shopping_cart_msg">你的购物车空空如也</string>
     <string name="shopping_cart_go">去逛逛</string>
     <string name="shopping_cart_settlement">结算</string>
+    <string name="shopping_cart_delete">删除</string>
     <string name="shopping_cart_complete">完成</string>
     <string name="shopping_cart_edit">编辑</string>
     <string name="shopping_cart_select">全选</string>

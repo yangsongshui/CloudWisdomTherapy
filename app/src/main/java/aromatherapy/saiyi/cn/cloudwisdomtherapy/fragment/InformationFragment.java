@@ -1,7 +1,6 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment;
 
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -17,24 +16,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hr.nipuream.NRecyclerView.view.NRecyclerView;
-import com.hr.nipuream.NRecyclerView.view.base.BaseLayout;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.ForumAdapter;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Information;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.view.MyViewPager;
 import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InformationFragment extends BaseFragment implements BaseLayout.RefreshAndLoadingListener {
+public class InformationFragment extends BaseFragment {
     private static final String TAG = InformationFragment.class.getName();
     @BindView(R.id.tv_toolbar_title)
     TextView tvToolbarTitle;
@@ -42,10 +48,11 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
     @BindView(R.id.forum_nr_rv)
     NRecyclerView forumragment_lv;
 
+    Map map;
     /*列表数据*/
     private ForumAdapter adapter;
-    private List<String> currentDatas = new ArrayList<String>();
-    private List<String> datas = new ArrayList<String>();
+    private List<Information> currentDatas = new ArrayList<>();
+    private List<Information> datas = new ArrayList<>();
     private int currentPage = 1;
     private int totalPages = 6;
     /*广告栏数据*/
@@ -72,8 +79,11 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
+        map = new HashMap();
         tvToolbarTitle.setText(getResources().getString(R.string.information));
-        initRV();
+        getInfor();
+
+
     }
 
     @Override
@@ -81,6 +91,21 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
         return R.layout.fragment_information;
     }
 
+    private void getInfor() {
+        map.clear();
+        map.put("type", "1");
+        NetworkRequests.GetRequests(getActivity(), Constant.FINDINFORMATIONS, map, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                Log.e("InformationFragment", jsonObject.toString());
+                if (jsonObject.optInt("resCode") == 0) {
+                    addpic(jsonObject.optJSONObject("resBody").optJSONArray("lists"));
+                }
+            }
+        });
+
+
+    }
 
     /*初始化新闻列表*/
     private void initRV() {
@@ -90,21 +115,24 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         forumragment_lv.setLayoutManager(layoutManager);
-        forumragment_lv.setOnRefreshAndLoadingListener(this);
+        //禁止刷新加载
+        //forumragment_lv.setOnRefreshAndLoadingListener(this);
         //设置广告
         adVentureView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(R.layout.forumragment_adventure_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         initVpager(adVentureView);
 
         forumragment_lv.setAdtureView(adVentureView);
-        // 设置底部提示
-        ViewGroup bottomView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(R.layout.bottom_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
-
-        forumragment_lv.setBottomView(bottomView);
+//        // 设置底部提示
+//        ViewGroup bottomView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(R.layout.bottom_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
+//
+//        forumragment_lv.setBottomView(bottomView);
         //设置数据
-        datas = Arrays.asList(getResources().getStringArray(R.array.data));
+//禁止上拉加载
+        forumragment_lv.setPullLoadEnable(false);
+        //禁止下拉刷新
+        forumragment_lv.setPullRefreshEnable(false);
 
-        addItems();
-        adapter = new ForumAdapter(currentDatas);
+        adapter = new ForumAdapter(datas);
         adapter.setmListener(new ForumAdapter.ItemClickListener() {
             @Override
             public void onItemClick(View view, int postion) {
@@ -118,6 +146,7 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
     }
 
 
+/*
     @Override
     public void refresh() {
         Log.e("-------refresh", "doInBackground");
@@ -153,8 +182,9 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
             }
         }.execute();
     }
+*/
 
-    @Override
+  /*  @Override
     public void load() {
         //上拉加载
         currentPage++;
@@ -175,7 +205,7 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
                 super.onPostExecute(integer);
                 Log.e("-------load", "onPostExecute");
                 if (currentPage >= totalPages) {
-                    /*没有更多数据*/
+                    *//*没有更多数据*//*
                     forumragment_lv.pullNoMoreEvent();
                 } else {
 
@@ -187,21 +217,71 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
 
             }
         }.execute();
-    }
+    }*/
 
-    private void addItems() {
+    private void addpic(JSONArray jsonArray) {
 
         List<String> strs = new ArrayList<>();
 
-        for (int i = (currentPage - 1) * 15; i < currentPage * 15; i++) {
-            strs.add(datas.get(i));
+//        for (int i = (currentPage - 1) * 15; i < currentPage * 15; i++) {
+//            strs.add(datas.get(i));
+//        }
+//
+//        if (forumragment_lv.isRefreshing())
+//            currentDatas = strs;
+//        else
+//            currentDatas.addAll(strs);
+        for (int i = 0; i < jsonArray.length(); i++) {
+            Information information = new Information();
+            JSONObject jsonObject = jsonArray.optJSONObject(i);
+            information.setContext(jsonObject.optString("informationContext"));
+            String pic = jsonObject.optString("topPic");
+            if (pic.indexOf("localhost") > 0)
+                information.setTopPic(pic.replace("localhost", "119.23.72.141"));
+            else if (pic.indexOf("127.0.0.1") > 0)
+                information.setTopPic(pic.replace("127.0.0.1", "119.23.72.141"));
+            else
+                information.setTopPic(pic);
+            Log.e("addItems", jsonObject.optString("topPic"));
+            information.setTitle(jsonObject.optString("informationTitle"));
+            information.setDate(jsonObject.optString("date"));
+            information.setType(jsonObject.optString("type"));
+            currentDatas.add(information);
         }
+        initRV();
+        map.clear();
+        map.put("type", "0");
+        NetworkRequests.GetRequests(getActivity(), Constant.FINDINFORMATIONS, map, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                Log.e("InformationFragment", jsonObject.toString());
+                if (jsonObject.optInt("resCode") == 0) {
+                    addItems(jsonObject.optJSONObject("resBody").optJSONArray("lists"));
+                }
 
-        if (forumragment_lv.isRefreshing())
-            currentDatas = strs;
-        else
-            currentDatas.addAll(strs);
+            }
+        });
+    }
 
+    private void addItems(JSONArray jsonArray) {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            Information information = new Information();
+            JSONObject jsonObject = jsonArray.optJSONObject(i);
+            information.setContext(jsonObject.optString("informationContext"));
+            String pic = jsonObject.optString("topPic");
+            if (pic.indexOf("localhost") > 0)
+                information.setTopPic(pic.replace("localhost", "119.23.72.141"));
+            else if (pic.indexOf("127.0.0.1") > 0)
+                information.setTopPic(pic.replace("127.0.0.1", "119.23.72.141"));
+            else
+                information.setTopPic(pic);
+            Log.e("addItems", jsonObject.optString("topPic"));
+            information.setTitle(jsonObject.optString("informationTitle"));
+            information.setDate(jsonObject.optString("date"));
+            information.setType(jsonObject.optString("type"));
+            datas.add(information);
+        }
+        adapter.setItems(datas);
     }
 
     /**
@@ -219,6 +299,7 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
             ViewPager.LayoutParams params = new ViewPager.LayoutParams();
             imgvsOfVpager[i].setScaleType(ImageView.ScaleType.FIT_XY);
             imgvsOfVpager[i].setImageResource(imgvsResId[i]);
+            MyApplication.newInstance().getmImageLoader().get(currentDatas.get(i).getTopPic(), imgvsOfVpager[i]);
             // 点
             pointvsOfVpager[i] = layout.findViewById(pointvsId[i]);
             pointvsOfVpager[i].setTag(i);
@@ -306,7 +387,7 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
                         % Integer.MAX_VALUE);
 
                 setVpagerAutoScroll();
-                Log.e("-----", "自动滚动");
+                //Log.e("-----", "自动滚动");
             }
         };
         handler.postDelayed(tempRun, 5000);
@@ -316,10 +397,10 @@ public class InformationFragment extends BaseFragment implements BaseLayout.Refr
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-         Log.e(TAG, "hidden:" + hidden);
-        if (hidden){
+        Log.e(TAG, "hidden:" + hidden);
+        if (hidden) {
             handler.removeCallbacks(tempRun);
-        }else {
+        } else {
             handler.postDelayed(tempRun, 5000);
         }
 
