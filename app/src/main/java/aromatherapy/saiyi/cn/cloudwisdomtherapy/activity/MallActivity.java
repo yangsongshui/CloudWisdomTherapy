@@ -7,8 +7,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Mall;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.view.MallGoodsPopupWindow;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.view.MallSharePopuoWindow;
 import butterknife.BindView;
@@ -33,10 +45,13 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
     TextView mallFactoryTv;
     @BindView(R.id.mall_introduce_tv)
     TextView mallIntroduceTv;
-    @BindView(R.id.mall_describe_tv)
-    TextView mallDescribeTv;
+
     MallSharePopuoWindow mallSharePopuoWindow;
     MallGoodsPopupWindow mallGoodsPopupWindow;
+    Mall mall;
+    boolean isJoin = false;
+    Map<String, String> mMap;
+    Toastor toastor;
 
     @Override
     protected int getContentView() {
@@ -45,8 +60,13 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        mMap = new HashMap<>();
+        mall = (Mall) getIntent().getSerializableExtra("mall");
+        toastor = new Toastor(this);
         mallSharePopuoWindow = new MallSharePopuoWindow(this, this);
         mallGoodsPopupWindow = new MallGoodsPopupWindow(this, this);
+        initView();
+
     }
 
     @OnClick({R.id.mall_service_tv, R.id.mall_share_tv, R.id.mall_join_tv, R.id.mall_purchase_tv, R.id.mall_back_iv})
@@ -55,21 +75,37 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
             case R.id.mall_service_tv:
                 break;
             case R.id.mall_share_tv:
-                //显示窗口
+                //分享
                 mallSharePopuoWindow.showAtLocation(MallActivity.this.findViewById(R.id.activity_mall), Gravity.BOTTOM, 0, 0); //设置layout在PopupWindow中显示的位;
                 break;
             case R.id.mall_join_tv:
-                //显示窗口
+                //加入购物车
+                isJoin = false;
                 mallGoodsPopupWindow.showAtLocation(MallActivity.this.findViewById(R.id.activity_mall), Gravity.BOTTOM, 0, 0); //设置layout在PopupWindow中显示的位;
                 break;
             case R.id.mall_purchase_tv:
-                //显示窗口
+                //立即购买
+                isJoin = true;
                 mallGoodsPopupWindow.showAtLocation(MallActivity.this.findViewById(R.id.activity_mall), Gravity.BOTTOM, 0, 0); //设置layout在PopupWindow中显示的位;
                 break;
             case R.id.mall_back_iv:
                 finish();
                 break;
         }
+    }
+
+    private void initView() {
+        MyApplication.newInstance().getmImageLoader().get(mall.getPicture(), mallGoodsIv);
+        mallNameTv.setText(mall.getName());
+
+        mallFactoryTv.setText(mall.getProductionFactory());
+        mallMoneyTv.setText(mall.getPrice());
+        mallOriginalTv.setText(mall.getPurchase_price());
+        mallIntroduceTv.setText(mall.getDescribe());
+        MyApplication.newInstance().getmImageLoader().get(mall.getPicture(), mallGoodsPopupWindow.getPop_pic_iv());
+        mallGoodsPopupWindow.getPop_standard_tv().setText(mall.getStandard());
+        mallGoodsPopupWindow.getPop_rmb_tv().setText(mall.getPrice());
+        mallGoodsPopupWindow.getPop_type_tv().setText(mall.getGoogsType());
     }
 
     @Override
@@ -82,8 +118,26 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
             case R.id.mall_friend_tv:
                 break;
             case R.id.pop_confirm_tv:
-                startActivity(new Intent(this,ConfirmActivity.class));
+                if (isJoin)
+                    startActivity(new Intent(this, ConfirmActivity.class));
+                else
+                    addCart();
                 break;
         }
+    }
+
+    private void addCart() {
+        mMap.clear();
+        String phone = MyApplication.newInstance().getUser().getPhone();
+        mMap.put("phoneNumber", phone);
+        mMap.put("commodityNo", mall.getID());
+        mMap.put("num", mallGoodsPopupWindow.getNum()+"");
+        mMap.put("price",(Double.parseDouble(mall.getPrice())*mallGoodsPopupWindow.getNum())+"" );
+        NetworkRequests.GetRequests(this, Constant.ADDSHOPPINGCAR, mMap, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                Log.e("jsonListener", jsonObject.toString());
+            }
+        });
     }
 }

@@ -71,6 +71,7 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
 
         shoppingCartAllCb.setText(getResources().getString(R.string.shopping_cart_select));
         initList();
+        getCart();
     }
 
     @Override
@@ -203,6 +204,18 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
         mMap.put("list", jsonArray.toString().trim());
         Log.e("JSONObject", jsonArray.toString().trim());
         NetworkRequests.GetRequests(getActivity(), Constant.DELETESHOPPINGCAR, mMap, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                Log.e("jsonListener", jsonObject.toString());
+            }
+        });
+    }
+
+    private void getCart() {
+        mMap.clear();
+        String phone = MyApplication.newInstance().getUser().getPhone();
+        mMap.put("phoneNumber", phone);
+        NetworkRequests.GetRequests(getActivity(), Constant.FINDSHOPPINGCAR, mMap, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("jsonListener", jsonObject.toString());

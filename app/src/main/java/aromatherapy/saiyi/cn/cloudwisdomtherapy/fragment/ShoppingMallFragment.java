@@ -107,7 +107,7 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
                 Log.e("上一次选中", tab.getPosition() + "");
             }
         });
-
+        getMall("100");
     }
 
     @Override
@@ -184,7 +184,7 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
         NetworkRequests.GetRequests(getActivity(), Constant.FINDCOMMODITYS, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
-                Log.e("jsonListener", jsonObject.toString());
+                Log.e("ShoppingMallFragment", jsonObject.toString());
                 if (jsonObject.optInt("resCode") == 0) {
                     getItem(jsonObject.optJSONObject("resBody").optJSONArray("lists"));
                 }
@@ -215,9 +215,10 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
             mall.setPicture(jsonObject.optString("commodityPic"));
             mall.setStandard(jsonObject.optString("specifications"));
             mall.setProductionFactory(jsonObject.optString("productionFactory"));
-            mall.setDescribe(jsonObject.optString("productionFactory"));
+            mall.setDescribe(jsonObject.optString("discountMsg"));
             mList.add(mall);
         }
+        adapter.setItems(mList);
     }
 
 }

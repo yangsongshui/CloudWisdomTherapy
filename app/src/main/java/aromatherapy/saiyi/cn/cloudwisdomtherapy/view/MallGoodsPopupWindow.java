@@ -95,4 +95,28 @@ public class MallGoodsPopupWindow extends PopupWindow {
     public int getNum() {
         return num;
     }
+
+    public ImageView getPop_pic_iv() {
+        return pop_pic_iv;
+    }
+
+    public TextView getPop_rmb_tv() {
+        return pop_rmb_tv;
+    }
+
+    public TextView getPop_inventory_tv() {
+        return pop_inventory_tv;
+    }
+
+    public TextView getPop_type_tv() {
+        return pop_type_tv;
+    }
+
+    public TextView getPop_standard_tv() {
+        return pop_standard_tv;
+    }
+
+
+
+
 }

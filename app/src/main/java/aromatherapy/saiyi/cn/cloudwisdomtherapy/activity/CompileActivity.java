@@ -215,6 +215,7 @@ public class CompileActivity extends BaseActivity {
         NetworkRequests.GetRequests(this, Constant.UPDATEUSER, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
+
                 Log.e("CompileActivity", jsonObject.toString());
                 user.setPic(jsonObject.optJSONObject("resBody").optString("headPic"));
                 MyApplication.newInstance().setUser(user);

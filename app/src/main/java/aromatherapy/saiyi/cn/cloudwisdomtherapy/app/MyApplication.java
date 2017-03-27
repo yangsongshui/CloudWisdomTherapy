@@ -31,7 +31,7 @@ public class MyApplication extends Application {
 
     {
         PlatformConfig.setWeixin("wx815938a2f5f56950", "eb8b6aaf7817ac50e35e53d2c935a1dd");
-        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setQQZone("1106054062", "baJD32yKJU57p5kx");
         Config.DEBUG = true;
     }
 

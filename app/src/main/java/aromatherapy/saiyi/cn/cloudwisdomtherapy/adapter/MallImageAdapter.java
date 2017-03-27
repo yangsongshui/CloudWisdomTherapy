@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Mall;
 
@@ -46,8 +47,9 @@ public class MallImageAdapter extends RecyclerView.Adapter<MallImageAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        //holder.merchandise_name_tv.setText(images.get(position));
 
+        Mall mall = images.get(position);
+        holder.merchandise_name_tv.setText(mall.getName());
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,8 +58,9 @@ public class MallImageAdapter extends RecyclerView.Adapter<MallImageAdapter.View
                 }
             }
         });
-        //MyApplication.newInstance().getmImageLoader().get(images.get(position),holder.iv);
-
+        MyApplication.newInstance().getmImageLoader().get(mall.getPicture(), holder.iv);
+        holder.merchandise_price_tv.setText(mall.getPrice());
+        holder.merchandise_original_price_tv.setText(mall.getPurchase_price());
     }
 
     @Override

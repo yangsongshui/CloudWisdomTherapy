@@ -24,7 +24,8 @@ public class NetworkRequests {
 
     public static void GetRequests(final Context context, final String url, final Map<String, String> map, final JsonDataReturnListener jsonListener) {
         initViw(context);
-        progressDialog.show();
+        if (!progressDialog.isShowing())
+            progressDialog.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -32,8 +33,9 @@ public class NetworkRequests {
                 mQueue.add(new NormalPostRequest(url, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonObject) {
-                        jsonListener.jsonListener(jsonObject);
                         progressDialog.dismiss();
+                        jsonListener.jsonListener(jsonObject);
+
 
                     }
                 }, new Response.ErrorListener() {
