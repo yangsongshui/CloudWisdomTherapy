@@ -70,6 +70,10 @@ public class Constant {
      **/
     public static final String FINDADDRESS = BASE_URL + "/findAddress";
     /**
+     * 修改收货地址
+     **/
+    public static final String UPDATEADDRESS = BASE_URL + "/updateAddress";
+    /**
      * 更改默认地址
      **/
     public static final String UPDATEADDRESSDEFAULT = BASE_URL + "/updateAddressDefault";

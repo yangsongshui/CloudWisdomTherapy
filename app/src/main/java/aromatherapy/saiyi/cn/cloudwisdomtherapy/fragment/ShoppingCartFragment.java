@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.MainActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.ShoppingCartAdapter;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
@@ -51,6 +52,8 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
     TextView shopping_cart_settlement_tv;
     @BindView(R.id.shopping_cart_mall_cb)
     CheckBox shopping_cart_mall_cb;
+    @BindView(R.id.shopping_cart_all_rl)
+    RelativeLayout shopping_cart_all_rl;
     private List<Commodity> mList;
     private ShoppingCartAdapter adapter;
     private boolean complete = false;
@@ -88,6 +91,8 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
         switch (view.getId()) {
             case R.id.shopping_cart_go_tv:
                 //去逛逛按钮
+                MainActivity mainActivity = (MainActivity) getActivity();
+                mainActivity.setFragment(1);
                 break;
             case R.id.shopping_cart_settlement_tv:
                 //结算按钮
@@ -118,10 +123,6 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
     }
 
     private void initList() {
-        mList.add(new Commodity("大力丸", "保健品", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", true));
-        mList.add(new Commodity("无上神丹", "药品", "http://img.my.csdn.net/uploads/201407/26/1406383291_6518.jpg", false));
-        mList.add(new Commodity("无上神水", "药品", "http://img.my.csdn.net/uploads/201407/26/1406383291_8239.jpg", true));
-
         adapter = new ShoppingCartAdapter(getActivity(), mList);
         adapter.setOnItemCheckListener(this);
         shoppingCartGoodsRv.setItemAnimator(new DefaultItemAnimator());
@@ -145,7 +146,7 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
     public void onitemCheck(View view, boolean isCheck, int position) {
 
         mList.get(position).setChoice(isCheck);
-        Log.e("onClick", isChecked);
+        Log.e("onitemCheck", position + "  " + isCheck);
         isChecked();
 
 
@@ -156,21 +157,30 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
         mList.get(position).setNum(num + "");
     }
 
+    boolean isAll = false;
+
     private void isChecked() {
         for (int i = 0; i < mList.size(); i++) {
-            if (!mList.get(i).isChoice()) {
-                shopping_cart_mall_cb.setChecked(false);
-                shoppingCartAllCb.setChecked(false);
-                isChecked = true;
-                return;
-            } else {
+            Log.e("isChecked", mList.get(i).isChoice());
+            if (mList.get(i).isChoice()) {
                 isChecked = false;
-                if (i == (mList.size() - 1)) {
-                    shopping_cart_mall_cb.setChecked(true);
-                    shoppingCartAllCb.setChecked(true);
-                }
+                isAll = true;
+
+            } else {
+                isAll = false;
+                isChecked = true;
+                break;
             }
 
+        }
+        Log.e("isChecked", isAll);
+        if (isAll) {
+            shopping_cart_mall_cb.setChecked(true);
+            shoppingCartAllCb.setChecked(true);
+        } else {
+            Log.e("isChecked", isAll);
+            shopping_cart_mall_cb.setChecked(false);
+            shoppingCartAllCb.setChecked(false);
         }
     }
 
@@ -207,6 +217,9 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("jsonListener", jsonObject.toString());
+                if (jsonObject.optInt("resCode") == 0) {
+                    getCart();
+                }
             }
         });
     }
@@ -218,36 +231,65 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
         NetworkRequests.GetRequests(getActivity(), Constant.FINDSHOPPINGCAR, mMap, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
+                getItem(jsonObject.optJSONObject("resBody").optJSONArray("lists"));
                 Log.e("jsonListener", jsonObject.toString());
             }
         });
+    }
+
+    private void getItem(JSONArray jsonArray) {
+        mList.clear();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.optJSONObject(i);
+            Commodity commodity = new Commodity();
+            commodity.setID(jsonObject.optString("commodityNo"));
+            commodity.setName(jsonObject.optString("commodityName"));
+            commodity.setPicture(jsonObject.optString("commodityPic"));
+            commodity.setPurchase_price(jsonObject.optString("originalPrice"));
+            commodity.setPrice(jsonObject.optString("discountPrice"));
+            commodity.setNum(jsonObject.optString("num"));
+            commodity.setStandard(jsonObject.optString("specifications"));
+            commodity.setChoice(false);
+            if (jsonObject.optString("type").equals("0")) {
+                commodity.setType("美白牙齿");
+            } else if (jsonObject.optString("type").equals("1")) {
+                commodity.setType("妇儿保健");
+            } else if (jsonObject.optString("type").equals("2")) {
+                commodity.setType("疼痛健康");
+            } else if (jsonObject.optString("type").equals("3")) {
+                commodity.setType("养生家居");
+            }
+            mList.add(commodity);
+        }
+        if (mList.size() > 0) {
+            adapter.setItems(mList);
+            shopping_cart_all_rl.setVisibility(View.VISIBLE);
+            shoppingCartNullLl.setVisibility(View.GONE);
+            tv_toolbar_right.setVisibility(View.VISIBLE);
+        } else {
+            shopping_cart_all_rl.setVisibility(View.GONE);
+            tv_toolbar_right.setVisibility(View.GONE);
+            shoppingCartNullLl.setVisibility(View.VISIBLE);
+        }
     }
 
     private void completeCart() {
-        String phone = MyApplication.newInstance().getUser().getPhone();
-        JSONArray jsonArray = new JSONArray();
-        for (int i = 0; i < mList.size(); i++) {
-            if (mList.get(i).isChoice()) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("commodityID", mList.get(i).getID());
-                    jsonObject.put("num", mList.get(i).getNum());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                jsonArray.put(jsonObject);
-            }
-        }
 
-        mMap.put("list", jsonArray.toString().trim());
-        mMap.put("orderer", phone);
-        Log.e("JSONObject", jsonArray.toString().trim());
-        NetworkRequests.GetRequests(getActivity(), Constant.INSERTORDER, mMap, new JsonDataReturnListener() {
-            @Override
-            public void jsonListener(JSONObject jsonObject) {
-                Log.e("jsonListener", jsonObject.toString());
-            }
-        });
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Log.e("onHiddenChanged", "hidden:" + hidden);
+        if (!hidden) {
+            getCart();
+            tv_toolbar_right.setText(getResources().getString(R.string.shopping_cart_edit));
+            shopping_cart_settlement_tv.setText(getResources().getString(R.string.shopping_cart_settlement));
+            adapter.setConceal(false);
+            complete = true;
+
+        }
+
+
+    }
 }

@@ -48,7 +48,14 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHoad
         Address address = mList.get(position);
         holder.address_phone_tv.setText(address.getPhone());
         holder.address_username_tv.setText(address.getName());
-        holder.details_address_tv.setText(address.getAddress());
+        String city = address.getSheng();
+        if ("北京".equals(city) || "上海".equals(city) || "天津".equals(city) || "重庆".equals(city) || "澳门".equals(city) || "香港".equals(city)) {
+            holder.details_address_tv.setText(address.getShi() + address.getQu() + address.getAddress());
+        } else {
+            holder.details_address_tv.setText(city + address.getShi() + address.getQu() + address.getAddress());
+        }
+
+
         holder.address_default_tv.setChecked(address.isDefa());
 
         if (address.isDefa()) {

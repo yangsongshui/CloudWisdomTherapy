@@ -118,9 +118,11 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
             case R.id.mall_friend_tv:
                 break;
             case R.id.pop_confirm_tv:
-                if (isJoin)
-                    startActivity(new Intent(this, ConfirmActivity.class));
-                else
+                mallGoodsPopupWindow.dismiss();
+                if (isJoin) {
+                    mall.setNum(mallGoodsPopupWindow.getNum() + "");
+                    startActivity(new Intent(this, ConfirmActivity.class).putExtra("mall", mall));
+                } else
                     addCart();
                 break;
         }
@@ -131,8 +133,8 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
         String phone = MyApplication.newInstance().getUser().getPhone();
         mMap.put("phoneNumber", phone);
         mMap.put("commodityNo", mall.getID());
-        mMap.put("num", mallGoodsPopupWindow.getNum()+"");
-        mMap.put("price",(Double.parseDouble(mall.getPrice())*mallGoodsPopupWindow.getNum())+"" );
+        mMap.put("num", mallGoodsPopupWindow.getNum() + "");
+        mMap.put("price", (Double.parseDouble(mall.getPrice()) * mallGoodsPopupWindow.getNum()) + "");
         NetworkRequests.GetRequests(this, Constant.ADDSHOPPINGCAR, mMap, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {

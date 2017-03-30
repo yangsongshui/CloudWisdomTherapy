@@ -52,12 +52,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         Commodity commodity = data.get(position);
         holder.cart_item_name_tv.setText(commodity.getName());
         holder.cart_item_type_tv.setText("类型:" + commodity.getType());
+        holder.cart_item_edit_type.setText("类型:" + commodity.getType());
+        holder.cart_item_standard_tv.setText("规格:" + commodity.getStandard());
+        holder.cart_item_edit_standard.setText("规格:" + commodity.getStandard());
+
         MyApplication.newInstance().getmImageLoader().get(commodity.getPicture(), holder.cart_item_pic_iv);
         SpannableStringBuilder spannableString = new SpannableStringBuilder();
-        //spannableString.append("¥"+commodity.getPurchase_price());
-        spannableString.append("¥12.66");
+        spannableString.append("¥" + commodity.getPurchase_price());
         StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
-        spannableString.setSpan(strikethroughSpan, 0, 6, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
+        spannableString.setSpan(strikethroughSpan, 0, (commodity.getPurchase_price().length() + 1), Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
         holder.cart_item_purchase_price_tv.setText(spannableString);
         if (isConceal) {
             holder.cart_item_information_ll.setVisibility(View.GONE);
@@ -66,25 +69,27 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
             holder.cart_item_information_ll.setVisibility(View.VISIBLE);
             holder.cart_item_edit_ll.setVisibility(View.GONE);
         }
-       // holder.num_tv.setText(commodity.getNum());
-        //holder.cart_item_num_tv.setText(commodity.getNum());
+        holder.num_tv.setText(commodity.getNum());
+        holder.cart_item_price_tv.setText("¥" + commodity.getPrice());
+        holder.cart_item_num_tv.setText(commodity.getNum());
+        holder.cart_item_choice_cb.setChecked(commodity.isChoice());
         holder.cart_item_choice_cb.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (onItemCheckListener != null)
-                            onItemCheckListener.onitemCheck(v, data.get(position).isChoice(), position);
+                            onItemCheckListener.onitemCheck(v, holder.cart_item_choice_cb.isChecked(), position);
                     }
                 }
         );
-        holder.cart_item_choice_cb.setChecked(commodity.isChoice());
+
         holder.jia_button_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int num = Integer.parseInt(holder.num_tv.getText().toString());
                 num++;
-                holder.cart_item_num_tv.setText("×"+num);
-                holder.num_tv.setText(""+num);
+                holder.cart_item_num_tv.setText("×" + num);
+                holder.num_tv.setText("" + num);
                 if (onItemCheckListener != null)
                     onItemCheckListener.onNumCheck(v, num, position);
             }
@@ -96,7 +101,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 num--;
                 if (num == 0)
                     num = 1;
-                holder.cart_item_num_tv.setText("×"+num);
+                holder.cart_item_num_tv.setText("×" + num);
                 holder.num_tv.setText(num + "");
                 if (onItemCheckListener != null)
                     onItemCheckListener.onNumCheck(v, num, position);
@@ -114,7 +119,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         private CheckBox cart_item_choice_cb;
         private ImageView cart_item_pic_iv, jia_button_tv, jian_button_iv;
         private TextView cart_item_name_tv, cart_item_type_tv, cart_item_standard_tv,
-                cart_item_price_tv, cart_item_purchase_price_tv, cart_item_num_tv,num_tv;
+                cart_item_price_tv, cart_item_purchase_price_tv, cart_item_num_tv, num_tv, cart_item_edit_type, cart_item_edit_standard;
         private LinearLayout cart_item_information_ll;
         private LinearLayout cart_item_edit_ll;
 
@@ -122,9 +127,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
             super(itemView);
             cart_item_choice_cb = (CheckBox) itemView.findViewById(R.id.cart_item_choice_cb);
             cart_item_pic_iv = (ImageView) itemView.findViewById(R.id.cart_item_pic_iv);
+            cart_item_pic_iv = (ImageView) itemView.findViewById(R.id.cart_item_pic_iv);
             jia_button_tv = (ImageView) itemView.findViewById(R.id.jia_button_tv);
             jian_button_iv = (ImageView) itemView.findViewById(R.id.jian_button_iv);
             cart_item_name_tv = (TextView) itemView.findViewById(R.id.cart_item_name_tv);
+            cart_item_edit_type = (TextView) itemView.findViewById(R.id.cart_item_edit_type);
+            cart_item_edit_standard = (TextView) itemView.findViewById(R.id.cart_item_edit_standard);
             num_tv = (TextView) itemView.findViewById(R.id.num_tv);
             cart_item_type_tv = (TextView) itemView.findViewById(R.id.cart_item_type_tv);
             cart_item_standard_tv = (TextView) itemView.findViewById(R.id.cart_item_standard_tv);

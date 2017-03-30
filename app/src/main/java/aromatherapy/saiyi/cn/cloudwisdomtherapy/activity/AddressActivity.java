@@ -9,15 +9,26 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.AddressAdapter;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnCheckedListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnViewClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Address;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -34,6 +45,9 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
     AddressAdapter adapter;
     List<Address> mList;
 
+    Map<String, String> mMap;
+    Toastor toastor;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_address;
@@ -41,8 +55,11 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        mMap = new HashMap<>();
+        toastor = new Toastor(this);
         initToolbar();
         initRecyclerView();
+
     }
 
     private void initToolbar() {
@@ -54,9 +71,7 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
 
     private void initRecyclerView() {
         mList = new ArrayList<>();
-        mList.add(new Address("张三", "32165498710", "不知道省市不知道街道不知道号", true));
-        mList.add(new Address("张三", "32165498710", "不知道省市不知道街道不知道号", false));
-        mList.add(new Address("张三", "32165498710", "不知道省市不知道街道不知道号", false));
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         address_rv.setLayoutManager(layoutManager);
@@ -70,9 +85,10 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
     @Override
     public void OnViewClick(View view, int position, int type) {
         if (type == 1) {
-
+            //删除收货地址
         } else if (type == 0) {
-
+            //编辑收货地址
+            startActivity(new Intent(this, AddLocationActivity.class).putExtra("address", mList.get(position)));
         }
     }
 
@@ -115,7 +131,75 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        addCart();
+    }
+
+    @Override
     public void onViewChecked(View buttonView, int position) {
         setDefault(position);
+        setDefaul(mList.get(position).getID());
+    }
+
+    private void addCart() {
+        mMap.clear();
+        String phone = MyApplication.newInstance().getUser().getPhone();
+
+        mMap.put("phoneNumber", phone);
+        NetworkRequests.GetRequests(this, Constant.FINDADDRESS, mMap, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                Log.e("jsonListener", jsonObject.toString());
+                if (jsonObject.optInt("resCode") == 0)
+                    getItem(jsonObject.optJSONObject("resBody").optJSONArray("lists"));
+            }
+        });
+
+    }
+
+    private void setDefaul(String id) {
+        mMap.clear();
+        String phone = MyApplication.newInstance().getUser().getPhone();
+
+        mMap.put("phoneNumber", phone);
+        mMap.put("id", id);
+        NetworkRequests.GetRequests(this, Constant.UPDATEADDRESSDEFAULT, mMap, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                Log.e("jsonListener", jsonObject.toString());
+
+            }
+        });
+    }
+
+    boolean isDefaul = false;
+
+    private void getItem(JSONArray jsonArray) {
+        mList.clear();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.optJSONObject(i);
+            Address address = new Address();
+            address.setAddress(jsonObject.optString("consigneeAddress"));
+            address.setID(jsonObject.optString("id"));
+            address.setSheng(jsonObject.optString("sheng"));
+            address.setShi(jsonObject.optString("shi"));
+            address.setQu(jsonObject.optString("qu"));
+            address.setPhone(jsonObject.optString("consigneePhone"));
+            address.setName(jsonObject.optString("consignee"));
+            address.setMail(jsonObject.optString("mail"));
+            if (jsonObject.optString("defaultAddress").equals("0")) {
+                isDefaul = true;
+                address.setDefa(true);
+            } else {
+                address.setDefa(false);
+            }
+
+            mList.add(address);
+
+        }
+        if (!isDefaul && mList.size() > 0)
+            mList.get(0).setDefa(true);
+        adapter.setmList(mList);
     }
 }

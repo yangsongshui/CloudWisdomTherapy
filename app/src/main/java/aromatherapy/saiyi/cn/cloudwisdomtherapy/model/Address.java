@@ -5,11 +5,16 @@ import java.io.Serializable;
 /**
  * Created by Administrator on 2017/2/23.
  */
-public class Address implements Serializable{
+public class Address implements Serializable {
+    private String ID;
     private String name;
     private String phone;
+    private String sheng;
+    private String shi;
+    private String qu;
     private String address;
-
+    private boolean defa;
+    private String mail;
     public Address() {
     }
 
@@ -52,5 +57,44 @@ public class Address implements Serializable{
         this.defa = defa;
     }
 
-    private boolean defa;
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getSheng() {
+        return sheng;
+    }
+
+    public void setSheng(String sheng) {
+        this.sheng = sheng;
+    }
+
+    public String getShi() {
+        return shi;
+    }
+
+    public void setShi(String shi) {
+        this.shi = shi;
+    }
+
+    public String getQu() {
+        return qu;
+    }
+
+    public void setQu(String qu) {
+        this.qu = qu;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 }

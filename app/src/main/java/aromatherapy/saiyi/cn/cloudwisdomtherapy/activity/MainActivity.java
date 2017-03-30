@@ -31,6 +31,7 @@ public class MainActivity extends BaseActivity {
     private Fragment[] frags = new Fragment[5];
     protected BaseFragment currentFragment;
     private InformationFragment informationFragment;
+
     @Override
     protected int getContentView() {
         return R.layout.activity_main;
@@ -75,7 +76,7 @@ public class MainActivity extends BaseActivity {
 
     private void initData() {
         if (informationFragment == null) {
-            informationFragment =new InformationFragment();
+            informationFragment = new InformationFragment();
         }
 
         if (!informationFragment.isAdded()) {
@@ -85,6 +86,10 @@ public class MainActivity extends BaseActivity {
             currentFragment = informationFragment;
         }
 
+    }
+
+    public void setFragment(int indext) {
+        bottomNavigation.setCurrentItem(indext, true);
     }
 
     private void initListener() {
