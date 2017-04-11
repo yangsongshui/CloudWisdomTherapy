@@ -1,11 +1,16 @@
-//noinspection GradleCompatible
-//noinspection GradleCompatible
-//noinspection GradleCompatible
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
+    signingConfigs {
+        Myandroid {
+            keyAlias 'Android'
+            keyPassword 'qq362927657'
+            storeFile file('/Users/yangsong/Downloads/MyApp.jks')
+            storePassword 'qq362927657'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion '23.0.0'
     sourceSets {
@@ -20,15 +25,15 @@ android {
         versionCode 1
         versionName "1.0"
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-
+    dexOptions {
+        preDexLibraries = false
+    }
 }
 task clean(type: Delete) {
     delete rootProject.buildDir
@@ -61,7 +66,6 @@ dependencies {
     compile 'com.zhy:base-rvadapter:3.0.3'
     compile 'dev.dworks.libs:volleyplus:+'
     compile 'com.contrarywind:Android-PickerView:3.0.8'
-    compile project(':easeui')
     compile files('libs/SocialSDK_QQ_Simplify.jar')
     compile files('libs/SocialSDK_WeChat_Simplify.jar')
     compile files('libs/umeng_social_api.jar')

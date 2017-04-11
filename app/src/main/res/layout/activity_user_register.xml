@@ -59,7 +59,6 @@
                 android:orientation="vertical">
 
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -122,17 +121,20 @@
                         android:textColor="@color/colorPrimary" />
                 </RelativeLayout>
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/gray_90" />
+
                 <LinearLayout
+                    android:id="@+id/registered_psw_ll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/gray_90" />
 
                     <EditText
                         android:id="@+id/registered_psw_et"
@@ -152,6 +154,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/registered_psw_ll2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -295,8 +298,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="28dp"
             android:layout_marginTop="5dp"
-            android:textSize="12sp"
-            android:text="@string/register_agreement" />
+            android:text="@string/register_agreement"
+            android:textSize="12sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

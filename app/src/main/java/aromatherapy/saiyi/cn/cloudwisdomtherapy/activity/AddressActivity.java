@@ -23,6 +23,7 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnCheckedListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnViewClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Address;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
@@ -32,7 +33,7 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class AddressActivity extends BaseActivity implements OnViewClickListener, OnCheckedListener {
+public class AddressActivity extends BaseActivity implements OnViewClickListener, OnCheckedListener, OnItemClickListener {
     @BindView(R.id.toolbar_left_iv)
     ImageView toolbar_left_iv;
     @BindView(R.id.tv_toolbar_title)
@@ -47,6 +48,7 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
 
     Map<String, String> mMap;
     Toastor toastor;
+    boolean isAddress = false;
 
     @Override
     protected int getContentView() {
@@ -55,6 +57,7 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        isAddress = getIntent().getBooleanExtra("address", false);
         mMap = new HashMap<>();
         toastor = new Toastor(this);
         initToolbar();
@@ -78,6 +81,8 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
         adapter = new AddressAdapter(mList, this);
         adapter.setOnViewClickListener(this);
         adapter.setOnCheckedListener(this);
+        if (isAddress)
+            adapter.setOnItemClickListener(this);
         address_rv.setAdapter(adapter);
 
     }
@@ -86,6 +91,7 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
     public void OnViewClick(View view, int position, int type) {
         if (type == 1) {
             //删除收货地址
+            deleteAddress(mList.get(position).getID());
         } else if (type == 0) {
             //编辑收货地址
             startActivity(new Intent(this, AddLocationActivity.class).putExtra("address", mList.get(position)));
@@ -201,5 +207,31 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
         if (!isDefaul && mList.size() > 0)
             mList.get(0).setDefa(true);
         adapter.setmList(mList);
+    }
+
+    @Override
+    public void onItemClick(View holder, int position) {
+        Intent intent = new Intent();
+        Address address = mList.get(position);
+        intent.putExtra("return", address);
+        setResult(2, intent);
+        finish();
+    }
+
+    private void deleteAddress(final String id) {
+        mMap.clear();
+
+        mMap.put("id", id);
+        NetworkRequests.GetRequests(this, Constant.DELETEADDRESS, mMap, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                Log.e("jsonListener", jsonObject.toString());
+                toastor.showSingletonToast(jsonObject.optString("resMessage"));
+                if (jsonObject.optInt("resCode") == 0) {
+                    addCart();
+                }
+
+            }
+        });
     }
 }

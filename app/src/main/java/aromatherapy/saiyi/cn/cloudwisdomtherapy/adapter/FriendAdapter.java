@@ -28,6 +28,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
+
     public FriendAdapter(List<User> mList) {
         this.mList = mList;
     }
@@ -42,12 +43,12 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader
     public void onBindViewHolder(ViewHoader holder, final int position) {
         User user = mList.get(position);
         holder.friend_name_tv.setText(user.getName());
-        //holder.friend_address_tv.setText(user.getAddress());
+        holder.friend_address_tv.setText(user.getAddress());
         if (user.getType() == 1) {
             holder.friend_hospital_ll.setVisibility(View.VISIBLE);
             holder.friend_authentication_iv.setVisibility(View.VISIBLE);
-            //holder.friend_hospital_tv.setText(user.getHospital());
-            //holder.friend_department_tv.setText(user.getDepartment());
+            holder.friend_hospital_tv.setText(user.getHospital());
+            holder.friend_department_tv.setText(user.getDepartment());
         } else if (user.getType() == 0) {
             holder.friend_hospital_ll.setVisibility(View.GONE);
             holder.friend_authentication_iv.setVisibility(View.GONE);
@@ -56,8 +57,8 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader
         holder.friend_item_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onItemClickListener!=null)
-                    onItemClickListener.onItemClick(v,position);
+                if (onItemClickListener != null)
+                    onItemClickListener.onItemClick(v, position);
             }
         });
     }
@@ -73,7 +74,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader
         private CircleImageView friend_pic_cv;
         private TextView friend_name_tv, friend_hospital_tv, friend_department_tv, friend_address_tv;
         private ImageView friend_sex_tv, friend_authentication_iv;
-        private LinearLayout friend_hospital_ll,friend_item_ll;
+        private LinearLayout friend_hospital_ll, friend_item_ll;
 
         public ViewHoader(View itemView) {
             super(itemView);
@@ -88,5 +89,11 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader
             friend_item_ll = (LinearLayout) itemView.findViewById(R.id.friend_item_ll);
 
         }
+    }
+
+    public void setmList(List<User> list) {
+
+        this.mList = list;
+        this.notifyDataSetChanged();
     }
 }

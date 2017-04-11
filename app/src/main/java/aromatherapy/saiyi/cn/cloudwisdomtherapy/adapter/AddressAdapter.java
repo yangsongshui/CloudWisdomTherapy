@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnCheckedListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnViewClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Address;
 
@@ -23,6 +25,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHoad
     Context context;
     OnViewClickListener onViewClickListener;
     OnCheckedListener onCheckedListener;
+    OnItemClickListener onItemClickListener;
 
     public void setOnCheckedListener(OnCheckedListener onCheckedListener) {
         this.onCheckedListener = onCheckedListener;
@@ -30,6 +33,10 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHoad
 
     public void setOnViewClickListener(OnViewClickListener onViewClickListener) {
         this.onViewClickListener = onViewClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     public AddressAdapter(List<Address> mList, Context context) {
@@ -86,6 +93,13 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHoad
                     onCheckedListener.onViewChecked(v, position);
             }
         });
+        holder.address_item_ll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null)
+                    onItemClickListener.onItemClick(v, position);
+            }
+        });
     }
 
     @Override
@@ -98,7 +112,7 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHoad
 
         private CheckBox address_default_tv;
         private TextView address_username_tv, address_phone_tv, details_address_tv, address_edit_tv, address_delete_tv;
-
+        private LinearLayout address_item_ll;
 
         public ViewHoader(View itemView) {
             super(itemView);
@@ -109,6 +123,8 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHoad
             details_address_tv = (TextView) itemView.findViewById(R.id.details_address_tv);
             address_edit_tv = (TextView) itemView.findViewById(R.id.address_edit_tv);
             address_delete_tv = (TextView) itemView.findViewById(R.id.address_delete_tv);
+            address_item_ll = (LinearLayout) itemView.findViewById(R.id.address_item_ll);
+
         }
     }
 

@@ -77,29 +77,5 @@ public class Toastor {
         getSingletonToast(text).show();
     }
 
-    public void showSingleLongToast(int resId) {
-        getSingleLongToast(resId).show();
-    }
-
-
-    public void showSingleLongToast(String text) {
-        getSingleLongToast(text).show();
-    }
-
-    public void showToast(int resId) {
-        getToast(resId).show();
-    }
-
-    public void showToast(String text) {
-        getToast(text).show();
-    }
-
-    public void showLongToast(int resId) {
-        getLongToast(resId).show();
-    }
-
-    public void showLongToast(String text) {
-        getLongToast(text).show();
-    }
 
 }

@@ -17,6 +17,7 @@ public class RegisterActivity extends BaseActivity {
     TextView tvToolbarTitle;
     @BindView(R.id.toolbar_left_iv)
     ImageView toolbar_left_iv;
+    String type="";
 
     @Override
     protected int getContentView() {
@@ -37,7 +38,7 @@ public class RegisterActivity extends BaseActivity {
                 finish();
             }
         });
-
+        type = getIntent().getStringExtra("type");
     }
 
 
@@ -45,11 +46,11 @@ public class RegisterActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.register_user_iv:
-                startActivity(new Intent(this, UserRegisterActivity.class).putExtra("type", 2));
+                startActivity(new Intent(this, UserRegisterActivity.class).putExtra("type", type+2));
                 finish();
                 break;
             case R.id.register_doctor_iv:
-                startActivity(new Intent(this, UserRegisterActivity.class).putExtra("type", 1));
+                startActivity(new Intent(this, UserRegisterActivity.class).putExtra("type", type+1));
                 finish();
                 break;
         }

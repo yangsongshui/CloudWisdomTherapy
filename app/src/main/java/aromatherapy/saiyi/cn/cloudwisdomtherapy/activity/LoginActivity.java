@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareConfig;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.json.JSONObject;
@@ -57,7 +58,9 @@ public class LoginActivity extends BaseActivity {
         toastor = new Toastor(this);
         tvToolbarTitle.setText(getResources().getString(R.string.login));
         map = new HashMap<>();
-
+        UMShareConfig config = new UMShareConfig();
+        config.isNeedAuthOnGetUserInfo(true);
+        mShareAPI.get(LoginActivity.this).setShareConfig(config);
     }
 
 
@@ -84,7 +87,7 @@ public class LoginActivity extends BaseActivity {
             case R.id.login_wechat_iv:
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 //微信登陆
-                //mShareAPI.getPlatformInfo(LoginActivity.this, SHARE_MEDIA.WEIXIN, umAuthListener);
+                mShareAPI.getPlatformInfo(LoginActivity.this, SHARE_MEDIA.WEIXIN, umAuthListener);
                 break;
         }
     }
@@ -129,7 +132,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+        mShareAPI.onActivityResult(requestCode, resultCode, data);
 
     }
 
@@ -146,19 +149,18 @@ public class LoginActivity extends BaseActivity {
                 Log.e("-----", "QQ" + "key= " + key + " and value= " + data.get(key));
             }
             if (platform.equals(SHARE_MEDIA.QQ)) {
-                if (data.get("screen_name") != null) {
-
+                if (data.get("uid") != null) {
                     Log.e("-----", data.get("openid"));
-                    Log.e("-----", data.get("screen_name"));
-
+                    Log.e("-----", data.get("uid"));
+                    getPlatformInfd(data.get("uid"));
                 } else {
                     mShareAPI.getPlatformInfo(LoginActivity.this, platform, umAuthListener);
                 }
 
             } else if (platform.equals(SHARE_MEDIA.WEIXIN) || platform.equals(SHARE_MEDIA.WEIXIN_CIRCLE) || platform.equals(SHARE_MEDIA.WEIXIN_FAVORITE)) {
 
-                if (data.get("nickname") != null) {
-
+                if (data.get("uid") != null) {
+                    getPlatformInfd(data.get("uid"));
                 } else {
                     mShareAPI.getPlatformInfo(LoginActivity.this, platform, umAuthListener);
                 }
@@ -188,4 +190,41 @@ public class LoginActivity extends BaseActivity {
             }
         }
     };
+
+    private void getPlatformInfd(String uid) {
+        map.clear();
+        map.put("openID", uid);
+        NetworkRequests.GetRequests(this, Constant.THIRDLOGIN, map, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                Log.e("LoginActivity", jsonObject.toString());
+                if (jsonObject.optInt("resCode") == 0) {
+                    toastor.showSingletonToast(jsonObject.optString("resMessage"));
+                    JSONObject object = jsonObject.optJSONObject("resBody");
+                    User user = new User();
+                    user.setAddress(object.optString("city"));
+                    user.setSex(object.optString("sex"));
+                    user.setBirthday(object.optString("birthday"));
+                    user.setHeight(object.optString("height"));
+                    user.setPhone(object.optString("phoneNumber"));
+                    user.setPic(object.optString("headPic"));
+                    user.setWidth(object.optString("weight"));
+                    user.setHospital(object.optString("hospital"));
+                    user.setDepartment(object.optString("consultingRoom"));
+                    user.setName(object.optString("nickName"));
+                    user.setPsw("");
+                    if (object.optInt("checkStatu") == 1)
+                        user.setType(1);
+                    else
+                        user.setType(2);
+                    MyApplication.newInstance().setUser(user);
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                }else {
+                    //注册
+                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class).putExtra("type", "3"));
+                }
+            }
+        });
+    }
 }

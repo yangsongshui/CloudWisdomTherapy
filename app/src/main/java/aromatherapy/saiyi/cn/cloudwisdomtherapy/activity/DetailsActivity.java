@@ -82,7 +82,7 @@ public class DetailsActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
         indent = (Indent) getIntent().getSerializableExtra("indent");
         toolbar_left_iv.setVisibility(View.VISIBLE);
-        if (indent.getType().equals("1")) {
+        if (indent.getState()==1) {
             tv_toolbar_title.setText(getResources().getString(R.string.details_title2));
          detailsOutTv.setVisibility(View.GONE);
         } else {

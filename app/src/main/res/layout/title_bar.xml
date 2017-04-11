@@ -5,6 +5,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
+    android:layout_alignParentTop="true"
     android:background="?attr/colorPrimary"
     android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -12,8 +13,8 @@
         android:id="@+id/toolbar_left_iv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:src="@drawable/btn_backzt" />
+        android:src="@drawable/btn_backzt"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_toolbar_title"
@@ -30,10 +31,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:gravity="center"
-        android:visibility="gone"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="权限" />
+        android:text="权限"
+        android:visibility="gone" />
 
 
 </android.support.v7.widget.Toolbar>

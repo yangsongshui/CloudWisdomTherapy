@@ -54,7 +54,7 @@
     <string name="me_product">产品介绍</string>
     <string name="me_install">设置</string>
     <!--购物车-->
-    <string name="shopping_cart_add">添加</string>
+    <string name="shopping_cart_add">新好友</string>
     <string name="shopping_cart_msg">你的购物车空空如也</string>
     <string name="shopping_cart_go">去逛逛</string>
     <string name="shopping_cart_settlement">结算</string>

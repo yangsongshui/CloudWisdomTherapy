@@ -8,8 +8,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.cache.DiskLruBasedCache;
 import com.android.volley.cache.SimpleImageLoader;
 import com.android.volley.toolbox.Volley;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.easeui.controller.EaseUI;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
@@ -52,9 +50,9 @@ public class MyApplication extends Application {
         DiskLruBasedCache.ImageCacheParams cacheParams = new DiskLruBasedCache.ImageCacheParams(getApplicationContext(), "CacheDirectory");
         cacheParams.setMemCacheSizePercent(0.5f);
         mImageLoader = new SimpleImageLoader(getApplicationContext(), cacheParams);
-        EaseUI.getInstance().init(instance, null);
+       // EaseUI.getInstance().init(instance, null);
         UMShareAPI.get(this);
-        EMClient.getInstance().setDebugMode(true);
+        //EMClient.getInstance().setDebugMode(true);
 
 
     }

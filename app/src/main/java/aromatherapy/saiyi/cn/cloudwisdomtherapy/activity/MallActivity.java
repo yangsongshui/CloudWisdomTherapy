@@ -6,9 +6,17 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -105,15 +113,28 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
         MyApplication.newInstance().getmImageLoader().get(mall.getPicture(), mallGoodsPopupWindow.getPop_pic_iv());
         mallGoodsPopupWindow.getPop_standard_tv().setText(mall.getStandard());
         mallGoodsPopupWindow.getPop_rmb_tv().setText(mall.getPrice());
-        mallGoodsPopupWindow.getPop_type_tv().setText(mall.getGoogsType());
+        mallGoodsPopupWindow.getPop_type_tv().setText(mall.getType());
+
     }
 
     @Override
     public void onClick(View v) {
+        UMImage image = new UMImage(this, mall.getPicture());
         switch (v.getId()) {
             case R.id.mall_QQ_tv:
+
+                new ShareAction(MallActivity.this).setPlatform(SHARE_MEDIA.QQ)
+                        .withText("hello")
+                        .withMedia(image)
+                        .setCallback(umShareListener)
+                        .share();
                 break;
             case R.id.mall_weixin_iv:
+
+                new ShareAction(MallActivity.this).setPlatform(SHARE_MEDIA.WEIXIN)
+                        .withText("hello")
+                        .setCallback(umShareListener)
+                        .share();
                 break;
             case R.id.mall_friend_tv:
                 break;
@@ -121,7 +142,13 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
                 mallGoodsPopupWindow.dismiss();
                 if (isJoin) {
                     mall.setNum(mallGoodsPopupWindow.getNum() + "");
-                    startActivity(new Intent(this, ConfirmActivity.class).putExtra("mall", mall));
+                    int num = mallGoodsPopupWindow.getNum();
+                    double price = Double.parseDouble(mall.getPrice());
+                    mall.setTotalPrice((price * num));
+                    ArrayList<Mall> malls = new ArrayList<>();
+                    malls.add(mall);
+
+                    startActivity(new Intent(this, ConfirmActivity.class).putExtra("list", malls));
                 } else
                     addCart();
                 break;
@@ -142,4 +169,39 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Log.d("plat", "platform" + platform);
+
+            Toast.makeText(MallActivity.this, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(MallActivity.this, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+            if (t != null) {
+                Log.d("throw", "throw:" + t.getMessage());
+            }
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(MallActivity.this, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+        }
+    };
 }

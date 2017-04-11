@@ -9,16 +9,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.MyInformationActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.NewFriendActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.FriendAdapter;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.User;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.view.MyDecoration;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -33,13 +44,14 @@ public class FriendFragment extends BaseFragment implements OnItemClickListener 
     RecyclerView recyclerMagicView;
     List<User> mList;
     FriendAdapter adapter;
+    Map<String, String> map;
+    Toastor toastor;
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
         mList = new ArrayList<>();
-        mList.add(new User("华佗再世", "http://img.my.csdn.net/uploads/201407/26/1406382922_6166.jpg", "12365478901", 1));
-        mList.add(new User("华佗再世", "http://img.my.csdn.net/uploads/201407/26/1406382923_8437.jpg", "12365478901", 0));
-        mList.add(new User("华佗再世", "http://img.my.csdn.net/uploads/201407/26/1406382900_2418.jpg", "12365478901", 1));
+        map = new HashMap<>();
+        toastor = new Toastor(getActivity());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerMagicView.setLayoutManager(layoutManager);
@@ -47,6 +59,7 @@ public class FriendFragment extends BaseFragment implements OnItemClickListener 
         adapter.setOnItemClickListener(this);
         recyclerMagicView.setAdapter(adapter);
         recyclerMagicView.addItemDecoration(new MyDecoration(getActivity(), MyDecoration.VERTICAL_LIST));
+        getUser();
     }
 
     @Override
@@ -64,5 +77,48 @@ public class FriendFragment extends BaseFragment implements OnItemClickListener 
     @Override
     public void onItemClick(View holder, int position) {
         startActivity(new Intent(getActivity(), MyInformationActivity.class));
+    }
+
+    private void getUser() {
+        map.clear();
+        String phone = MyApplication.newInstance().getUser().getPhone();
+        map.put("userID", phone);
+        NetworkRequests.GetRequests(getActivity(), Constant.FINDFRIENDS, map, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                if (jsonObject.optInt("resCode") == 0) {
+                        getItem(jsonObject.optJSONObject("resBody").optJSONArray("lists"));
+                }
+                Log.e("CompileActivity", jsonObject.toString());
+
+            }
+        });
+    }
+
+    private void getItem(JSONArray jsonArray) {
+        mList.clear();
+        if (jsonArray.length() > 0)
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.optJSONObject(i);
+                User user = new User();
+                user.setName(jsonObject.optString("nickName"));
+                user.setPhone(jsonObject.optString("phoneNumber"));
+                user.setSex(jsonObject.optString("sex"));
+                user.setAddress(jsonObject.optString("city"));
+                user.setBirthday(jsonObject.optString("birthday"));
+                user.setHeight(jsonObject.optString("height"));
+                user.setWidth(jsonObject.optString("weight"));
+                user.setPic(jsonObject.optString("headPic"));
+
+                if (jsonObject.optInt("role") == 1) {
+                    user.setType(1);
+                    user.setHospital(jsonObject.optString("hospital"));
+                    user.setDepartment(jsonObject.optString("consultingRoom"));
+                } else {
+                    user.setType(0);
+                }
+                mList.add(user);
+            }
+        adapter.setmList(mList);
     }
 }

@@ -17,6 +17,7 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.MD5;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
@@ -126,8 +127,8 @@ public class ForgetPasswordActivity extends BaseActivity {
                         //用户注册
                         map.clear();
                         map.put("phoneNumber", phone);
-                        map.put("passWord", psw);
-                        NetworkRequests.GetRequests(this, Constant.REGISTER, map, new JsonDataReturnListener() {
+                        map.put("passWord", MD5.getMD5(psw));
+                        NetworkRequests.GetRequests(this, Constant.UPDATEPWD, map, new JsonDataReturnListener() {
                             @Override
                             public void jsonListener(JSONObject jsonObject) {
                                 Log.e("jsonListener", jsonObject.toString());

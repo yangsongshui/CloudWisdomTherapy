@@ -14,7 +14,7 @@ public class Mall extends Commodity implements Serializable {
     private String productionFactory;//厂家
     private String GoogsType;
     private List<String> picList;
-
+    private double  TotalPrice;
 
     public Mall(String name, String type, String picture, String describe, int sold, int inventory) {
         super(name, type, picture);
@@ -71,5 +71,13 @@ public class Mall extends Commodity implements Serializable {
 
     public void setPicList(List<String> picList) {
         this.picList = picList;
+    }
+
+    public double getTotalPrice() {
+        return TotalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        TotalPrice = totalPrice;
     }
 }

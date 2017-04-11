@@ -202,13 +202,13 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
             mall.setPrice(jsonObject.optString("discountPrice"));
             mall.setID(jsonObject.optString("id"));
             if (jsonObject.optString("type").equals("0")) {
-                mall.setGoogsType("美白牙齿");
+                mall.setType("美白牙齿");
             } else if (jsonObject.optString("type").equals("1")) {
-                mall.setGoogsType("妇儿保健");
+                mall.setType("妇儿保健");
             } else if (jsonObject.optString("type").equals("2")) {
-                mall.setGoogsType("疼痛健康");
+                mall.setType("疼痛健康");
             } else if (jsonObject.optString("type").equals("3")) {
-                mall.setGoogsType("养生家居");
+                mall.setType("养生家居");
             }
 
             mall.setPurchase_price(jsonObject.optString("originalPrice"));

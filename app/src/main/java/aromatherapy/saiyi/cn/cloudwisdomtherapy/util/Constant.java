@@ -13,6 +13,10 @@ public class Constant {
      **/
     public static final String LOGIN = BASE_URL + "/login";
     /**
+     * 第三方登陆
+     **/
+    public static final String THIRDLOGIN = BASE_URL + "/thirdLogin";
+    /**
      * 注册
      **/
     public static final String REGISTER = BASE_URL + "/register";
@@ -46,17 +50,29 @@ public class Constant {
      **/
     public static final String FINDSHOPPINGCAR = BASE_URL + "/findShoppingCar";
     /**
+     * 修改购物车信息
+     **/
+    public static final String UPDATESHOPPINGCAR = BASE_URL + "/updateShoppingCar";
+    /**
      * 添加好友
      **/
     public static final String ADDFRIEND = BASE_URL + "/addFriend";
+    /**
+     * 查找好友
+     **/
+    public static final String FINDFRIENDS = BASE_URL + "/findFriends";
     /**
      * 添加订单
      **/
     public static final String INSERTORDER = BASE_URL + "/insertOrder";
     /**
-     * 查询订单
+     * 查询订单信息
      **/
     public static final String FINDORDER = BASE_URL + "/findOrder";
+    /**
+     * 查询所有订单
+     **/
+    public static final String FINDALLORDER = BASE_URL + "/findAllOrder";
     /**
      * 添加收货地址
      **/
@@ -81,6 +97,16 @@ public class Constant {
      * 投诉与建议
      **/
     public static final String INSERTSUGGEST = BASE_URL + "/insertSuggest";
-
-
+    /**
+     * 验证用户
+     * */
+    public static final String FINDUSERROLE = BASE_URL + "/findUserRole";
+    /**
+     * 修改订单状态
+     * */
+    public static final String UPDATEORDERSTATU = BASE_URL + "/updateOrderStatu";
+    /**
+     * 查询默认地址
+     * */
+    public static final String FINDDEFAULTADD = BASE_URL + "/findDefaultAdd";
 }

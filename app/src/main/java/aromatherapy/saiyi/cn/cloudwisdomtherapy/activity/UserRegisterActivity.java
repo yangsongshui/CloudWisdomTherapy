@@ -61,6 +61,10 @@ public class UserRegisterActivity extends BaseActivity {
     LinearLayout registerVerificationLl;
     @BindView(R.id.registered_getcoed_tv)
     TextView registered_getcoed_tv;
+    @BindView(R.id.registered_psw_ll2)
+    LinearLayout registered_psw_ll2;
+    @BindView(R.id.registered_psw_ll)
+    LinearLayout registered_psw_ll;
 
     @BindView(R.id.tv_toolbar_title)
     TextView tvToolbarTitle;
@@ -81,7 +85,7 @@ public class UserRegisterActivity extends BaseActivity {
 
     private String CODE = "";
     Toastor toasr;
-    private int type = -1;
+    private String type = "";
     Map<String, String> map;
     private CountDownTimer timer;
 
@@ -94,7 +98,7 @@ public class UserRegisterActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
         map = new HashMap<>();
         toasr = new Toastor(this);
-        type = getIntent().getIntExtra("type", -1);
+        type = getIntent().getStringExtra("type");
         initToolbar();
         initView();
         timer = new CountDownTimer(60 * 1000, 1000) {
@@ -125,17 +129,22 @@ public class UserRegisterActivity extends BaseActivity {
     }
 
     private void initView() {
-        if (type == 2) {
+        if (type.equals("2") || type.equals("32")) {
             tvToolbarTitle.setText(getResources().getString(R.string.register_user));
             registerVerificationLl.setVisibility(View.GONE);
             registeredHospitalLl.setVisibility(View.GONE);
             registeredConsultingRoomLl.setVisibility(View.GONE);
-        } else if (type == 1) {
+        } else if (type.equals("1") || type.equals("31")) {
             tvToolbarTitle.setText(getResources().getString(R.string.register_doctor));
             registerVerificationLl.setVisibility(View.VISIBLE);
             registeredHospitalLl.setVisibility(View.VISIBLE);
             registeredConsultingRoomLl.setVisibility(View.VISIBLE);
         }
+        if (type.equals("31") || type.equals("32")) {
+            registered_psw_ll2.setVisibility(View.GONE);
+            registered_psw_ll.setVisibility(View.GONE);
+        }
+
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         spannableStringBuilder.append(getResources().getString(R.string.register_doctor_verification));
         //设置字体大小
@@ -196,12 +205,22 @@ public class UserRegisterActivity extends BaseActivity {
                 }
                 break;
             case R.id.register_complete_tv:
-                registerUser();
+
+                if (type.equals("2") || type.equals("1")) {
+                    registerUser(type);
+                } else {
+                    if (type.equals("31"))
+                        registerUser("1");
+                    else if (type.equals("32"))
+                        registerUser("2");
+                }
+
                 break;
         }
     }
 
-    private void registerUser() {
+
+    private void registerUser(String type) {
         String psw = registeredPswEt.getText().toString().trim();
         String psw2 = registeredPsw2Et.getText().toString().trim();
         String phone = registered_phone_et.getText().toString().trim();
@@ -211,16 +230,22 @@ public class UserRegisterActivity extends BaseActivity {
         String consultingRoom = registeredConsultingRoomEt.getText().toString().trim();
         if (phone.length() == 11) {
             if (CODE.equals(code)) {
-                if (psw.length() >= 6 && psw.length() <= 16) {
-                    if (psw.equals(psw2)) {
+                if ((psw.length() >= 6 && psw.length() <= 16) || this.type.length() == 2) {
+                    if (psw.equals(psw2) || this.type.length() == 2) {
                         if (name.length() > 0) {
                             //用户注册
                             map.clear();
                             map.put("phoneNumber", phone);
-                            map.put("passWord", MD5.getMD5(psw));
-                            map.put("role", type + "");
+                            if (this.type.length() == 1) {
+                                map.put("passWord", MD5.getMD5(psw));
+                                map.put("isThird", "0");
+                            } else if (this.type.length() == 2) {
+                                map.put("passWord", "");
+                                map.put("isThird", "1");
+                            }
+
+                            map.put("role", type);
                             map.put("nickName", name);
-                            map.put("isThird", "0");
                             //医生注册
                             if (photo2 != null && photo1 != null && photo3 != null) {
                                 map.put("checkPicByte1", photo1);

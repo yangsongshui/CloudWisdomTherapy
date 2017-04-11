@@ -1,19 +1,16 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
-import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Indent;
 
@@ -43,43 +40,32 @@ public class IndentAdapter extends RecyclerView.Adapter<IndentAdapter.ViewHoader
     @Override
     public void onBindViewHolder(ViewHoader holder, final int position) {
         Indent indent = mList.get(position);
-        holder.indent_item_name_tv.setText(indent.getName());
-        MyApplication.newInstance().getmImageLoader().get(indent.getPicture(), holder.indent_item_pic_iv);
-        holder.indent_item_num_tv.setText(indent.getNum());
-        holder.indent_item_purchase_price_tv.setText(indent.getPurchase_price());
-        holder.indent_item_price_tv.setText(indent.getPrice());
-        holder.indent_item_type_tv.setText(indent.getType());
+        IndentMallAdapter mallAdapter = new IndentMallAdapter(indent.getMalls(), context);
         holder.indent_item_total_tv.setText(indent.getTotal());
-        holder.indent_item_standard_tv.setText(indent.getStandard());
+        holder.indent_mall_lv.setAdapter(mallAdapter);
         if (indent.getState() == 1) {
             //待付款
-            holder.indent_item_confirm_bt.setVisibility(View.GONE);
-            holder.indent_item_payment_bt.setVisibility(View.VISIBLE);
-            holder.indent_item_logistics_bt.setVisibility(View.GONE);
+            holder.indent_item_confirm_tv.setVisibility(View.GONE);
+            holder.indent_item_payment_tv.setVisibility(View.VISIBLE);
+            holder.indent_item_logistics_tv.setVisibility(View.GONE);
         } else if (indent.getState() == 3) {
             //已发货
-            holder.indent_item_confirm_bt.setVisibility(View.VISIBLE);
-            holder.indent_item_payment_bt.setVisibility(View.GONE);
-            holder.indent_item_logistics_bt.setVisibility(View.VISIBLE);
+            holder.indent_item_confirm_tv.setVisibility(View.VISIBLE);
+            holder.indent_item_payment_tv.setVisibility(View.GONE);
+            holder.indent_item_logistics_tv.setVisibility(View.VISIBLE);
         } else if (indent.getState() == 4) {
             //已确认
 
             //确认收货
-            holder.indent_item_confirm_bt.setVisibility(View.GONE);
+            holder.indent_item_confirm_tv.setVisibility(View.GONE);
             //代付款按钮
-            holder.indent_item_payment_bt.setVisibility(View.GONE);
+            holder.indent_item_payment_tv.setVisibility(View.GONE);
             //物流信息按钮
-            holder.indent_item_logistics_bt.setVisibility(View.VISIBLE);
+            holder.indent_item_logistics_tv.setVisibility(View.VISIBLE);
 
         } else if (indent.getState() == 2) {
             //待发货
         }
-        holder.indent_item_ll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onItemClick(v, position);
-            }
-        });
     }
 
     @Override
@@ -90,33 +76,18 @@ public class IndentAdapter extends RecyclerView.Adapter<IndentAdapter.ViewHoader
     public class ViewHoader extends RecyclerView.ViewHolder {
 
 
-        private ImageView indent_item_pic_iv;
-        private TextView indent_item_name_tv, indent_item_purchase_price_tv, indent_item_price_tv,
-                indent_item_type_tv, indent_item_standard_tv, indent_item_num_tv, indent_item_total_tv,
-                indent_item_payment_bt, indent_item_logistics_bt, indent_item_confirm_bt, intent_rmb_tv;
-
-        private LinearLayout indent_item_ll;
+        private TextView indent_item_total_tv, indent_item_payment_tv, indent_item_logistics_tv, indent_item_confirm_tv;
+        private ListView indent_mall_lv;
 
         public ViewHoader(View itemView) {
             super(itemView);
 
-            indent_item_ll = (LinearLayout) itemView.findViewById(R.id.indent_item_ll);
 
-            indent_item_pic_iv = (ImageView) itemView.findViewById(R.id.indent_item_pic_iv);
-            indent_item_name_tv = (TextView) itemView.findViewById(R.id.indent_item_name_tv);
-            indent_item_purchase_price_tv = (TextView) itemView.findViewById(R.id.indent_item_purchase_price_tv);
-            intent_rmb_tv = (TextView) itemView.findViewById(R.id.intent_rmb_tv);
-            indent_item_purchase_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            intent_rmb_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            indent_item_price_tv = (TextView) itemView.findViewById(R.id.indent_item_price_tv);
-            indent_item_type_tv = (TextView) itemView.findViewById(R.id.indent_item_type_tv);
-            indent_item_standard_tv = (TextView) itemView.findViewById(R.id.indent_item_standard_tv);
+            indent_item_payment_tv = (TextView) itemView.findViewById(R.id.indent_item_payment_tv);
+            indent_item_logistics_tv = (TextView) itemView.findViewById(R.id.indent_item_logistics_tv);
+            indent_item_confirm_tv = (TextView) itemView.findViewById(R.id.indent_item_confirm_tv);
             indent_item_total_tv = (TextView) itemView.findViewById(R.id.indent_item_total_tv);
-            indent_item_num_tv = (TextView) itemView.findViewById(R.id.indent_item_num_tv);
-            indent_item_payment_bt = (TextView) itemView.findViewById(R.id.indent_item_payment_tv);
-            indent_item_logistics_bt = (TextView) itemView.findViewById(R.id.indent_item_logistics_tv);
-            indent_item_confirm_bt = (TextView) itemView.findViewById(R.id.indent_item_confirm_tv);
-
+           // indent_mall_lv = (ListView) itemView.findViewById(R.id.indent_mall_lv);
 
         }
     }

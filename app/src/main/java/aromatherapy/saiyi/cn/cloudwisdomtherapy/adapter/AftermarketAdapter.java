@@ -49,10 +49,10 @@ public class AftermarketAdapter extends RecyclerView.Adapter<AftermarketAdapter.
         holder.aftermarket_purchase_price_tv.setText(aftermarket.getPurchase_price());
         holder.aftermarket_price_tv.setText(aftermarket.getPrice());
         holder.aftermarket_type_tv.setText(aftermarket.getType());
-        holder.aftermarket_total_tv.setText(aftermarket.getTotal());
+       // holder.aftermarket_total_tv.setText(aftermarket.getTotal());
         holder.aftermarket_standard_tv.setText(aftermarket.getStandard());
         holder.aftermarket_reimburse_tv.setText(aftermarket.getReimburse());
-        if (aftermarket.getState() == 5) {
+ /*       if (aftermarket.getState() == 5) {
             holder.aftermarket_state_tv.setText(context.getResources().getString(R.string.aftermarket_state1));
         } else if (aftermarket.getState() == 6) {
             holder.aftermarket_state_tv.setText(context.getResources().getString(R.string.aftermarket_state2));
@@ -60,7 +60,7 @@ public class AftermarketAdapter extends RecyclerView.Adapter<AftermarketAdapter.
             holder.aftermarket_state_tv.setText(context.getResources().getString(R.string.aftermarket_state3));
         } else if (aftermarket.getState() == 8) {
 
-        }
+        }*/
         holder.aftermarket_item_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

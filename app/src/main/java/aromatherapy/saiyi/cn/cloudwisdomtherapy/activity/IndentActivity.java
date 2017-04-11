@@ -1,50 +1,59 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hr.nipuream.NRecyclerView.view.NRecyclerView;
-import com.hr.nipuream.NRecyclerView.view.base.BaseLayout;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.IndentAdapter;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.NestFullListViewAdapter;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
-import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Address;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Indent;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Mall;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.view.NestFullListView;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.view.NestFullViewHolder;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAndLoadingListener, OnItemClickListener {
+public class IndentActivity extends BaseActivity implements AdapterView.OnItemClickListener {
     @BindView(R.id.tv_toolbar_title)
     TextView tvToolbarTitle;
     @BindView(R.id.toolbar_left_iv)
     ImageView toolbar_left_iv;
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
-    @BindView(R.id.recyclerMagicView)
-    NRecyclerView recyclerMagicView;
+    /* @BindView(R.id.indent_mall_lv)
+     RecyclerView indent_mall_lv;*/
     @BindView(R.id.indent_cart_go_ll)
     LinearLayout indent_cart_go_ll;
-
+    @BindView(R.id.cstFullShowListView)
+    NestFullListView nestFullListView;
     IndentAdapter adapter;
     List<Indent> mList;
     Map<String, List<Indent>> mMap;
+    Map<String, String> map;
+    Toastor toastor;
 
     @Override
     protected int getContentView() {
@@ -54,16 +63,25 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
     @Override
     protected void init(Bundle savedInstanceState) {
         initTab();
+        map = new HashMap<>();
+        toastor = new Toastor(this);
         mList = new ArrayList<>();
         mMap = new HashMap<>();
+        List<Mall> malls = new ArrayList<>();
+        malls.add(new Mall());
+        malls.add(new Mall());
+        malls.add(new Mall());
+        mList.add(new Indent(0, "326", malls, new Address()));
+        mList.add(new Indent(0, "312", malls, new Address()));
+        mList.add(new Indent(0, "321", malls, new Address()));
         if (mList.size() > 0) {
             indent_cart_go_ll.setVisibility(View.GONE);
-            recyclerMagicView.setVisibility(View.VISIBLE);
+            nestFullListView.setVisibility(View.VISIBLE);
         } else {
             indent_cart_go_ll.setVisibility(View.VISIBLE);
-            recyclerMagicView.setVisibility(View.GONE);
+            nestFullListView.setVisibility(View.GONE);
         }
-        initRecyclerView();
+        initeListView();
         tvToolbarTitle.setText(getResources().getString(R.string.me_order));
         toolbar_left_iv.setVisibility(View.VISIBLE);
         toolbar_left_iv.setOnClickListener(new View.OnClickListener() {
@@ -96,19 +114,19 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
                 Log.i("选中了", tab.getPosition() + "");
                 switch (tab.getPosition()) {
                     case 0:
-                        adapter.setmList(mMap.get("0"));
+                        getIndent("8");
                         break;
                     case 1:
-                        adapter.setmList(mMap.get("1"));
+                        getIndent("0");
                         break;
                     case 2:
-                        adapter.setmList(mMap.get("2"));
+                        getIndent("1");
                         break;
                     case 3:
-                        adapter.setmList(mMap.get("3"));
+                        getIndent("2");
                         break;
                     case 4:
-                        adapter.setmList(mMap.get("4"));
+                        getIndent("3");
                         break;
 
                     default:
@@ -116,10 +134,10 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
                 }
                 if (mList.size() > 0) {
                     indent_cart_go_ll.setVisibility(View.GONE);
-                    recyclerMagicView.setVisibility(View.VISIBLE);
+                    nestFullListView.setVisibility(View.VISIBLE);
                 } else {
                     indent_cart_go_ll.setVisibility(View.VISIBLE);
-                    recyclerMagicView.setVisibility(View.GONE);
+                    nestFullListView.setVisibility(View.GONE);
                 }
             }
 
@@ -138,86 +156,62 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
 
     }
 
-    private void initRecyclerView() {
-        mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 1, "24.80"));
-        mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 2, "10.00"));
-        mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 3, "15.00"));
-        mMap.put("0", mList);
-        mList.clear();
-        mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 1, "24.80"));
-        mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 1, "10.00"));
-        mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 1, "15.00"));
-        mMap.put("1", mList);
-        mList.clear();
-        mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 4, "24.80"));
-        mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 4, "10.00"));
-        mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 4, "15.00"));
-        mMap.put("4", mList);
-        mList.clear();
-        mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 2, "24.80"));
-        mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 2, "10.00"));
-        mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 2, "15.00"));
-        mMap.put("2", mList);
-        mList.clear();
-        mList.add(new Indent("大力丸", "http://img.my.csdn.net/uploads/201407/26/1406383299_1976.jpg", "保健品", "3g*20粒", "12.40", "18.80", "2", 3, "24.80"));
-        mList.add(new Indent("无上神丹", "http://img.my.csdn.net/uploads/201407/26/1406383219_5806.jpg", "药品", "1g*20粒", "10.00", "12.80", "1", 3, "10.00"));
-        mList.add(new Indent("无上神水", "http://img.my.csdn.net/uploads/201407/26/1406383242_3127.jpg", "药品", "0.5g*20粒", "5.00", "7.80", "3", 3, "15.00"));
-        mMap.put("3", mList);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerMagicView.setLayoutManager(layoutManager);
-        recyclerMagicView.setOnRefreshAndLoadingListener(this);
-        //禁止上拉加载
-        //recyclerMagicView.setPullLoadEnable(false);
-        //禁止下拉刷新
-        recyclerMagicView.setPullRefreshEnable(false);
-        // 设置底部提示
-        ViewGroup bottomView = (ViewGroup) LayoutInflater.from(this).inflate(R.layout.bottom_layout, (ViewGroup) this.findViewById(android.R.id.content), false);
+    /* private void initRecyclerView() {
 
-        recyclerMagicView.setBottomView(bottomView);
-        adapter = new IndentAdapter(mList, this);
-        recyclerMagicView.setAdapter(adapter);
-        recyclerMagicView.setTotalPages(5);
-        adapter.setListener(this);
+         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+         indent_mall_lv.setLayoutManager(layoutManager);
+         adapter = new IndentAdapter(mList, this);
+         indent_mall_lv.setAdapter(adapter);
 
 
-    }
-
-    @Override
-    public void refresh() {
-        //上拉刷新
-    }
-
-    @Override
-    public void load() {
-        //下来加载
-        new AsyncTask<Void, Void, Integer>() {
+     }
+ */
+    private void initeListView() {
+        nestFullListView.setAdapter(new NestFullListViewAdapter<Indent>(R.layout.indent_item, mList) {
             @Override
-            protected Integer doInBackground(Void... params) {
-                Log.e("-------load", "doInBackground");
-                try {
-                    TimeUnit.SECONDS.sleep(3);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return 1;
-            }
+            public void onBind(int pos, Indent indent, NestFullViewHolder holder) {
 
-            @Override
-            protected void onPostExecute(Integer integer) {
-                super.onPostExecute(integer);
-                Log.e("-------load", "onPostExecute");
-                if (mList.size() > 5) {
-                    //没有更多数据
-                    recyclerMagicView.pullNoMoreEvent();
-                } else {
 
-                    //关闭加载圆形进度条
-                    recyclerMagicView.endLoadingMore();
+                if (indent.getState() == 1) {
+                    //待付款
+                    holder.getView(R.id.indent_item_confirm_tv).setVisibility(View.GONE);
+                    holder.getView(R.id.indent_item_payment_tv).setVisibility(View.VISIBLE);
+                    holder.getView(R.id.indent_item_logistics_tv).setVisibility(View.GONE);
+                } else if (indent.getState() == 3) {
+                    //已发货
+
+                    holder.getView(R.id.indent_item_confirm_tv).setVisibility(View.VISIBLE);
+                    holder.getView(R.id.indent_item_payment_tv).setVisibility(View.GONE);
+                    holder.getView(R.id.indent_item_logistics_tv).setVisibility(View.VISIBLE);
+                } else if (indent.getState() == 4) {
+                    //已确认
+
+                    holder.getView(R.id.indent_item_confirm_tv).setVisibility(View.GONE);
+                    holder.getView(R.id.indent_item_payment_tv).setVisibility(View.GONE);
+                    holder.getView(R.id.indent_item_logistics_tv).setVisibility(View.VISIBLE);
+
+                } else if (indent.getState() == 2) {
+                    //待发货
                 }
 
+                ((NestFullListView) holder.getView(R.id.cstFullShowListView2)).setAdapter(new NestFullListViewAdapter<Mall>(R.layout.indent_mall_item, indent.getMalls()) {
+                    @Override
+                    public void onBind(int pos, Mall mall, NestFullViewHolder holder) {
+                        ImageView indent_item_pic_iv = holder.getView(R.id.indent_item_pic_iv);
+                        TextView intent_rmb_tv = holder.getView(R.id.intent_rmb_tv);
+                        holder.getView(R.id.indent_item_name_tv);
+                        holder.getView(R.id.indent_item_price_tv);
+                        holder.getView(R.id.indent_item_type_tv);
+                        holder.getView(R.id.indent_item_standard_tv);
+                        TextView indent_item_purchase_price_tv = holder.getView(R.id.indent_item_purchase_price_tv);
+                        holder.getView(R.id.indent_item_num_tv);
+                        indent_item_purchase_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        intent_rmb_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                    }
+                });
             }
-        }.execute();
+        });
     }
 
     @OnClick(R.id.indent_cart_go_tv)
@@ -225,8 +219,46 @@ public class IndentActivity extends BaseActivity implements BaseLayout.RefreshAn
         finish();
     }
 
+
+    private void getIndent(String type) {
+        map.clear();
+        String phone = MyApplication.newInstance().getUser().getPhone();
+        map.put("userID", phone);
+        map.put("orderStatu", type);
+        NetworkRequests.GetRequests(this, Constant.FINDALLORDER, map, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                if (jsonObject.optInt("resCode") == 0) {
+                    getItem(jsonObject.optJSONObject("resBody").optJSONArray("list"));
+                }
+                Log.e("CompileActivity", jsonObject.toString());
+
+            }
+        });
+    }
+
+    private void getItem(JSONArray jsonArray) {
+        mList.clear();
+        if (jsonArray.length() > 0)
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.optJSONObject(i);
+                Indent indent = new Indent();
+
+
+                mList.add(indent);
+            }
+        // adapter.setmList(mList);
+    }
+
     @Override
-    public void onItemClick(View holder, int position) {
+    protected void onResume() {
+        super.onResume();
+        //getIndent("8");
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         startActivity(new Intent(this, DetailsActivity.class).putExtra("indent", mList.get(position)));
+
     }
 }

@@ -1,29 +1,45 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.model;
 
+import java.io.Serializable;
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/2/9.
  */
-public class Indent extends Commodity {
+public class Indent implements Serializable {
     /*订单状态*/
     private int state;
     /*购买总价*/
     private String total;
+    /*商品集合*/
+    private List<Mall> malls;
+    /*地址信息*/
+    private Address address;
 
-    public Indent(String name, String type, String picture, int state, String total) {
-        super(name, type, picture);
-        this.state = state;
-        this.total = total;
+    public Indent() {
     }
 
-    public Indent(String name, String picture, String type, String standard, String price, String purchase_price, String num, int state, String total) {
-        super(name, picture, type, standard, price, purchase_price, num);
+    public Indent(int state, String total, List<Mall> malls, Address address) {
         this.state = state;
         this.total = total;
+        this.malls = malls;
+        this.address = address;
     }
 
-    public Indent(int state, String total) {
-        this.state = state;
-        this.total = total;
+    public List<Mall> getMalls() {
+        return malls;
+    }
+
+    public void setMalls(List<Mall> malls) {
+        this.malls = malls;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public int getState() {
@@ -41,4 +57,5 @@ public class Indent extends Commodity {
     public void setTotal(String total) {
         this.total = total;
     }
+
 }
