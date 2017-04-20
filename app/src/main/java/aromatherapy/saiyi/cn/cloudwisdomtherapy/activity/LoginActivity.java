@@ -7,6 +7,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareConfig;
@@ -23,6 +25,7 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.User;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.HxEaseuiHelper;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.MD5;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
@@ -51,6 +54,9 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void init(Bundle savedInstanceState) {
         initToolbar();
+        if (MyApplication.newInstance().getUser() != null) {
+            login(MyApplication.newInstance().getUser().getPhone(), MyApplication.newInstance().getUser().getPsw());
+        }
     }
 
     private void initToolbar() {
@@ -61,6 +67,7 @@ public class LoginActivity extends BaseActivity {
         UMShareConfig config = new UMShareConfig();
         config.isNeedAuthOnGetUserInfo(true);
         mShareAPI.get(LoginActivity.this).setShareConfig(config);
+
     }
 
 
@@ -74,10 +81,14 @@ public class LoginActivity extends BaseActivity {
             case R.id.login_register_tv:
                 //注册
                 startActivity(new Intent(this, RegisterActivity.class));
+
                 break;
             case R.id.login_tv:
+                final String phone = loginPhoneEt.getText().toString().trim();
+                final String psw = loginPswEt.getText().toString().trim();
                 //登陆
-                login();
+                login(phone, psw);
+
 
                 break;
             case R.id.login_qq_iv:
@@ -85,20 +96,42 @@ public class LoginActivity extends BaseActivity {
                 mShareAPI.getPlatformInfo(LoginActivity.this, SHARE_MEDIA.QQ, umAuthListener);
                 break;
             case R.id.login_wechat_iv:
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 //微信登陆
                 mShareAPI.getPlatformInfo(LoginActivity.this, SHARE_MEDIA.WEIXIN, umAuthListener);
                 break;
         }
     }
 
-    private void login() {
-        String phone = loginPhoneEt.getText().toString().trim();
-        final String psw = loginPswEt.getText().toString().trim();
+    private void Ease(String phone, String psw) {
+        if (!HxEaseuiHelper.getInstance().isLoggedIn())
+            EMClient.getInstance().login(phone, psw, new EMCallBack() {//回调
+                @Override
+                public void onSuccess() {
+                    EMClient.getInstance().groupManager().loadAllGroups();
+                    EMClient.getInstance().chatManager().loadAllConversations();
+                    Log.d("main", "登录聊天服务器成功！");
+                }
+
+                @Override
+                public void onProgress(int progress, String status) {
+
+                }
+
+                @Override
+                public void onError(int code, String message) {
+                    Log.d("main", "登录聊天服务器失败！");
+                    Log.e("code", message);
+                    //toastor.showSingletonToast("登录失败");
+                }
+            });
+    }
+
+
+    private void login(final String phone, final String psw) {
         map.clear();
         map.put("phoneNumber", phone);
         map.put("passWord", MD5.getMD5(psw));
-        NetworkRequests.GetRequests(this, Constant.LOGIN, map, new JsonDataReturnListener() {
+         NetworkRequests.getInstance().initViw(this).GetRequests( Constant.LOGIN, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("LoginActivity", jsonObject.toString());
@@ -110,23 +143,31 @@ public class LoginActivity extends BaseActivity {
                     user.setSex(object.optString("sex"));
                     user.setBirthday(object.optString("birthday"));
                     user.setHeight(object.optString("height"));
-                    user.setPhone(object.optString("phoneNumber"));
                     user.setPic(object.optString("headPic"));
                     user.setWidth(object.optString("weight"));
                     user.setHospital(object.optString("hospital"));
                     user.setDepartment(object.optString("consultingRoom"));
                     user.setName(object.optString("nickName"));
                     user.setPsw(psw);
+                    user.setPhone(phone);
+
                     if (object.optInt("checkStatu") == 1)
                         user.setType(1);
                     else
                         user.setType(2);
                     MyApplication.newInstance().setUser(user);
+
+                    Ease(phone, "123456");
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
+                } else {
+                    toastor.showSingletonToast("登录失败");
+                    EMClient.getInstance().logout(true);
                 }
+
             }
         });
+
     }
 
     @Override
@@ -191,10 +232,10 @@ public class LoginActivity extends BaseActivity {
         }
     };
 
-    private void getPlatformInfd(String uid) {
+    private void getPlatformInfd(final String uid) {
         map.clear();
         map.put("openID", uid);
-        NetworkRequests.GetRequests(this, Constant.THIRDLOGIN, map, new JsonDataReturnListener() {
+         NetworkRequests.getInstance().initViw(this).GetRequests( Constant.THIRDLOGIN, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("LoginActivity", jsonObject.toString());
@@ -212,17 +253,20 @@ public class LoginActivity extends BaseActivity {
                     user.setHospital(object.optString("hospital"));
                     user.setDepartment(object.optString("consultingRoom"));
                     user.setName(object.optString("nickName"));
-                    user.setPsw("");
+                    user.setPsw("123456");
                     if (object.optInt("checkStatu") == 1)
                         user.setType(1);
                     else
                         user.setType(2);
+
                     MyApplication.newInstance().setUser(user);
+                    Ease(object.optString("phoneNumber"), "123456");
+
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
-                }else {
+                } else {
                     //注册
-                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class).putExtra("type", "3"));
+                    startActivity(new Intent(LoginActivity.this, RegisterActivity.class).putExtra("type", "3").putExtra("openID", uid));
                 }
             }
         });

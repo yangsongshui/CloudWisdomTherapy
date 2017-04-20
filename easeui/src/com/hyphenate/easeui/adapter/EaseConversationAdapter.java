@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TextView.BufferType;
@@ -31,6 +30,8 @@ import com.hyphenate.util.DateUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * conversation list adapter
@@ -88,7 +89,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
             holder.unreadLabel = (TextView) convertView.findViewById(R.id.unread_msg_number);
             holder.message = (TextView) convertView.findViewById(R.id.message);
             holder.time = (TextView) convertView.findViewById(R.id.time);
-            holder.avatar = (ImageView) convertView.findViewById(R.id.avatar);
+            holder.avatar = (CircleImageView) convertView.findViewById(R.id.avatar);
             holder.msgState = convertView.findViewById(R.id.msg_state);
             holder.list_itease_layout = (RelativeLayout) convertView.findViewById(R.id.list_itease_layout);
             holder.motioned = (TextView) convertView.findViewById(R.id.mentioned);
@@ -299,7 +300,7 @@ public class EaseConversationAdapter extends ArrayAdapter<EMConversation> {
         /** time of last message */
         TextView time;
         /** avatar */
-        ImageView avatar;
+        CircleImageView avatar;
         /** status of last message */
         View msgState;
         /** layout */

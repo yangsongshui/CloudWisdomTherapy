@@ -153,7 +153,7 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
         String phone = MyApplication.newInstance().getUser().getPhone();
 
         mMap.put("phoneNumber", phone);
-        NetworkRequests.GetRequests(this, Constant.FINDADDRESS, mMap, new JsonDataReturnListener() {
+         NetworkRequests.getInstance().initViw(this).GetRequests( Constant.FINDADDRESS, mMap, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("jsonListener", jsonObject.toString());
@@ -170,7 +170,7 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
 
         mMap.put("phoneNumber", phone);
         mMap.put("id", id);
-        NetworkRequests.GetRequests(this, Constant.UPDATEADDRESSDEFAULT, mMap, new JsonDataReturnListener() {
+         NetworkRequests.getInstance().initViw(this).GetRequests(Constant.UPDATEADDRESSDEFAULT, mMap, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("jsonListener", jsonObject.toString());
@@ -222,7 +222,7 @@ public class AddressActivity extends BaseActivity implements OnViewClickListener
         mMap.clear();
 
         mMap.put("id", id);
-        NetworkRequests.GetRequests(this, Constant.DELETEADDRESS, mMap, new JsonDataReturnListener() {
+         NetworkRequests.getInstance().initViw(this).GetRequests(Constant.DELETEADDRESS, mMap, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("jsonListener", jsonObject.toString());

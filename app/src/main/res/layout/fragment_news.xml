@@ -5,10 +5,9 @@
     android:orientation="vertical"
     android:background="@color/bg_bottom_navigation"
     tools:context="aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment.NewsFragment">
-    <com.hr.nipuream.NRecyclerView.view.NRecyclerView
-        android:id="@+id/recyclerMagicView"
+    <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

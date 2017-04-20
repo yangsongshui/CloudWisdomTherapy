@@ -25,6 +25,8 @@ import com.hyphenate.util.DateUtils;
 
 import java.util.Date;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public abstract class EaseChatRow extends LinearLayout {
     protected static final String TAG = EaseChatRow.class.getSimpleName();
 
@@ -35,7 +37,7 @@ public abstract class EaseChatRow extends LinearLayout {
     protected int position;
 
     protected TextView timeStampView;
-    protected ImageView userAvatarView;
+    protected CircleImageView userAvatarView;
     protected View bubbleLayout;
     protected TextView usernickView;
 
@@ -67,7 +69,7 @@ public abstract class EaseChatRow extends LinearLayout {
     private void initView() {
         onInflateView();
         timeStampView = (TextView) findViewById(R.id.timestamp);
-        userAvatarView = (ImageView) findViewById(R.id.iv_userhead);
+        userAvatarView = (CircleImageView) findViewById(R.id.iv_userhead);
         bubbleLayout = findViewById(R.id.bubble);
         usernickView = (TextView) findViewById(R.id.tv_userid);
 

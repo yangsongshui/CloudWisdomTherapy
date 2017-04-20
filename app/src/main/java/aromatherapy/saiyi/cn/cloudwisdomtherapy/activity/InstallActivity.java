@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,12 +41,14 @@ public class InstallActivity extends BaseActivity {
                 startActivity(new Intent(this, ForgetPasswordActivity.class).putExtra("type", 1));
                 break;
             case R.id.install_suggest:
-                startActivity(new Intent(this,SuggestActivity.class));
+                startActivity(new Intent(this, SuggestActivity.class));
                 break;
             case R.id.install_about:
-                startActivity(new Intent(this,AboutActivity.class));
+                startActivity(new Intent(this, AboutActivity.class));
                 break;
             case R.id.install_out:
+                MyApplication.newInstance().outLogin();
+                startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 break;
         }

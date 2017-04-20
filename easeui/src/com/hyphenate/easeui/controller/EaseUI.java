@@ -96,7 +96,6 @@ public final class EaseUI {
         
         int pid = android.os.Process.myPid();
         String processAppName = getAppName(pid);
-        
         Log.d(TAG, "process app name : " + processAppName);
 
         // if there is application has remote service, application:onCreate() maybe called twice

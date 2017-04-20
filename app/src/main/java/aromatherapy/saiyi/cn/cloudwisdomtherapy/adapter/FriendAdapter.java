@@ -53,7 +53,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHoader
             holder.friend_hospital_ll.setVisibility(View.GONE);
             holder.friend_authentication_iv.setVisibility(View.GONE);
         }
-        MyApplication.newInstance().getmImageLoader().get(mList.get(position).getPic(), holder.friend_pic_cv);
+        MyApplication.newInstance().getmImageLoader().load(mList.get(position).getPic()).into(holder.friend_pic_cv);
         holder.friend_item_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

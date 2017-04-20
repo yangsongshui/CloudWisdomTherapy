@@ -94,7 +94,7 @@ public class InformationFragment extends BaseFragment {
     private void getInfor() {
         map.clear();
         map.put("type", "1");
-        NetworkRequests.GetRequests(getActivity(), Constant.FINDINFORMATIONS, map, new JsonDataReturnListener() {
+         NetworkRequests.getInstance().initViw(getActivity()).GetRequests( Constant.FINDINFORMATIONS, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("InformationFragment", jsonObject.toString());
@@ -251,7 +251,7 @@ public class InformationFragment extends BaseFragment {
         initRV();
         map.clear();
         map.put("type", "0");
-        NetworkRequests.GetRequests(getActivity(), Constant.FINDINFORMATIONS, map, new JsonDataReturnListener() {
+         NetworkRequests.getInstance().initViw(getActivity()).GetRequests( Constant.FINDINFORMATIONS, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("InformationFragment", jsonObject.toString());
@@ -299,7 +299,7 @@ public class InformationFragment extends BaseFragment {
             ViewPager.LayoutParams params = new ViewPager.LayoutParams();
             imgvsOfVpager[i].setScaleType(ImageView.ScaleType.FIT_XY);
             imgvsOfVpager[i].setImageResource(imgvsResId[i]);
-            MyApplication.newInstance().getmImageLoader().get(currentDatas.get(i).getTopPic(), imgvsOfVpager[i]);
+            MyApplication.newInstance().getmImageLoader().load(currentDatas.get(i).getTopPic()).into(imgvsOfVpager[i]);
             // 点
             pointvsOfVpager[i] = layout.findViewById(pointvsId[i]);
             pointvsOfVpager[i].setTag(i);

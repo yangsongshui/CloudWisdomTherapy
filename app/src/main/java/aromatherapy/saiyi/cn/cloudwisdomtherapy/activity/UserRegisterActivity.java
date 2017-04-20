@@ -2,6 +2,7 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -88,6 +89,8 @@ public class UserRegisterActivity extends BaseActivity {
     private String type = "";
     Map<String, String> map;
     private CountDownTimer timer;
+    String openID = "";
+    String photo = "";
 
     @Override
     protected int getContentView() {
@@ -99,6 +102,9 @@ public class UserRegisterActivity extends BaseActivity {
         map = new HashMap<>();
         toasr = new Toastor(this);
         type = getIntent().getStringExtra("type");
+        //  Log.e("isThird",this.type);
+        openID = getIntent().getStringExtra("openID");
+        Log.e("openID", openID);
         initToolbar();
         initView();
         timer = new CountDownTimer(60 * 1000, 1000) {
@@ -114,7 +120,9 @@ public class UserRegisterActivity extends BaseActivity {
                 registered_getcoed_tv.setEnabled(true);
             }
         };
-
+        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(), R.drawable.zhuce_user_icon);
+        byte[] bytes = PicUtil.bitmap2Bytes(bitmap);
+        photo = Base64.encodeToString(bytes, 0, bytes.length, Base64.DEFAULT);
     }
 
     private void initToolbar() {
@@ -170,7 +178,7 @@ public class UserRegisterActivity extends BaseActivity {
                     map.put("type", "0");
                     map.put("phoneNumber", phone);
                     timer.start();
-                    NetworkRequests.GetRequests(this, Constant.GETIDENTIFY, map, new JsonDataReturnListener() {
+                     NetworkRequests.getInstance().initViw(this).GetRequests( Constant.GETIDENTIFY, map, new JsonDataReturnListener() {
                         @Override
                         public void jsonListener(JSONObject jsonObject) {
                             Log.e("User", jsonObject.toString());
@@ -205,9 +213,10 @@ public class UserRegisterActivity extends BaseActivity {
                 }
                 break;
             case R.id.register_complete_tv:
-
-                if (type.equals("2") || type.equals("1")) {
-                    registerUser(type);
+                Log.e("type", type.length());
+                if (type.equals("null2") || type.equals("null1")) {
+                    Log.e("type", type);
+                    registerUser(type.substring(type.length() - 1, type.length()));
                 } else {
                     if (type.equals("31"))
                         registerUser("1");
@@ -221,48 +230,54 @@ public class UserRegisterActivity extends BaseActivity {
 
 
     private void registerUser(String type) {
-        String psw = registeredPswEt.getText().toString().trim();
+        final String psw = registeredPswEt.getText().toString().trim();
         String psw2 = registeredPsw2Et.getText().toString().trim();
-        String phone = registered_phone_et.getText().toString().trim();
+        final String phone = registered_phone_et.getText().toString().trim();
         String name = registeredNameEt.getText().toString().trim();
         String code = registeredCoedEt.getText().toString().trim();
         String hospital = registeredHospitalEt.getText().toString().trim();
         String consultingRoom = registeredConsultingRoomEt.getText().toString().trim();
         if (phone.length() == 11) {
-            if (CODE.equals(code)) {
+            if (CODE.equals(code) || CODE.equals("")) {
                 if ((psw.length() >= 6 && psw.length() <= 16) || this.type.length() == 2) {
                     if (psw.equals(psw2) || this.type.length() == 2) {
                         if (name.length() > 0) {
                             //用户注册
                             map.clear();
                             map.put("phoneNumber", phone);
-                            if (this.type.length() == 1) {
+                            if (this.type.length() == 5) {
                                 map.put("passWord", MD5.getMD5(psw));
                                 map.put("isThird", "0");
                             } else if (this.type.length() == 2) {
-                                map.put("passWord", "");
+                                map.put("passWord", "0");
                                 map.put("isThird", "1");
+                                map.put("openID", openID);
+                                Log.e("isThird", this.type);
                             }
+                            map.put("headPicByte", photo);
 
                             map.put("role", type);
                             map.put("nickName", name);
                             //医生注册
-                            if (photo2 != null && photo1 != null && photo3 != null) {
-                                map.put("checkPicByte1", photo1);
-                                map.put("checkPicByte2", photo2);
-                                map.put("checkPicByte3", photo3);
-                                if (hospital.length() > 0 && consultingRoom.length() > 0) {
-                                    map.put("hospital", hospital);
-                                    map.put("consultingRoom", consultingRoom);
+                            if (type.equals("1"))
+                                if (photo2 != null && photo1 != null && photo3 != null) {
+                                    map.put("checkPicByte1", photo1);
+                                    map.put("checkPicByte2", photo2);
+                                    map.put("checkPicByte3", photo3);
+                                    if (hospital.length() > 0 && consultingRoom.length() > 0) {
+                                        map.put("hospital", hospital);
+                                        map.put("consultingRoom", consultingRoom);
+                                    } else {
+                                        toasr.showSingletonToast("医院信息不能为空");
+                                        //return;
+                                    }
+
                                 } else {
-                                    return;
+                                    toasr.showSingletonToast("认证照片不能为空");
+                                    //return;
                                 }
 
-                            } else {
-                                return;
-                            }
-
-                            NetworkRequests.GetRequests(this, Constant.REGISTER, map, new JsonDataReturnListener() {
+                             NetworkRequests.getInstance().initViw(this).zhuce( Constant.REGISTER, map, new JsonDataReturnListener() {
                                 @Override
                                 public void jsonListener(JSONObject jsonObject) {
                                     Log.e("jsonListener", jsonObject.toString());

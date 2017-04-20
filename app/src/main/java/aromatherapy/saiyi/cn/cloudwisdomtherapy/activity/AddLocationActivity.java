@@ -156,7 +156,7 @@ public class AddLocationActivity extends BaseActivity {
             mMap.put("mail", addPostcodeEt.getText().toString().trim());
 
 
-            NetworkRequests.GetRequests(this, url, mMap, new JsonDataReturnListener() {
+            NetworkRequests.getInstance().initViw(this).GetRequests(url, mMap, new JsonDataReturnListener() {
                 @Override
                 public void jsonListener(JSONObject jsonObject) {
                     Log.e("jsonListener", jsonObject.toString());

@@ -1,1 +1,1 @@
-include ':app', ':NRecyclerView', ':easeui'
+include ':app', ':NRecyclerView', ':easeui', ':lib:pingpp', ':lib:pingpp_one'

@@ -15,37 +15,41 @@ int anim slide_out_to_left 0x7f04000d
 int anim slide_out_to_right 0x7f04000e
 int anim voice_from_icon 0x7f04000f
 int anim voice_to_icon 0x7f040010
-int attr bigEmojiconRows 0x7f010010
-int attr ctsListInitialLetterBg 0x7f010008
-int attr ctsListInitialLetterColor 0x7f010009
-int attr ctsListPrimaryTextColor 0x7f010005
-int attr ctsListPrimaryTextSize 0x7f010006
-int attr ctsListShowSiderBar 0x7f010007
-int attr cvsListPrimaryTextColor 0x7f01000a
-int attr cvsListPrimaryTextSize 0x7f01000d
-int attr cvsListSecondaryTextColor 0x7f01000b
-int attr cvsListSecondaryTextSize 0x7f01000e
-int attr cvsListTimeTextColor 0x7f01000c
-int attr cvsListTimeTextSize 0x7f01000f
-int attr ease_border_color 0x7f010012
-int attr ease_border_width 0x7f010013
-int attr ease_press_alpha 0x7f010014
-int attr ease_press_color 0x7f010015
-int attr ease_radius 0x7f010016
-int attr ease_shape_type 0x7f010017
-int attr emojiconColumns 0x7f010011
-int attr msgListMyBubbleBackground 0x7f010001
-int attr msgListOtherBubbleBackground 0x7f010002
-int attr msgListShowUserAvatar 0x7f010003
-int attr msgListShowUserNick 0x7f010004
-int attr numColumns 0x7f010000
-int attr switchCloseImage 0x7f010019
-int attr switchOpenImage 0x7f010018
-int attr switchStatus 0x7f01001a
-int attr titleBarBackground 0x7f01001e
-int attr titleBarLeftImage 0x7f01001c
-int attr titleBarRightImage 0x7f01001d
-int attr titleBarTitle 0x7f01001b
+int attr bigEmojiconRows 0x7f010014
+int attr civ_border_color 0x7f010001
+int attr civ_border_overlay 0x7f010002
+int attr civ_border_width 0x7f010000
+int attr civ_fill_color 0x7f010003
+int attr ctsListInitialLetterBg 0x7f01000c
+int attr ctsListInitialLetterColor 0x7f01000d
+int attr ctsListPrimaryTextColor 0x7f010009
+int attr ctsListPrimaryTextSize 0x7f01000a
+int attr ctsListShowSiderBar 0x7f01000b
+int attr cvsListPrimaryTextColor 0x7f01000e
+int attr cvsListPrimaryTextSize 0x7f010011
+int attr cvsListSecondaryTextColor 0x7f01000f
+int attr cvsListSecondaryTextSize 0x7f010012
+int attr cvsListTimeTextColor 0x7f010010
+int attr cvsListTimeTextSize 0x7f010013
+int attr ease_border_color 0x7f010016
+int attr ease_border_width 0x7f010017
+int attr ease_press_alpha 0x7f010018
+int attr ease_press_color 0x7f010019
+int attr ease_radius 0x7f01001a
+int attr ease_shape_type 0x7f01001b
+int attr emojiconColumns 0x7f010015
+int attr msgListMyBubbleBackground 0x7f010005
+int attr msgListOtherBubbleBackground 0x7f010006
+int attr msgListShowUserAvatar 0x7f010007
+int attr msgListShowUserNick 0x7f010008
+int attr numColumns 0x7f010004
+int attr switchCloseImage 0x7f01001d
+int attr switchOpenImage 0x7f01001c
+int attr switchStatus 0x7f01001e
+int attr titleBarBackground 0x7f010022
+int attr titleBarLeftImage 0x7f010020
+int attr titleBarRightImage 0x7f010021
+int attr titleBarTitle 0x7f01001f
 int color black_deep 0x7f080000
 int color bottom_bar_normal_bg 0x7f080001
 int color bottom_text_color_normal 0x7f080002
@@ -749,41 +753,46 @@ int style chat_text_name_style 0x7f060013
 int style devide_line_eee 0x7f060014
 int style horizontal_slide 0x7f060001
 int style nornal_style 0x7f060002
-int[] styleable EaseChatExtendMenu { 0x7f010000 }
+int[] styleable CircleImageView { 0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003 }
+int styleable CircleImageView_civ_border_color 1
+int styleable CircleImageView_civ_border_overlay 2
+int styleable CircleImageView_civ_border_width 0
+int styleable CircleImageView_civ_fill_color 3
+int[] styleable EaseChatExtendMenu { 0x7f010004 }
 int styleable EaseChatExtendMenu_numColumns 0
-int[] styleable EaseChatMessageList { 0x7f010001, 0x7f010002, 0x7f010003, 0x7f010004 }
+int[] styleable EaseChatMessageList { 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008 }
 int styleable EaseChatMessageList_msgListMyBubbleBackground 0
 int styleable EaseChatMessageList_msgListOtherBubbleBackground 1
 int styleable EaseChatMessageList_msgListShowUserAvatar 2
 int styleable EaseChatMessageList_msgListShowUserNick 3
-int[] styleable EaseContactList { 0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008, 0x7f010009 }
+int[] styleable EaseContactList { 0x7f010009, 0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f01000d }
 int styleable EaseContactList_ctsListInitialLetterBg 3
 int styleable EaseContactList_ctsListInitialLetterColor 4
 int styleable EaseContactList_ctsListPrimaryTextColor 0
 int styleable EaseContactList_ctsListPrimaryTextSize 1
 int styleable EaseContactList_ctsListShowSiderBar 2
-int[] styleable EaseConversationList { 0x7f01000a, 0x7f01000b, 0x7f01000c, 0x7f01000d, 0x7f01000e, 0x7f01000f }
+int[] styleable EaseConversationList { 0x7f01000e, 0x7f01000f, 0x7f010010, 0x7f010011, 0x7f010012, 0x7f010013 }
 int styleable EaseConversationList_cvsListPrimaryTextColor 0
 int styleable EaseConversationList_cvsListPrimaryTextSize 3
 int styleable EaseConversationList_cvsListSecondaryTextColor 1
 int styleable EaseConversationList_cvsListSecondaryTextSize 4
 int styleable EaseConversationList_cvsListTimeTextColor 2
 int styleable EaseConversationList_cvsListTimeTextSize 5
-int[] styleable EaseEmojiconMenu { 0x7f010010, 0x7f010011 }
+int[] styleable EaseEmojiconMenu { 0x7f010014, 0x7f010015 }
 int styleable EaseEmojiconMenu_bigEmojiconRows 0
 int styleable EaseEmojiconMenu_emojiconColumns 1
-int[] styleable EaseImageView { 0x7f010012, 0x7f010013, 0x7f010014, 0x7f010015, 0x7f010016, 0x7f010017 }
+int[] styleable EaseImageView { 0x7f010016, 0x7f010017, 0x7f010018, 0x7f010019, 0x7f01001a, 0x7f01001b }
 int styleable EaseImageView_ease_border_color 0
 int styleable EaseImageView_ease_border_width 1
 int styleable EaseImageView_ease_press_alpha 2
 int styleable EaseImageView_ease_press_color 3
 int styleable EaseImageView_ease_radius 4
 int styleable EaseImageView_ease_shape_type 5
-int[] styleable EaseSwitchButton { 0x7f010018, 0x7f010019, 0x7f01001a }
+int[] styleable EaseSwitchButton { 0x7f01001c, 0x7f01001d, 0x7f01001e }
 int styleable EaseSwitchButton_switchCloseImage 1
 int styleable EaseSwitchButton_switchOpenImage 0
 int styleable EaseSwitchButton_switchStatus 2
-int[] styleable EaseTitleBar { 0x7f01001b, 0x7f01001c, 0x7f01001d, 0x7f01001e }
+int[] styleable EaseTitleBar { 0x7f01001f, 0x7f010020, 0x7f010021, 0x7f010022 }
 int styleable EaseTitleBar_titleBarBackground 3
 int styleable EaseTitleBar_titleBarLeftImage 1
 int styleable EaseTitleBar_titleBarRightImage 2

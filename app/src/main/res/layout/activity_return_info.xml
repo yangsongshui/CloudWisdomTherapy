@@ -61,7 +61,8 @@
                 android:layout_marginLeft="10dp"
                 android:text="@string/returnInfo_msg3"
                 android:textColor="@color/text_color"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/returnInfo_examine_tv"

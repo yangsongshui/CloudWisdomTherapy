@@ -1,6 +1,8 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -28,11 +30,16 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Mall;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.SaveObservable;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.SaveSubscriber;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.view.MallGoodsPopupWindow;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.view.MallSharePopuoWindow;
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class MallActivity extends BaseActivity implements View.OnClickListener {
 
@@ -77,10 +84,14 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
-    @OnClick({R.id.mall_service_tv, R.id.mall_share_tv, R.id.mall_join_tv, R.id.mall_purchase_tv, R.id.mall_back_iv})
+    @OnClick({R.id.mall_service_tv, R.id.mall_share_tv, R.id.mall_join_tv, R.id.mall_purchase_tv, R.id.mall_back_iv, R.id.mall_describe_tv})
     public void onClickView(View view) {
         switch (view.getId()) {
             case R.id.mall_service_tv:
+                break;
+            case R.id.mall_describe_tv:
+
+                startActivity(new Intent(this, DescribeActivity.class));
                 break;
             case R.id.mall_share_tv:
                 //分享
@@ -103,14 +114,16 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void initView() {
-        MyApplication.newInstance().getmImageLoader().get(mall.getPicture(), mallGoodsIv);
+
+        MyApplication.newInstance().getmImageLoader().load(mall.getPicture()).skipMemoryCache(true).into(mallGoodsIv);
         mallNameTv.setText(mall.getName());
 
         mallFactoryTv.setText(mall.getProductionFactory());
         mallMoneyTv.setText(mall.getPrice());
         mallOriginalTv.setText(mall.getPurchase_price());
         mallIntroduceTv.setText(mall.getDescribe());
-        MyApplication.newInstance().getmImageLoader().get(mall.getPicture(), mallGoodsPopupWindow.getPop_pic_iv());
+
+        MyApplication.newInstance().getmImageLoader().load(mall.getPicture()).into(mallGoodsPopupWindow.getPop_pic_iv());
         mallGoodsPopupWindow.getPop_standard_tv().setText(mall.getStandard());
         mallGoodsPopupWindow.getPop_rmb_tv().setText(mall.getPrice());
         mallGoodsPopupWindow.getPop_type_tv().setText(mall.getType());
@@ -124,7 +137,7 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
             case R.id.mall_QQ_tv:
 
                 new ShareAction(MallActivity.this).setPlatform(SHARE_MEDIA.QQ)
-                        .withText("hello")
+                        .withText("云网智疗")
                         .withMedia(image)
                         .setCallback(umShareListener)
                         .share();
@@ -132,11 +145,14 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
             case R.id.mall_weixin_iv:
 
                 new ShareAction(MallActivity.this).setPlatform(SHARE_MEDIA.WEIXIN)
-                        .withText("hello")
+                        .withText("云网智疗")
                         .setCallback(umShareListener)
                         .share();
                 break;
             case R.id.mall_friend_tv:
+                saveImageView(getViewBitmap(mallGoodsIv));
+
+                startActivity(new Intent(this, ShareActivity.class).putExtra("name", mall.getID() + ".jpg"));
                 break;
             case R.id.pop_confirm_tv:
                 mallGoodsPopupWindow.dismiss();
@@ -162,7 +178,7 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
         mMap.put("commodityNo", mall.getID());
         mMap.put("num", mallGoodsPopupWindow.getNum() + "");
         mMap.put("price", (Double.parseDouble(mall.getPrice()) * mallGoodsPopupWindow.getNum()) + "");
-        NetworkRequests.GetRequests(this, Constant.ADDSHOPPINGCAR, mMap, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(this).GetRequests(Constant.ADDSHOPPINGCAR, mMap, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("jsonListener", jsonObject.toString());
@@ -204,4 +220,24 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
             Toast.makeText(MallActivity.this, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
         }
     };
+
+    private Bitmap getViewBitmap(View view) {
+        if (view == null) {
+            return null;
+        }
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        return bitmap;
+    }
+
+
+    private void saveImageView(Bitmap drawingCache) {
+        Observable.create(new SaveObservable(drawingCache, mall.getID() + ".jpg"))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SaveSubscriber());
+    }
+
+
 }

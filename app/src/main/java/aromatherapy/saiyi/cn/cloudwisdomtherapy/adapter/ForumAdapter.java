@@ -38,7 +38,7 @@ public class ForumAdapter extends RecyclerView.Adapter<ForumAdapter.ViewHoader> 
         Information information = data.get(position);
         holder.forum_time_tv.setText(information.getDate());
         holder.forum_title_tv.setText(information.getTitle());
-        MyApplication.newInstance().getmImageLoader().get(information.getTopPic(), holder.forum_pic_iv);
+        MyApplication.newInstance().getmImageLoader().load(information.getTopPic()).into(holder.forum_pic_iv);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

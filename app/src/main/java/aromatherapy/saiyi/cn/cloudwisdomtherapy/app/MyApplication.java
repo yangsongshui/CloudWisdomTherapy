@@ -1,22 +1,33 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.app;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.cache.DiskLruBasedCache;
 import com.android.volley.cache.SimpleImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.hyphenate.chat.EMClient;
+import com.pingplusplus.android.PingppLog;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.User;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.APPConfig;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.HxEaseuiHelper;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.SharedPreferencesUtils;
 
 public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
@@ -24,8 +35,10 @@ public class MyApplication extends Application {
     private static MyApplication instance;
     public static List<Activity> activitiesList = new ArrayList<Activity>(); // 活动管理集合
 
-    private User user;
+    private User user = new User();
     private RequestQueue mQueue;
+    String toChatUsername;
+    boolean isChat;
 
     {
         PlatformConfig.setWeixin("wx815938a2f5f56950", "eb8b6aaf7817ac50e35e53d2c935a1dd");
@@ -50,11 +63,12 @@ public class MyApplication extends Application {
         DiskLruBasedCache.ImageCacheParams cacheParams = new DiskLruBasedCache.ImageCacheParams(getApplicationContext(), "CacheDirectory");
         cacheParams.setMemCacheSizePercent(0.5f);
         mImageLoader = new SimpleImageLoader(getApplicationContext(), cacheParams);
-       // EaseUI.getInstance().init(instance, null);
+        PingppLog.DEBUG = true;
         UMShareAPI.get(this);
-        //EMClient.getInstance().setDebugMode(true);
+        HxEaseuiHelper.getInstance().init(instance);
+         NetworkRequests.getInstance().initViw(this).getInstance().init(instance);
 
-
+        // Helper.getInstance().init(instance);
     }
 
 
@@ -100,6 +114,11 @@ public class MyApplication extends Application {
 
     public void setUser(User user) {
         this.user = user;
+        Log.e("user", this.user.toString());
+        //设置要发送出去的昵称
+        SharedPreferencesUtils.setParam(this, APPConfig.USER_NAME, user.getName());
+        //设置要发送出去的头像
+        SharedPreferencesUtils.setParam(this, APPConfig.USER_HEAD_IMG, user.getPic());
         //获取SharedPreferences对象
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
         //获取Editor对象
@@ -113,7 +132,9 @@ public class MyApplication extends Application {
 
     }
 
+
     public User getUser() {
+
         //获取SharedPreferences对象
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
         String username = sharedPre.getString("username", "");
@@ -136,12 +157,53 @@ public class MyApplication extends Application {
         editor.putString("password", "");
         //提交
         editor.commit();
+        clearAllActies();
+        EMClient.getInstance().logout(true);
     }
 
     private SimpleImageLoader mImageLoader;
 
-    public SimpleImageLoader getmImageLoader() {
-        return mImageLoader;
+    public RequestManager getmImageLoader() {
+
+        return Glide.with(this);
+
+
     }
 
+    private String getAppName(int pID) {
+        String processName = null;
+        ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+        List l = am.getRunningAppProcesses();
+        Iterator i = l.iterator();
+        PackageManager pm = this.getPackageManager();
+        while (i.hasNext()) {
+            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
+            try {
+                if (info.pid == pID) {
+                    processName = info.processName;
+                    return processName;
+                }
+            } catch (Exception e) {
+                // Log.d("Process", "Error>> :"+ e.toString());
+            }
+        }
+        return processName;
+    }
+
+
+    public boolean isChat() {
+        return isChat;
+    }
+
+    public void setChat(boolean chat) {
+        isChat = chat;
+    }
+
+    public String getToChatUsername() {
+        return toChatUsername;
+    }
+
+    public void setToChatUsername(String toChatUsername) {
+        this.toChatUsername = toChatUsername;
+    }
 }

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -17,7 +18,8 @@ public class RegisterActivity extends BaseActivity {
     TextView tvToolbarTitle;
     @BindView(R.id.toolbar_left_iv)
     ImageView toolbar_left_iv;
-    String type="";
+    String type = "";
+    String openID = "";
 
     @Override
     protected int getContentView() {
@@ -39,6 +41,8 @@ public class RegisterActivity extends BaseActivity {
             }
         });
         type = getIntent().getStringExtra("type");
+        openID = getIntent().getStringExtra("openID");
+        Log.e("RegisterActivity", openID);
     }
 
 
@@ -46,11 +50,11 @@ public class RegisterActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.register_user_iv:
-                startActivity(new Intent(this, UserRegisterActivity.class).putExtra("type", type+2));
+                startActivity(new Intent(this, UserRegisterActivity.class).putExtra("type", type + 2).putExtra("openID", openID));
                 finish();
                 break;
             case R.id.register_doctor_iv:
-                startActivity(new Intent(this, UserRegisterActivity.class).putExtra("type", type+1));
+                startActivity( new Intent(this, UserRegisterActivity.class).putExtra("openID", openID).putExtra("type", type + 1));
                 finish();
                 break;
         }

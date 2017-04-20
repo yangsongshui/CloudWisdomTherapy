@@ -166,7 +166,7 @@ public class CompileActivity extends BaseActivity {
 
     private void initInfor() {
         if (user.getPic().length() > 0)
-            MyApplication.newInstance().getmImageLoader().get(user.getPic(), compilePicIv);
+            MyApplication.newInstance().getmImageLoader().load(user.getPic()).skipMemoryCache(true).into(compilePicIv);
         compileNameTv.setText(user.getName());
         if (user.getSex() != null && user.getSex().equals("女")) {
             compileSexTv.setText(user.getSex());
@@ -212,7 +212,7 @@ public class CompileActivity extends BaseActivity {
         user.setWidth(weight);
         user.setAddress(addtess);
         user.setName(name);
-        NetworkRequests.GetRequests(this, Constant.UPDATEUSER, map, new JsonDataReturnListener() {
+         NetworkRequests.getInstance().initViw(this).GetRequests(Constant.UPDATEUSER, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
 
@@ -412,6 +412,7 @@ public class CompileActivity extends BaseActivity {
         if (requestCode == RESULT) {
             if (data != null) {
                 Uri uri = data.getData();
+                Log.e("------",uri+" ");
                 crop(uri);
             }
         } else if (requestCode == PHOTO_REQUEST_CUT) {

@@ -44,8 +44,9 @@
             android:paddingBottom="3dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
+            android:visibility="gone"
             android:paddingTop="3dp"
-            android:text="9"
+
             android:textColor="@color/white"
             android:textSize="12sp" />
     </RelativeLayout>

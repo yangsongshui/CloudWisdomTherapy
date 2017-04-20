@@ -58,7 +58,8 @@ public class MallImageAdapter extends RecyclerView.Adapter<MallImageAdapter.View
                 }
             }
         });
-        MyApplication.newInstance().getmImageLoader().get(mall.getPicture(), holder.iv);
+
+        MyApplication.newInstance().getmImageLoader().load(mall.getPicture()).skipMemoryCache(true).into( holder.iv);
         holder.merchandise_price_tv.setText(mall.getPrice());
         holder.merchandise_original_price_tv.setText(mall.getPurchase_price());
     }

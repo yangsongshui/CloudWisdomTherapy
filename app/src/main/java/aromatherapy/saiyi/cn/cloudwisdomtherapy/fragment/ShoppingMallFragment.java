@@ -2,19 +2,15 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment;
 
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.hr.nipuream.NRecyclerView.view.NRecyclerView;
-import com.hr.nipuream.NRecyclerView.view.base.BaseLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.MallActivity;
@@ -40,7 +35,7 @@ import butterknife.BindView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShoppingMallFragment extends BaseFragment implements BaseLayout.RefreshAndLoadingListener, OnItemClickListener {
+public class ShoppingMallFragment extends BaseFragment implements OnItemClickListener {
     @BindView(R.id.recyclerMagicView)
     NRecyclerView recyclerMagicView;
     @BindView(R.id.tab_layout)
@@ -120,15 +115,14 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerMagicView.setLayoutManager(layoutManager);
-        recyclerMagicView.setOnRefreshAndLoadingListener(this);
+       // recyclerMagicView.setOnRefreshAndLoadingListener(this);
         //禁止上拉加载
-        //recyclerMagicView.setPullLoadEnable(false);
+        recyclerMagicView.setPullLoadEnable(false);
         //禁止下拉刷新
         recyclerMagicView.setPullRefreshEnable(false);
         // 设置底部提示
-        ViewGroup bottomView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(R.layout.bottom_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
-
-        recyclerMagicView.setBottomView(bottomView);
+        //ViewGroup bottomView = (ViewGroup) LayoutInflater.from(getActivity()).inflate(R.layout.bottom_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
+        //recyclerMagicView.setBottomView(bottomView);
         adapter = new MallImageAdapter(mList, getActivity());
         adapter.setOnItemClickListener(this);
         recyclerMagicView.setAdapter(adapter);
@@ -137,7 +131,7 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
 
     }
 
-    @Override
+/*    @Override
     public void refresh() {
 
     }
@@ -161,7 +155,7 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
                 super.onPostExecute(integer);
                 Log.e("-------load", "onPostExecute");
                 if (mList.size() > 5) {
-                    /*没有更多数据*/
+                    *//*没有更多数据*//*
                     recyclerMagicView.pullNoMoreEvent();
                 } else {
 
@@ -172,7 +166,7 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
             }
         }.execute();
 
-    }
+    }*/
 
     @Override
     public void onItemClick(View holder, int position) {
@@ -181,7 +175,7 @@ public class ShoppingMallFragment extends BaseFragment implements BaseLayout.Ref
 
     private void getMall(String type) {
         map.put("type", type);
-        NetworkRequests.GetRequests(getActivity(), Constant.FINDCOMMODITYS, map, new JsonDataReturnListener() {
+         NetworkRequests.getInstance().initViw(getActivity()).GetRequests( Constant.FINDCOMMODITYS, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("ShoppingMallFragment", jsonObject.toString());

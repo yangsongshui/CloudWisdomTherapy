@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Logistics;
 
 /**
  * Created by yangsong on 2017/3/13.
@@ -18,11 +19,11 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 
 public class LogiaticsAdapter extends RecyclerView.Adapter<LogiaticsAdapter.ViewHoader> {
 
-    private List<String> data;
+    private List<Logistics> data;
     private Context context;
 
 
-    public LogiaticsAdapter(Context context, List<String> data) {
+    public LogiaticsAdapter(Context context, List<Logistics> data) {
         this.data = data;
         this.context = context;
     }
@@ -67,5 +68,9 @@ public class LogiaticsAdapter extends RecyclerView.Adapter<LogiaticsAdapter.View
 
 
         }
+    }
+    public void setItems(List<Logistics> data) {
+        this.data = data;
+        this.notifyDataSetChanged();
     }
 }

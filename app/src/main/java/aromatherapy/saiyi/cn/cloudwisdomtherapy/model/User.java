@@ -131,4 +131,23 @@ public class User implements Serializable{
     public void setDepartment(String department) {
         this.department = department;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", pic='" + pic + '\'' +
+                ", phone='" + phone + '\'' +
+                ", sex='" + sex + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", age='" + age + '\'' +
+                ", height='" + height + '\'' +
+                ", width='" + width + '\'' +
+                ", hospital='" + hospital + '\'' +
+                ", department='" + department + '\'' +
+                ", address='" + address + '\'' +
+                ", type=" + type +
+                ", psw='" + psw + '\'' +
+                '}';
+    }
 }

@@ -56,7 +56,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         holder.cart_item_standard_tv.setText("规格:" + commodity.getStandard());
         holder.cart_item_edit_standard.setText("规格:" + commodity.getStandard());
 
-        MyApplication.newInstance().getmImageLoader().get(commodity.getPicture(), holder.cart_item_pic_iv);
+
+        MyApplication.newInstance().getmImageLoader().load(commodity.getPicture()).into(holder.cart_item_pic_iv);
         SpannableStringBuilder spannableString = new SpannableStringBuilder();
         spannableString.append("¥" + commodity.getPurchase_price());
         StrikethroughSpan strikethroughSpan = new StrikethroughSpan();

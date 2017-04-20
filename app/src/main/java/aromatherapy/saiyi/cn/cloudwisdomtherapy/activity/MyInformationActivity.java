@@ -7,11 +7,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.NewUser;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.User;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.DateUtil;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -51,6 +62,10 @@ public class MyInformationActivity extends BaseActivity {
     @BindView(R.id.information_pic_iv)
     CircleImageView informationPicIv;
     User user;
+    int type = -1;
+
+    Map<String, String> map;
+    Toastor toastor;
 
     @Override
     protected int getContentView() {
@@ -59,16 +74,32 @@ public class MyInformationActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
-
+        map = new HashMap<>();
+        toastor = new Toastor(this);
     }
-    private void initView(){
-        user = (User) getIntent().getSerializableExtra("user");
-        if (user == null) {
-            user = MyApplication.newInstance().getUser();
+
+    private void initView() {
+
+        type = getIntent().getIntExtra("type", -1);
+        if (type == 0) {
+            //个人资料
+            user = (User) getIntent().getSerializableExtra("user");
+            information_delete_iv.setVisibility(View.GONE);
+            informationCompileTv.setText(getString(R.string.information_compile));
+        } else if (type == 1) {
+            //新好友资料
+            user = (NewUser) getIntent().getSerializableExtra("user");
+            information_delete_iv.setVisibility(View.GONE);
+            informationCompileTv.setText("添加好友");
+        } else if (type == 2) {
+            //查看好友资料
+            user = (User) getIntent().getSerializableExtra("user");
+            information_delete_iv.setVisibility(View.VISIBLE);
+            informationCompileTv.setText("发起聊天");
         }
 
         if (user.getPic().length() > 0)
-            MyApplication.newInstance().getmImageLoader().get(user.getPic(), informationPicIv);
+            MyApplication.newInstance().getmImageLoader().load(user.getPic()).into(informationPicIv);
         informationNameTv.setText(user.getName());
         if (user.getSex() != null && user.getSex().equals("女")) {
             informationSexTv.setImageDrawable(getResources().getDrawable(R.drawable.woman_icon));
@@ -98,10 +129,17 @@ public class MyInformationActivity extends BaseActivity {
 
                 break;
             case R.id.information_compile_tv:
-                startActivity(new Intent(this, CompileActivity.class));
+                if (type == 0)
+                    startActivity(new Intent(this, CompileActivity.class));
+                else if (type == 1)
+                    //添加好友
+                    addUser();
+                else if (type == 2)
+                    startActivity(new Intent(this, ChatActivity.class).putExtra("Username", user.getName()).putExtra("ToChatUsername", user.getPhone()));
                 break;
             case R.id.information_delete_iv:
                 //删除好友
+                deleteUser();
                 break;
         }
     }
@@ -110,5 +148,46 @@ public class MyInformationActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         initView();
+    }
+
+    private void addUser() {
+        map.clear();
+        String phone = MyApplication.newInstance().getUser().getPhone();
+        map.put("userID", phone);
+        map.put("friendID", user.getPhone());
+        map.put("statu", 0 + "");
+         NetworkRequests.getInstance().initViw(this).GetRequests( Constant.UPDATEFRIENDSTATUS, map, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                if (jsonObject.optInt("resCode") == 0) {
+                    //getUser();
+                    toastor.showSingletonToast("添加成功");
+                    finish();
+                }else
+                    toastor.showSingletonToast(jsonObject.optString("resMessage"));
+                Log.e("CompileActivity", jsonObject.toString());
+
+            }
+        });
+    }
+
+    private void deleteUser() {
+        map.clear();
+        String phone = MyApplication.newInstance().getUser().getPhone();
+        map.put("userID", phone);
+        map.put("friendID", user.getPhone());
+         NetworkRequests.getInstance().initViw(this).GetRequests( Constant.DELFRIEND, map, new JsonDataReturnListener() {
+            @Override
+            public void jsonListener(JSONObject jsonObject) {
+                if (jsonObject.optInt("resCode") == 0) {
+                    toastor.showSingletonToast("删除成功");
+                    finish();
+                }else{
+                    toastor.showSingletonToast("删除失败");
+                }
+                Log.e("CompileActivity", jsonObject.toString());
+
+            }
+        });
     }
 }

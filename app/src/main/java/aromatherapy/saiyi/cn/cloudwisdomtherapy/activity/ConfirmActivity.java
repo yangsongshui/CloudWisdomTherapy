@@ -96,6 +96,7 @@ public class ConfirmActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                getPrcice();
                 if (s.length() == 11) {
                     findUserRole(s.toString());
                 }
@@ -140,14 +141,14 @@ public class ConfirmActivity extends BaseActivity {
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < mallList.size(); i++) {
 
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("commodityID", mallList.get(i).getID());
-                    jsonObject.put("num", mallList.get(i).getNum());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                jsonArray.put(jsonObject);
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("commodityID", mallList.get(i).getID());
+                jsonObject.put("num", mallList.get(i).getNum());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            jsonArray.put(jsonObject);
 
         }
 
@@ -160,12 +161,12 @@ public class ConfirmActivity extends BaseActivity {
         }
         if (!confirmTuijianrenEt.getText().toString().trim().equals(phone)) {
             Log.e("JSONObject", jsonArray.toString().trim());
-            NetworkRequests.GetRequests(this, Constant.INSERTORDER, map, new JsonDataReturnListener() {
+             NetworkRequests.getInstance().initViw(this).GetRequests(Constant.INSERTORDER, map, new JsonDataReturnListener() {
                 @Override
                 public void jsonListener(JSONObject jsonObject) {
                     if (jsonObject.optInt("resCode") == 0) {
                         String orderNo = jsonObject.optJSONObject("resBody").optString("orderNo");
-                        startActivity(new Intent(ConfirmActivity.this, PaymentActivity.class).putExtra("orderNo", orderNo));
+                        startActivity(new Intent(ConfirmActivity.this, PaymentActivity.class).putExtra("orderNo", orderNo).putExtra("prcice", prcice));
                         finish();
                     }
                     Log.e("CompileActivity", jsonObject.toString());
@@ -208,7 +209,7 @@ public class ConfirmActivity extends BaseActivity {
         map.clear();
         String phone = MyApplication.newInstance().getUser().getPhone();
         map.put("phoneNumber", phone);
-        NetworkRequests.GetRequests(this, Constant.FINDDEFAULTADD, map, new JsonDataReturnListener() {
+         NetworkRequests.getInstance().initViw(this).GetRequests(Constant.FINDDEFAULTADD, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 if (jsonObject.optInt("resCode") == 0) {
@@ -239,11 +240,13 @@ public class ConfirmActivity extends BaseActivity {
     private void findUserRole(final String phone) {
         map.clear();
         map.put("phoneNumber", phone);
-        NetworkRequests.GetRequests(this, Constant.FINDUSERROLE, map, new JsonDataReturnListener() {
+        Log.e("findUserRole", !(phone.equals(MyApplication.newInstance().getUser().getPhone())));
+         NetworkRequests.getInstance().initViw(this).GetRequests(Constant.FINDUSERROLE, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
-                if (jsonObject.optInt("resCode") != 0) {
-                    toastor.showSingletonToast("推荐用户不存在,不能享受折扣优惠");
+                if (jsonObject.optInt("resCode") != 0 || (phone.equals(MyApplication.newInstance().getUser().getPhone()))) {
+
+                    toastor.showSingletonToast("推荐用户不存在或为自己,不能享受折扣优惠");
                     getPrcice();
                 } else {
 

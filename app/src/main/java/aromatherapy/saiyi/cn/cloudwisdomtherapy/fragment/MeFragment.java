@@ -47,7 +47,7 @@ public class MeFragment extends BaseFragment {
             meDoctorRenzhengIv.setVisibility(View.GONE);
         Log.e("MeFragment", user.getPic());
         if (user.getPic().length() > 0)
-            MyApplication.newInstance().getmImageLoader().get(user.getPic(), mePicCv);
+            MyApplication.newInstance().getmImageLoader().load(user.getPic()).into(mePicCv);
         meNameTv.setText(user.getName());
         mePhoneTv.setText(user.getPhone());
 
@@ -64,45 +64,46 @@ public class MeFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.me_pic_cv:
-//                点击头像
-                startActivity(new Intent(getActivity(), MyInformationActivity.class));
+                //点击头像
+                startActivity(new Intent(getActivity(), MyInformationActivity.class).putExtra("user", user).putExtra("type", 0));
                 break;
             case R.id.me_order_rl:
-//               订单
-                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 0));
+                //订单
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 8));
                 break;
             case R.id.me_pending_payment_tv:
-//待付款
-                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 1));
+                //待付款
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 0));
                 break;
             case R.id.me_waiting_for_delivery_tv:
-//                待发货
-                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 2));
+                //待发货
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 1));
                 break;
             case R.id.me_receiving_goods_tv:
-//                待收货
-                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 3));
+                //待收货
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 2));
                 break;
             case R.id.me_already_buy_tv:
-//                已买到
-                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 4));
+                //已买到
+                startActivity(new Intent(getActivity(), IndentActivity.class).putExtra("type", 3));
                 break;
             case R.id.me_customer_service_tv:
-//                售后服务
+                //售后服务
                 startActivity(new Intent(getActivity(), AftermarketActivity.class));
                 break;
             case R.id.me_address_rl:
-//                收货地址
+                //收货地址
                 startActivity(new Intent(getActivity(), AddressActivity.class));
                 break;
             case R.id.me_discount_rl:
-//                优惠方案
+                //优惠方案
                 break;
             case R.id.me_product_rl:
-//                产品介绍
+                //产品介绍
+                //getwuliu();
                 break;
             case R.id.me_install_rl:
-//                设置
+                //设置
                 startActivity(new Intent(getActivity(), InstallActivity.class));
                 break;
         }
@@ -119,8 +120,15 @@ public class MeFragment extends BaseFragment {
             meDoctorRenzhengIv.setVisibility(View.GONE);
         Log.e("MeFragment", user.getPic());
         if (user.getPic().length() > 0)
-            MyApplication.newInstance().getmImageLoader().get(user.getPic(), mePicCv);
+            MyApplication.newInstance().getmImageLoader().load(user.getPic()).into(mePicCv);
         meNameTv.setText(user.getName());
         mePhoneTv.setText(user.getPhone());
     }
+
+   /* public void getwuliu() {
+
+        JSONObject jsonObject = null;
+        String url = "http://ali-deliver.showapi.com/showapi_expInfo?com=auto&nu=" + "884810193665143773";
+        NetworkRequests.getInstance().initViw(getActivity()).makeHTTPrequest(url);
+    }*/
 }

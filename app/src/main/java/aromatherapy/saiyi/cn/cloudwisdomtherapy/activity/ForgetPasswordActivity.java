@@ -1,5 +1,6 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
@@ -79,6 +81,7 @@ public class ForgetPasswordActivity extends BaseActivity {
             tvToolbarTitle.setText(getResources().getString(R.string.login_change));
             forgetPhoneTv.setVisibility(View.VISIBLE);
             forgetPhoneEt.setVisibility(View.GONE);
+            forgetPhoneTv.setText(MyApplication.newInstance().getUser().getPhone());
         } else {
             tvToolbarTitle.setText(getResources().getString(R.string.login_forget_password));
             forgetPhoneTv.setVisibility(View.GONE);
@@ -128,10 +131,15 @@ public class ForgetPasswordActivity extends BaseActivity {
                         map.clear();
                         map.put("phoneNumber", phone);
                         map.put("passWord", MD5.getMD5(psw));
-                        NetworkRequests.GetRequests(this, Constant.UPDATEPWD, map, new JsonDataReturnListener() {
+                         NetworkRequests.getInstance().initViw(this).GetRequests( Constant.UPDATEPWD, map, new JsonDataReturnListener() {
                             @Override
                             public void jsonListener(JSONObject jsonObject) {
                                 Log.e("jsonListener", jsonObject.toString());
+                                if (jsonObject.optInt("resCode") == 0) {
+                                    MyApplication.newInstance().outLogin();
+                                    startActivity(new Intent(ForgetPasswordActivity.this, LoginActivity.class));
+                                    finish();
+                                }
 
                             }
                         });
@@ -162,7 +170,7 @@ public class ForgetPasswordActivity extends BaseActivity {
             map.put("type", "1");
             map.put("phoneNumber", phone);
             timer.start();
-            NetworkRequests.GetRequests(this, Constant.GETIDENTIFY, map, new JsonDataReturnListener() {
+             NetworkRequests.getInstance().initViw(this).GetRequests( Constant.GETIDENTIFY, map, new JsonDataReturnListener() {
                 @Override
                 public void jsonListener(JSONObject jsonObject) {
                     Log.e("User", jsonObject.toString());

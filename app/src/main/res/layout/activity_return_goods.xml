@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="10dp"
-                android:text="@string/return_cause_msg" />
+                android:text="@string/return_tv1" />
 
             <ImageButton
                 android:layout_width="wrap_content"

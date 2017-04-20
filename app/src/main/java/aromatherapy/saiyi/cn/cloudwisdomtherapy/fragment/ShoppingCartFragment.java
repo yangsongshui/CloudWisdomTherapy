@@ -236,7 +236,7 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
 
         mMap.put("list", jsonArray.toString().trim());
         Log.e("JSONObject", jsonArray.toString().trim());
-        NetworkRequests.GetRequests(getActivity(), Constant.DELETESHOPPINGCAR, mMap, new JsonDataReturnListener() {
+       NetworkRequests.getInstance().initViw(getActivity()).GetRequests(Constant.DELETESHOPPINGCAR, mMap, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("jsonListener", jsonObject.toString());
@@ -267,7 +267,7 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
 
         mMap.put("shoppingCarList", jsonArray.toString().trim());
         Log.e("JSONObject", jsonArray.toString().trim());
-        NetworkRequests.GetRequests(getActivity(), Constant.UPDATESHOPPINGCAR, mMap, new JsonDataReturnListener() {
+       NetworkRequests.getInstance().initViw(getActivity()).GetRequests( Constant.UPDATESHOPPINGCAR, mMap, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("jsonListener", jsonObject.toString());
@@ -282,7 +282,7 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
         mMap.clear();
         String phone = MyApplication.newInstance().getUser().getPhone();
         mMap.put("phoneNumber", phone);
-        NetworkRequests.GetRequests(getActivity(), Constant.FINDSHOPPINGCAR, mMap, new JsonDataReturnListener() {
+       NetworkRequests.getInstance().initViw(getActivity()).GetRequests( Constant.FINDSHOPPINGCAR, mMap, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 getItem(jsonObject.optJSONObject("resBody").optJSONArray("lists"));

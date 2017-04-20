@@ -46,7 +46,7 @@ public class ShoppingMallAdapter extends RecyclerView.Adapter<ShoppingMallAdapte
         holder.confirmNameTv.setText(commodity.getName());
         holder.confirmTypeTv.setText(commodity.getType());
         holder.confirmStandardTv.setText(commodity.getStandard());
-        MyApplication.newInstance().getmImageLoader().get(commodity.getPicture(), holder.confirmPicIv);
+        MyApplication.newInstance().getmImageLoader().load(commodity.getPicture()).into(holder.confirmPicIv);
         SpannableStringBuilder spannableString = new SpannableStringBuilder();
         spannableString.append("¥" + commodity.getPurchase_price());
         StrikethroughSpan strikethroughSpan = new StrikethroughSpan();
@@ -84,11 +84,5 @@ public class ShoppingMallAdapter extends RecyclerView.Adapter<ShoppingMallAdapte
             confirmNumTv = (TextView) itemView.findViewById(R.id.confirm_num_tv);
 
         }
-    }
-
-
-    public void setItems(List<Mall> data) {
-        this.data = data;
-        this.notifyDataSetChanged();
     }
 }

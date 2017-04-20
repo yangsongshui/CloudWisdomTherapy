@@ -14,6 +14,7 @@ import java.util.List;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnViewClickListener;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.NewUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -26,11 +27,11 @@ public class NewFriendAdapter extends RecyclerView.Adapter<NewFriendAdapter.View
     Context context;
     private OnItemClickListener onItemClickListener;
 
-    public void setOnbuttonClickListener(OnItemClickListener onbuttonClickListener) {
+    public void setOnbuttonClickListener(OnViewClickListener onbuttonClickListener) {
         this.onbuttonClickListener = onbuttonClickListener;
     }
 
-    private OnItemClickListener onbuttonClickListener;
+    private OnViewClickListener onbuttonClickListener;
 
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -53,30 +54,30 @@ public class NewFriendAdapter extends RecyclerView.Adapter<NewFriendAdapter.View
     public void onBindViewHolder(ViewHoader holder, final int position) {
         NewUser user = mList.get(position);
         holder.friend_name_tv.setText(user.getName());
-        //holder.friend_address_tv.setText(user.getAddress());
+        holder.friend_address_tv.setText(user.getAddress());
         if (user.getType() == 1) {
             holder.friend_hospital_ll.setVisibility(View.VISIBLE);
             holder.friend_authentication_iv.setVisibility(View.VISIBLE);
-            //holder.friend_hospital_tv.setText(user.getHospital());
-            //holder.friend_department_tv.setText(user.getDepartment());
+            holder.friend_hospital_tv.setText(user.getHospital());
+            holder.friend_department_tv.setText(user.getDepartment());
         } else if (user.getType() == 0) {
             holder.friend_hospital_ll.setVisibility(View.GONE);
             holder.friend_authentication_iv.setVisibility(View.GONE);
         }
-        if (user.getState() == 0) {
+        if (user.getState() == 2) {
             holder.new_friend_add_tv.setVisibility(View.VISIBLE);
             holder.new_friend_add_tv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (onbuttonClickListener != null)
-                        onbuttonClickListener.onItemClick(v, position);
+                        onbuttonClickListener.OnViewClick(v, position, 0);
                 }
             });
             holder.new_friend_yes_tv.setVisibility(View.GONE);
-        } else if (user.getState() == 1 || user.getState() == 2) {
+        } else if (user.getState() == 1 || user.getState() == 0) {
             holder.new_friend_add_tv.setVisibility(View.GONE);
             holder.new_friend_yes_tv.setVisibility(View.VISIBLE);
-            if (user.getState() == 1) {
+            if (user.getState() == 0) {
                 holder.new_friend_yes_tv.setText(context.getString(R.string.new_friend_yes));
                 holder.new_friend_yes_tv.setTextColor(context.getResources().getColor(R.color.text_color));
             } else {
@@ -85,7 +86,8 @@ public class NewFriendAdapter extends RecyclerView.Adapter<NewFriendAdapter.View
             }
 
         }
-        MyApplication.newInstance().getmImageLoader().get(mList.get(position).getPic(), holder.friend_pic_cv);
+
+        MyApplication.newInstance().getmImageLoader().load(mList.get(position).getPic()).into(holder.friend_pic_cv);
         holder.friend_item_ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,5 +125,11 @@ public class NewFriendAdapter extends RecyclerView.Adapter<NewFriendAdapter.View
             friend_item_ll = (LinearLayout) itemView.findViewById(R.id.new_friend_item_ll);
 
         }
+    }
+
+    public void setmList(List<NewUser> list) {
+
+        this.mList = list;
+        this.notifyDataSetChanged();
     }
 }

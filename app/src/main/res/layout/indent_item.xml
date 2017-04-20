@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/indent_item_ll"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/indent_standard_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:background="@color/white"
+        android:padding="10dp"
         android:text="待付款"
-        android:textSize="16sp" />
+        android:textColor="@color/text_color"
+        android:textSize="14sp" />
 
     <aromatherapy.saiyi.cn.cloudwisdomtherapy.view.NestFullListView
         android:id="@+id/cstFullShowListView2"
@@ -74,10 +78,6 @@
             android:layout_height="0.5dp"
             android:background="@color/zircon" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/zircon" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,8 +95,7 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/login_rim"
                 android:text="@string/indent_confirm"
-                android:textColor="@color/white"
-                android:visibility="gone" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/indent_item_logistics_tv"
@@ -106,8 +105,7 @@
                 android:layout_marginLeft="15dp"
                 android:background="@drawable/login_rim"
                 android:text="@string/indent_logistics"
-                android:textColor="@color/white"
-                android:visibility="gone" />
+                android:textColor="@color/white" />
 
             <TextView
                 android:id="@+id/indent_item_payment_tv"
@@ -120,5 +118,10 @@
                 android:textColor="@color/white"
                 android:visibility="visible" />
         </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/zircon" />
     </LinearLayout>
 </LinearLayout>

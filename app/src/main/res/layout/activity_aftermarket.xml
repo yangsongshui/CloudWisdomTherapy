@@ -9,9 +9,23 @@
 
     <include layout="@layout/title_bar" />
 
-    <com.hr.nipuream.NRecyclerView.view.NRecyclerView
-        android:id="@+id/aftermarket_recycler"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_bottom_navigation" />
+        android:background="@color/common_content_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <aromatherapy.saiyi.cn.cloudwisdomtherapy.view.NestFullListView
+                android:id="@+id/cstFullShowListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:showDividers="middle" />
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

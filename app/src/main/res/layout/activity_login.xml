@@ -53,8 +53,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:background="@null"
-                    android:maxLines="1"
                     android:hint="@string/login_phone"
+                    android:maxLines="1"
                     android:padding="10dp" />
             </LinearLayout>
 
@@ -86,8 +86,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="30dp"
                     android:background="@null"
-                    android:maxLines="1"
                     android:hint="@string/login_pws"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
                     android:padding="10dp" />
             </LinearLayout>
 
@@ -118,9 +119,9 @@
                     style="@style/LoginTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/login_register_rim"
                     android:text="@string/login_register"
-                    android:layout_marginRight="15dp"
                     android:textColor="@color/colorPrimary" />
 
                 <TextView
@@ -128,9 +129,9 @@
                     style="@style/LoginTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
                     android:background="@drawable/login_rim"
                     android:text="@string/login"
-                    android:layout_marginLeft="15dp"
                     android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>

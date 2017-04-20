@@ -1,25 +1,19 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.model;
 
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2017/2/13.
  */
-public class News {
+public class News implements Serializable{
     private String time;
     private String userName;
     private List<Information> NewsList;
     private String pic;
+    private String phone;
 
-    public News(String time, String userName, List<Information> newsList, String pic) {
-        this.time = time;
-        this.userName = userName;
-        NewsList = newsList;
-        this.pic = pic;
-    }
-
-    public News() {
-    }
 
     public String getUserName() {
         return userName;
@@ -51,5 +45,13 @@ public class News {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

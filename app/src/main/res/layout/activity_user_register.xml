@@ -74,6 +74,7 @@
                         android:hint="@string/register_phone"
                         android:maxLines="1"
                         android:padding="13dp"
+                        android:maxLength="11"
                         android:textColorHint="@color/darkorange"
                         android:textSize="14sp" />
 
@@ -143,6 +144,7 @@
                         android:background="@null"
                         android:hint="@string/register_psw"
                         android:maxLines="1"
+                        android:inputType="textPassword"
                         android:padding="13dp"
                         android:textColorHint="@color/darkorange"
                         android:textSize="14sp" />
@@ -168,6 +170,7 @@
                         android:background="@null"
                         android:hint="@string/register_psw2"
                         android:maxLines="1"
+                        android:inputType="textPassword"
                         android:padding="12dp"
                         android:textColorHint="@color/darkorange"
                         android:textSize="13dp" />

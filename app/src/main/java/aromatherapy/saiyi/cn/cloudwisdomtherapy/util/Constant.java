@@ -1,7 +1,30 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.util;
 
-public class Constant {
+import com.hyphenate.easeui.EaseConstant;
 
+public class Constant extends EaseConstant {
+
+    public static final String NEW_FRIENDS_USERNAME = "item_new_friends";
+    public static final String GROUP_USERNAME = "item_groups";
+    public static final String CHAT_ROOM = "item_chatroom";
+    public static final String ACCOUNT_REMOVED = "account_removed";
+    public static final String ACCOUNT_CONFLICT = "conflict";
+    public static final String ACCOUNT_FORBIDDEN = "user_forbidden";
+    public static final String CHAT_ROBOT = "item_robots";
+    public static final String MESSAGE_ATTR_ROBOT_MSGTYPE = "msgtype";
+    public static final String ACTION_GROUP_CHANAGED = "action_group_changed";
+    public static final String ACTION_CONTACT_CHANAGED = "action_contact_changed";
+
+    public static final String HX_CURRENT_USER_ID = "hx_current_user_id";
+
+    public static final String HEAD_IMAGE_URL = "headImageUrl";//发送人的头像
+    public static final String USER_ID = "userid";
+    public static final String USER_NAME = "username";
+    public static final String SEX = "sex";
+    public static final String OBJECT_HEAD_IMAGE_URL = "objectHeadImageUrl";//接收人的头像
+    public static final String OBJECT_USERID = "objectUserid";
+    public static final String OBJECT_USER_NAME = "objectUserName";
+    public static final String OBJECT_USER_SEX = "objectUserSex";
 
     public static final String BASE_URL = "http://119.23.72.141:8080/t_user_app";
     /**
@@ -99,14 +122,42 @@ public class Constant {
     public static final String INSERTSUGGEST = BASE_URL + "/insertSuggest";
     /**
      * 验证用户
-     * */
+     */
     public static final String FINDUSERROLE = BASE_URL + "/findUserRole";
     /**
      * 修改订单状态
-     * */
+     */
     public static final String UPDATEORDERSTATU = BASE_URL + "/updateOrderStatu";
     /**
      * 查询默认地址
-     * */
+     */
     public static final String FINDDEFAULTADD = BASE_URL + "/findDefaultAdd";
+    /**
+     * 添加退货信息
+     */
+    public static final String INSERTRETURNMSG = BASE_URL + "/insertReturnMsg";
+    /**
+     * 添加退货物流信息
+     */
+    public static final String INSERTLOGISTICSRETURNMSG = BASE_URL + "/insertLogisticsReturnMsg";
+    /**
+     * 获取订单信息
+     */
+    public static final String CREATECHARGE = BASE_URL + "/createCharge";
+    /**
+     * 更改加好友状态
+     */
+    public static final String UPDATEFRIENDSTATUS = BASE_URL + "/updateFriendStatus";
+    /**
+     * 加好友状态
+     */
+    public static final String ADDFRIENDREQUEST = BASE_URL + "/addFriendRequest";
+    /**
+     * 删除好友
+     */
+    public static final String DELFRIEND = BASE_URL + "/delFriend";
+    /**
+     * 查询物流
+     */
+    public static final String WULIU = "https://ali-deliver.showapi.com/showapi_expInfo";
 }

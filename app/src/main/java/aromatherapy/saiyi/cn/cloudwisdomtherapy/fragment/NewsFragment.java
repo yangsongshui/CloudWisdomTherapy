@@ -2,46 +2,51 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment;
 
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
+import android.util.Pair;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import com.hr.nipuream.NRecyclerView.view.NRecyclerView;
-import com.hr.nipuream.NRecyclerView.view.base.BaseLayout;
-import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.ChatActivity;
-import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.NewsAdapter;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.EaseConversationAdapater;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
-import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.OnItemClickListener;
-import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.News;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsFragment extends BaseFragment implements BaseLayout.RefreshAndLoadingListener, OnItemClickListener {
-    @BindView(R.id.recyclerMagicView)
-    NRecyclerView recyclerMagicView;
-    List<News> mList;
-    NewsAdapter adapter;
+public class NewsFragment extends BaseFragment {
+    @BindView(R.id.listView)
+    ListView listView;
+
+    private List<EMConversation> conversationList = new ArrayList<EMConversation>();
+    private EaseConversationAdapater adapter;
+
+    Map<String, String> map;
+    Toastor toastor;
 
     @Override
     protected void initData(View layout, Bundle savedInstanceState) {
-        mList = new ArrayList<>();
-        mList.add(new News());
-        mList.add(new News());
-        mList.add(new News());
-        mList.add(new News());
+        toastor = new Toastor(getActivity());
+        map = new HashMap<>();
+
         initData();
 
     }
@@ -52,53 +57,106 @@ public class NewsFragment extends BaseFragment implements BaseLayout.RefreshAndL
     }
 
     private void initData() {
-        recyclerMagicView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getActivity()).marginResId(R.dimen.margin_left).build(), 2);
-        recyclerMagicView.setItemAnimator(new DefaultItemAnimator());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerMagicView.setLayoutManager(layoutManager);
-        recyclerMagicView.setOnRefreshAndLoadingListener(this);
-        //禁止上拉加载
-        recyclerMagicView.setPullLoadEnable(false);
+        conversationList.addAll(loadConversationList());
 
-        adapter = new NewsAdapter(mList);
-        adapter.setOnItemClickListener(this);
-        recyclerMagicView.setAdapter(adapter);
+        adapter = new EaseConversationAdapater(getActivity(), 1, conversationList);
+        listView.setAdapter(adapter);
+        final String st2 = getResources().getString(R.string.Cant_chat_with_yourself);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-        recyclerMagicView.setTotalPages(5);
-    }
-
-    @Override
-    public void refresh() {
-        //下拉加载
-        new AsyncTask<Void, Void, Integer>() {
             @Override
-            protected Integer doInBackground(Void... params) {
-                Log.e("-------load", "doInBackground");
-                try {
-                    TimeUnit.SECONDS.sleep(3);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EMConversation conversation = (EMConversation) adapter.getItem(position);
+                String username = conversation.conversationId();
+                if (username.equals(MyApplication.newInstance().getUser().getPhone()))
+                    Toast.makeText(getActivity(), st2, Toast.LENGTH_SHORT).show();
+                else {
+                    // 进入聊天页面
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    intent.putExtra("ToChatUsername", username);
+                    startActivity(intent);
                 }
-                return 1;
             }
+        });
+    }
 
+    /**
+     * 获取会话列表
+     *
+     * @param
+     * @return +
+     */
+    protected List<EMConversation> loadConversationList() {
+        // 获取所有会话，包括陌生人
+        Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
+        // 过滤掉messages size为0的conversation
+        /**
+         * 如果在排序过程中有新消息收到，lastMsgTime会发生变化 影响排序过程，Collection.sort会产生异常
+         * 保证Conversation在Sort过程中最后一条消息的时间不变 避免并发问题
+         */
+        List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
+        synchronized (conversations) {
+            for (EMConversation conversation : conversations.values()) {
+                if (conversation.getAllMessages().size() != 0) {
+                    Log.e("loadConversationList", conversation.getLastMessage().toString());
+                    sortList.add(
+                            new Pair<Long, EMConversation>(conversation.getLastMessage().getMsgTime(), conversation));
+
+                }
+            }
+        }
+        try {
+            sortConversationByLastChatTime(sortList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        List<EMConversation> list = new ArrayList<EMConversation>();
+        for (Pair<Long, EMConversation> sortItem : sortList) {
+            list.add(sortItem.second);
+
+        }
+        return list;
+    }
+
+    /**
+     * 根据最后一条消息的时间排序
+     *
+     * @param
+     */
+    private void sortConversationByLastChatTime(List<Pair<Long, EMConversation>> conversationList) {
+        Collections.sort(conversationList, new Comparator<Pair<Long, EMConversation>>() {
             @Override
-            protected void onPostExecute(Integer integer) {
-                super.onPostExecute(integer);
-                recyclerMagicView.endRefresh();
+            public int compare(final Pair<Long, EMConversation> con1, final Pair<Long, EMConversation> con2) {
 
+                if (con1.first == con2.first) {
+                    return 0;
+                } else if (con2.first > con1.first) {
+                    return 1;
+                } else {
+                    return -1;
+                }
             }
-        }.execute();
+
+        });
     }
 
     @Override
-    public void load() {
-
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            conversationList.clear();
+            conversationList.addAll(loadConversationList());
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
-    public void onItemClick(View holder, int position) {
-        startActivity(new Intent(getActivity(), ChatActivity.class));
+    public void onResume() {
+        super.onResume();
+        conversationList.clear();
+        conversationList.addAll(loadConversationList());
+        adapter.notifyDataSetChanged();
+
     }
+
 }
