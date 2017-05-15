@@ -46,7 +46,7 @@
         <!-- 设置环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
-            android:value="1140170228178386#云网智疗" />
+            android:value="1140170228178386#cloudnet" />
         <!-- 声明SDK所需的service SDK核心功能 -->
         <service
             android:name="com.hyphenate.chat.EMChatService"
@@ -152,7 +152,10 @@
             android:exported="false"
             android:screenOrientation="behind" />
         <activity android:name=".activity.DescribeActivity" />
-        <activity android:name=".activity.ShareActivity"></activity>
+        <activity android:name=".activity.ShareActivity" />
+        <activity android:name=".activity.InformationActivity" />
+        <activity android:name=".activity.SearchMallActivity" />
+        <activity android:name=".activity.AgreementActivity"></activity>
     </application>
 
 </manifest>

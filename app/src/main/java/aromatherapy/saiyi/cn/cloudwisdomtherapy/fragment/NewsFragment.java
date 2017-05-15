@@ -26,6 +26,7 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.EaseConversationAdapater
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Log;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
 
@@ -144,6 +145,7 @@ public class NewsFragment extends BaseFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            NetworkRequests.getInstance().isShow=false;
             conversationList.clear();
             conversationList.addAll(loadConversationList());
             adapter.notifyDataSetChanged();

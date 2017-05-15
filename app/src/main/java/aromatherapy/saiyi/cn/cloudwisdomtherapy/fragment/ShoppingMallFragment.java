@@ -16,12 +16,14 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.MallActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.SearchMallActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.MallImageAdapter;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
@@ -31,6 +33,7 @@ import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Constant;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.NetworkRequests;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.util.Toastor;
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -115,7 +118,7 @@ public class ShoppingMallFragment extends BaseFragment implements OnItemClickLis
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerMagicView.setLayoutManager(layoutManager);
-       // recyclerMagicView.setOnRefreshAndLoadingListener(this);
+        // recyclerMagicView.setOnRefreshAndLoadingListener(this);
         //禁止上拉加载
         recyclerMagicView.setPullLoadEnable(false);
         //禁止下拉刷新
@@ -175,7 +178,7 @@ public class ShoppingMallFragment extends BaseFragment implements OnItemClickLis
 
     private void getMall(String type) {
         map.put("type", type);
-         NetworkRequests.getInstance().initViw(getActivity()).GetRequests( Constant.FINDCOMMODITYS, map, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(getActivity()).GetRequests(Constant.FINDCOMMODITYS, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("ShoppingMallFragment", jsonObject.toString());
@@ -189,30 +192,38 @@ public class ShoppingMallFragment extends BaseFragment implements OnItemClickLis
 
     private void getItem(JSONArray jsonArray) {
         mList.clear();
-        for (int i = 0; i < jsonArray.length(); i++) {
-            Mall mall = new Mall();
-            JSONObject jsonObject = jsonArray.optJSONObject(i);
-            mall.setName(jsonObject.optString("commodityName"));
-            mall.setPrice(jsonObject.optString("discountPrice"));
-            mall.setID(jsonObject.optString("id"));
-            if (jsonObject.optString("type").equals("0")) {
-                mall.setType("美白牙齿");
-            } else if (jsonObject.optString("type").equals("1")) {
-                mall.setType("妇儿保健");
-            } else if (jsonObject.optString("type").equals("2")) {
-                mall.setType("疼痛健康");
-            } else if (jsonObject.optString("type").equals("3")) {
-                mall.setType("养生家居");
-            }
+        if (jsonArray.length() > 0) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Mall mall = new Mall();
+                JSONObject jsonObject = jsonArray.optJSONObject(i);
+                mall.setName(jsonObject.optString("commodityName"));
+                mall.setPrice(jsonObject.optString("discountPrice"));
+                mall.setID(jsonObject.optString("id"));
+                if (jsonObject.optString("type").equals("0")) {
+                    mall.setType("美白牙齿");
+                } else if (jsonObject.optString("type").equals("1")) {
+                    mall.setType("妇儿保健");
+                } else if (jsonObject.optString("type").equals("2")) {
+                    mall.setType("疼痛健康");
+                } else if (jsonObject.optString("type").equals("3")) {
+                    mall.setType("养生家居");
+                }
 
-            mall.setPurchase_price(jsonObject.optString("originalPrice"));
-            mall.setPicture(jsonObject.optString("commodityPic"));
-            mall.setStandard(jsonObject.optString("specifications"));
-            mall.setProductionFactory(jsonObject.optString("productionFactory"));
-            mall.setDescribe(jsonObject.optString("discountMsg"));
-            mList.add(mall);
+                mall.setPurchase_price(jsonObject.optString("originalPrice"));
+                mall.setPicture(jsonObject.optString("commodityPic"));
+                mall.setStandard(jsonObject.optString("specifications"));
+                mall.setProductionFactory(jsonObject.optString("productionFactory"));
+                mall.setDescribe(jsonObject.optString("discountMsg"));
+                mall.setPicList(Arrays.asList(jsonObject.optString("remark").split(",")));
+                mList.add(mall);
+            }
+            adapter.setItems(mList);
         }
-        adapter.setItems(mList);
     }
 
+
+    @OnClick(R.id.shopping_search_ll)
+    public void onClick() {
+        startActivity(new Intent(getActivity(), SearchMallActivity.class));
+    }
 }

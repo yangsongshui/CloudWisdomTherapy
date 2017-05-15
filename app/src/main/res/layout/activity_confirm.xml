@@ -8,7 +8,8 @@
     android:orientation="vertical"
     tools:context="aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.DetailsActivity">
 
-    <include layout="@layout/title_bar" />
+    <include layout="@layout/title_bar"
+        android:id="@+id/include" />
 
     <LinearLayout
         android:id="@+id/relativeLayout"
@@ -76,10 +77,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/relativeLayout"
-        android:layout_below="@+id/toolbar"
         android:background="@color/bg_bottom_navigation"
-        android:orientation="vertical">
+        android:orientation="vertical"
+
+        android:layout_below="@+id/include"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/relativeLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="庄先生"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
@@ -129,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="10dp"
-                        android:text="13812345678"
+                        android:text=""
                         android:textColor="@color/black"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -143,7 +146,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="深圳市宝安区不知道路不知道多少号"
+                    android:text=""
                     android:textColor="@color/inactive_bottom_navigation" />
 
                 <ImageView

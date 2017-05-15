@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
@@ -83,7 +84,8 @@ public class UserRegisterActivity extends BaseActivity {
     LinearLayout registeredHospitalLl;
     @BindView(R.id.registered_consultingRoom_ll)
     LinearLayout registeredConsultingRoomLl;
-
+    @BindView(R.id.register_xieyi_tv)
+    TextView register_xieyi_tv;
     private String CODE = "";
     Toastor toasr;
     private String type = "";
@@ -137,12 +139,12 @@ public class UserRegisterActivity extends BaseActivity {
     }
 
     private void initView() {
-        if (type.equals("2") || type.equals("32")) {
+        if (type.equals("null2") || type.equals("32")) {
             tvToolbarTitle.setText(getResources().getString(R.string.register_user));
             registerVerificationLl.setVisibility(View.GONE);
             registeredHospitalLl.setVisibility(View.GONE);
             registeredConsultingRoomLl.setVisibility(View.GONE);
-        } else if (type.equals("1") || type.equals("31")) {
+        } else if (type.equals("null1") || type.equals("31")) {
             tvToolbarTitle.setText(getResources().getString(R.string.register_doctor));
             registerVerificationLl.setVisibility(View.VISIBLE);
             registeredHospitalLl.setVisibility(View.VISIBLE);
@@ -152,6 +154,7 @@ public class UserRegisterActivity extends BaseActivity {
             registered_psw_ll2.setVisibility(View.GONE);
             registered_psw_ll.setVisibility(View.GONE);
         }
+        //创建一个 SpannableString对象
 
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
         spannableStringBuilder.append(getResources().getString(R.string.register_doctor_verification));
@@ -164,12 +167,21 @@ public class UserRegisterActivity extends BaseActivity {
         //设置需要改变字体颜色的位置
         spannableStringBuilder.setSpan(foregroundColorSpan, 0, 4, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         registerVerificationTv.setText(spannableStringBuilder);
-
+        String msg = getResources().getString(R.string.register_agreement);
+        SpannableString msp = new SpannableString(msg);
+        //设置字体颜色
+        ForegroundColorSpan foregroundColor = new ForegroundColorSpan(Color.parseColor("#50638D"));
+        //设置需要改变字体颜色的位置
+        msp.setSpan(foregroundColor, 6, msg.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        register_xieyi_tv.setText(msp);
     }
 
-    @OnClick({R.id.registered_getcoed_tv, R.id.register_add_iv1, R.id.register_add_iv2, R.id.register_add_iv3, R.id.register_add_iv4, R.id.register_complete_tv})
+    @OnClick({R.id.register_xieyi_tv, R.id.registered_getcoed_tv, R.id.register_add_iv1, R.id.register_add_iv2, R.id.register_add_iv3, R.id.register_add_iv4, R.id.register_complete_tv})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.register_xieyi_tv:
+                startActivity(new Intent(this, AgreementActivity.class));
+                break;
             case R.id.registered_getcoed_tv:
 
                 String phone = registered_phone_et.getText().toString().trim();
@@ -178,7 +190,7 @@ public class UserRegisterActivity extends BaseActivity {
                     map.put("type", "0");
                     map.put("phoneNumber", phone);
                     timer.start();
-                     NetworkRequests.getInstance().initViw(this).GetRequests( Constant.GETIDENTIFY, map, new JsonDataReturnListener() {
+                    NetworkRequests.getInstance().initViw(this).GetRequests(Constant.GETIDENTIFY, map, new JsonDataReturnListener() {
                         @Override
                         public void jsonListener(JSONObject jsonObject) {
                             Log.e("User", jsonObject.toString());
@@ -277,7 +289,7 @@ public class UserRegisterActivity extends BaseActivity {
                                     //return;
                                 }
 
-                             NetworkRequests.getInstance().initViw(this).zhuce( Constant.REGISTER, map, new JsonDataReturnListener() {
+                            NetworkRequests.getInstance().initViw(this).zhuce(Constant.REGISTER, map, new JsonDataReturnListener() {
                                 @Override
                                 public void jsonListener(JSONObject jsonObject) {
                                     Log.e("jsonListener", jsonObject.toString());

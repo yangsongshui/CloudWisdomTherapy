@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by yangsong on 2017/2/13.
  */
 
-public class User implements Serializable{
+public class User implements Serializable {
     private String name;
     private String pic;
     private String phone;
@@ -19,6 +19,7 @@ public class User implements Serializable{
     private String department;
     private String address;
     private int type;
+    private String uid;
     private String psw;
 
     public String getPsw() {
@@ -32,12 +33,13 @@ public class User implements Serializable{
     public User() {
     }
 
-    public User(String name, String pic, String phone,int type) {
+    public User(String name, String pic, String phone, int type) {
         this.name = name;
         this.pic = pic;
         this.phone = phone;
         this.type = type;
     }
+
     public int getType() {
         return type;
     }
@@ -53,6 +55,7 @@ public class User implements Serializable{
     public void setAddress(String address) {
         this.address = address;
     }
+
     public String getName() {
         return name;
     }
@@ -116,6 +119,7 @@ public class User implements Serializable{
     public void setWidth(String width) {
         this.width = width;
     }
+
     public String getHospital() {
         return hospital;
     }
@@ -150,4 +154,13 @@ public class User implements Serializable{
                 ", psw='" + psw + '\'' +
                 '}';
     }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
 }

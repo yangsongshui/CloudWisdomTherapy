@@ -157,7 +157,7 @@ public class Constant extends EaseConstant {
      */
     public static final String DELFRIEND = BASE_URL + "/delFriend";
     /**
-     * 查询物流
+     * 搜索
      */
-    public static final String WULIU = "https://ali-deliver.showapi.com/showapi_expInfo";
+    public static final String FINDVAGUE =  BASE_URL + "/findVague";
 }

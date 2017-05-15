@@ -1,6 +1,7 @@
 package aromatherapy.saiyi.cn.cloudwisdomtherapy.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.InformationActivity;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.ForumAdapter;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseFragment;
@@ -94,7 +96,7 @@ public class InformationFragment extends BaseFragment {
     private void getInfor() {
         map.clear();
         map.put("type", "1");
-         NetworkRequests.getInstance().initViw(getActivity()).GetRequests( Constant.FINDINFORMATIONS, map, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(getActivity()).GetRequests(Constant.FINDINFORMATIONS, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("InformationFragment", jsonObject.toString());
@@ -137,11 +139,13 @@ public class InformationFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int postion) {
                 Log.e("onItemClick", postion + "");
+                startActivity(new Intent(getActivity(), InformationActivity.class).putExtra("information", datas.get(postion)));
             }
         });
         forumragment_lv.setAdapter(adapter);
 
         forumragment_lv.setTotalPages(5);
+
 
     }
 
@@ -251,7 +255,7 @@ public class InformationFragment extends BaseFragment {
         initRV();
         map.clear();
         map.put("type", "0");
-         NetworkRequests.getInstance().initViw(getActivity()).GetRequests( Constant.FINDINFORMATIONS, map, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(getActivity()).GetRequests(Constant.FINDINFORMATIONS, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("InformationFragment", jsonObject.toString());

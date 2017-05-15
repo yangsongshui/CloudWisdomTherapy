@@ -4,12 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.error.AuthFailureError;
 import com.android.volley.error.VolleyError;
 import com.android.volley.request.JsonObjectRequest;
+import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 
@@ -20,8 +22,6 @@ import java.util.Map;
 
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.app.MyApplication;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.inter.JsonDataReturnListener;
-
-import static com.umeng.socialize.utils.DeviceConfig.context;
 
 /**
  * Created by yangsong on 2017/3/16.
@@ -56,6 +56,7 @@ public class NetworkRequests {
                 if (progressDialog.isShowing() && !isShow) {
                     isShow = true;
                     Log.e("progressDialog", "dismiss");
+                    new Toastor(MyApplication.newInstance().getApplicationContext()).showSingletonToast("服务器连接超时");
                     progressDialog.dismiss();
                 }
 
@@ -72,37 +73,132 @@ public class NetworkRequests {
             isShow = false;
             progressDialog.show();
             Log.e("progressDialog", "show");
-            handler.postDelayed(myRunnable, 5000);
+
         }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                RequestQueue mQueue = MyApplication.newInstance().getmQueue();
-                mQueue.add(new NormalPostRequest(url, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonObject) {
-                        progressDialog.dismiss();
-                        isShow = true;
-                        Log.e("progressDialog", "dismiss");
-                        jsonListener.jsonListener(jsonObject);
+
+            handler.postDelayed(myRunnable, 10000);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    RequestQueue mQueue = MyApplication.newInstance().getmQueue();
+
+                    mQueue.add(new NormalPostRequest(url, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+                            progressDialog.dismiss();
+                            isShow = true;
+                            Log.e("progressDialog", "dismiss");
+                            jsonListener.jsonListener(jsonObject);
 
 
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        new Toastor(context).showSingletonToast("服务器连接失败");
-                        Log.e("---", error.toString());
-                        isShow = true;
-                        progressDialog.dismiss();
-                        Log.e("progressDialog", "dismiss");
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //new Toastor(MyApplication.newInstance().getApplicationContext()).showSingletonToast("服务器连接失败");
+                            Log.e("---", error.toString());
+                            isShow = true;
+                            progressDialog.dismiss();
+                            Log.e("progressDialog", "dismiss");
 
-                    }
-                }, map));
-            }
-        }).start();
+                        }
+                    }, map).setRetryPolicy(new DefaultRetryPolicy(10 * 1000, 1, 1.0f)));
+                }
+            }).start();
+
+    }
+
+    public void Ease(final String url, final Map<String, String> map, final JsonDataReturnListener jsonListener) {
+        if (!progressDialog.isShowing() && isShow) {
+            isShow = false;
+            progressDialog.show();
+            Log.e("progressDialog", "show");
+
+        }
+        if (!HxEaseuiHelper.getInstance().isLoggedIn())
+            EMClient.getInstance().login(map.get("phoneNumber"), "123456", new EMCallBack() {//回调
+                @Override
+                public void onSuccess() {
+                    EMClient.getInstance().groupManager().loadAllGroups();
+                    EMClient.getInstance().chatManager().loadAllConversations();
+                    Log.d("main", "登录聊天服务器成功！");
+                    handler.postDelayed(myRunnable, 10000);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            RequestQueue mQueue = MyApplication.newInstance().getmQueue();
+
+                            mQueue.add(new NormalPostRequest(url, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject jsonObject) {
+                                    progressDialog.dismiss();
+                                    isShow = true;
+                                    Log.e("progressDialog", "dismiss");
+                                    jsonListener.jsonListener(jsonObject);
 
 
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    //new Toastor(MyApplication.newInstance().getApplicationContext()).showSingletonToast("服务器连接失败");
+                                    Log.e("---", error.toString());
+                                    isShow = true;
+                                    progressDialog.dismiss();
+                                    Log.e("progressDialog", "dismiss");
+
+                                }
+                            }, map).setRetryPolicy(new DefaultRetryPolicy(10 * 1000, 1, 1.0f)));
+                        }
+                    }).start();
+                }
+
+                @Override
+                public void onProgress(int progress, String status) {
+
+                }
+
+                @Override
+                public void onError(int code, String message) {
+                    Log.d("main", "登录聊天服务器失败！");
+                    Log.e("code", message);
+
+                }
+            });
+        else {
+            handler.postDelayed(myRunnable, 10000);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+
+                    RequestQueue mQueue = MyApplication.newInstance().getmQueue();
+
+                    mQueue.add(new NormalPostRequest(url, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject jsonObject) {
+                            progressDialog.dismiss();
+                            isShow = true;
+                            Log.e("progressDialog", "dismiss");
+                            jsonListener.jsonListener(jsonObject);
+
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            //new Toastor(MyApplication.newInstance().getApplicationContext()).showSingletonToast("服务器连接失败");
+                            Log.e("---", error.toString());
+                            isShow = true;
+                            progressDialog.dismiss();
+                            Log.e("progressDialog", "dismiss");
+
+                        }
+                    }, map).setRetryPolicy(new DefaultRetryPolicy(10 * 1000, 1, 1.0f)));
+                }
+            }).start();
+        }
     }
 
     public NetworkRequests initViw(Context context) {

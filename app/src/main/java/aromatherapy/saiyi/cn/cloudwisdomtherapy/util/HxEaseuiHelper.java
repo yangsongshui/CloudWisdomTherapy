@@ -229,8 +229,17 @@ public class HxEaseuiHelper {
                     String hxIdFrom = message.getFrom();
                     System.out.println("helper接收到的用户名：" + userName + "helper接收到的id：" + userId + "helper头像：" + userPic);
                     EaseUser easeUser = new EaseUser(hxIdFrom);
-                    easeUser.setAvatar(userPic);
-                    easeUser.setNick(userName);
+                    if (userName.equals("") && userPic.equals("")) {
+
+                        easeUser.setAvatar(getUserInfo(hxIdFrom).getAvatar());
+                        easeUser.setNick(getUserInfo(hxIdFrom).getNick());
+                        Log.e("HxEaseuiHelper", getUserInfo(hxIdFrom).getAvatar() + " " + getUserInfo(hxIdFrom).getNick());
+                    } else {
+                        easeUser.setAvatar(userPic);
+                        easeUser.setNickname(userName);
+                        easeUser.setNick(hxIdFrom);
+                    }
+
 
                     //存入内存
                     getContactList();
@@ -245,9 +254,9 @@ public class HxEaseuiHelper {
 
                     // in background, do not refresh UI, notify it in notification bar
                     //设置本地消息推送通知
-                    if (!easeUI.hasForegroundActivies()) {
+                  /*  if (!easeUI.hasForegroundActivies()) {
                         getNotifier().onNewMsg(message);
-                    }
+                    }*/
                     Log.e("Helper", hxIdFrom + " ");
                     if (hxIdFrom.equals(MyApplication.newInstance().getToChatUsername()) || message.getTo().equals(MyApplication.newInstance().getToChatUsername())) {
                         Log.e("Helper", hxIdFrom + " " + MyApplication.newInstance().getToChatUsername() + " " + message.getTo());

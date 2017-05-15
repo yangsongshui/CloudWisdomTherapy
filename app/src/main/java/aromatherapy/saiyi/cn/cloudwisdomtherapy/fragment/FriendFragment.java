@@ -133,10 +133,11 @@ public class FriendFragment extends BaseFragment implements OnItemClickListener 
                 user.setPic(jsonObject.optString("headPic"));
                 //存入db
                 EaseUser easeUser = new EaseUser(user.getPhone());
-                easeUser.setNick(user.getPhone());
                 easeUser.setAvatar(user.getPic());
-                easeUser.setNickname(user.getName());
+                easeUser.setNick(user.getName());
+
                 users.add(easeUser);
+                Log.e("ChatActivity2", users.size() + "" + easeUser.getAvatar() + " " + easeUser.getNickname() + " " + easeUser.getUsername());
                 if (jsonObject.optInt("role") == 1) {
                     user.setType(1);
                     user.setHospital(jsonObject.optString("hospital"));
@@ -145,6 +146,7 @@ public class FriendFragment extends BaseFragment implements OnItemClickListener 
                     user.setType(0);
                 }
                 mList.add(user);
+
             }
         adapter.setmList(mList);
         dao.saveContactList(users);
@@ -155,6 +157,7 @@ public class FriendFragment extends BaseFragment implements OnItemClickListener 
         super.onHiddenChanged(hidden);
         Log.e("onHiddenChanged", "hidden:" + hidden);
         if (!hidden) {
+            NetworkRequests.getInstance().isShow = false;
             getUser();
 
         }
@@ -163,6 +166,7 @@ public class FriendFragment extends BaseFragment implements OnItemClickListener 
     @Override
     public void onResume() {
         super.onResume();
+        NetworkRequests.getInstance().isShow = false;
         getUser();
         handler.post(myRunnable);
         Log.e("onResume", "onResume:");

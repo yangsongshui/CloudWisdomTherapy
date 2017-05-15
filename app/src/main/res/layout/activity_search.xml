@@ -8,7 +8,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="aromatherapy.saiyi.cn.cloudwisdomtherapy.activity.SearchActivity">
-
+    <include layout="@layout/title_bar" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,6 +29,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
+                android:textSize="14sp"
                 android:background="@drawable/head_rim"
                 android:drawableLeft="@drawable/search_gray_icon"
                 android:drawablePadding="10dp"
@@ -43,7 +44,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="@string/compile_cancel"
+                android:text="@string/compile_cancel2"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
 

@@ -2,6 +2,7 @@ package aromatherapy.saiyi.cn.cloudwisdomtherapy.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -15,6 +16,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import org.json.JSONObject;
 
@@ -91,7 +93,7 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.mall_describe_tv:
 
-                startActivity(new Intent(this, DescribeActivity.class));
+                startActivity(new Intent(this, DescribeActivity.class).putExtra("mall", mall));
                 break;
             case R.id.mall_share_tv:
                 //分享
@@ -143,9 +145,13 @@ public class MallActivity extends BaseActivity implements View.OnClickListener {
                         .share();
                 break;
             case R.id.mall_weixin_iv:
-
+                Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                UMWeb web = new UMWeb(mall.getPicture());
+                web.setTitle("欢迎使用云网智疗APP");//标题
+                web.setThumb(new UMImage(this, bmp));  //缩略图
+                web.setDescription("给你推荐了一款商品 打开看看吧");//描述
                 new ShareAction(MallActivity.this).setPlatform(SHARE_MEDIA.WEIXIN)
-                        .withText("云网智疗")
+                        .withMedia(web)
                         .setCallback(umShareListener)
                         .share();
                 break;

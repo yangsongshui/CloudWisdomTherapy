@@ -69,13 +69,15 @@ public class SuggestActivity extends BaseActivity {
         map.put("orderNo", phone);
         if (tvToolbarWhiteTitle.getText().toString().trim().length() > 0) {
             map.put("returnType", type + "");
-             NetworkRequests.getInstance().initViw(this).GetRequests( Constant.INSERTRETURNMSG, map, new JsonDataReturnListener() {
+            NetworkRequests.getInstance().initViw(this).GetRequests(Constant.INSERTRETURNMSG, map, new JsonDataReturnListener() {
                 @Override
                 public void jsonListener(JSONObject jsonObject) {
                     Log.e("jsonListener", jsonObject.toString());
                     if (jsonObject.optInt("resCode") == 0) {
                         toast.showSingletonToast("提交成功");
                         finish();
+                    } else {
+                        toast.showSingletonToast("提交失败");
                     }
                 }
             });

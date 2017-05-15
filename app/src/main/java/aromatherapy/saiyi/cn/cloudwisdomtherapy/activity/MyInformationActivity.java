@@ -96,6 +96,11 @@ public class MyInformationActivity extends BaseActivity {
             user = (User) getIntent().getSerializableExtra("user");
             information_delete_iv.setVisibility(View.VISIBLE);
             informationCompileTv.setText("发起聊天");
+        }else if (type==3){
+            user = (User) getIntent().getSerializableExtra("user");
+            information_delete_iv.setVisibility(View.GONE);
+            informationCompileTv.setVisibility(View.GONE);
+            //informationCompileTv.setText("发起聊天");
         }
 
         if (user.getPic().length() > 0)
@@ -107,7 +112,7 @@ public class MyInformationActivity extends BaseActivity {
             informationSexTv.setImageDrawable(getResources().getDrawable(R.drawable.man_icon));
         }
         if (user.getBirthday().length() > 0)
-            informationAgeTc.setText(DateUtil.yearDiff(DateUtil.getCurrDate(DateUtil.LONG_DATE_FORMAT), user.getBirthday()) + "");
+            informationAgeTc.setText(-(DateUtil.yearDiff(DateUtil.getCurrDate(DateUtil.LONG_DATE_FORMAT), user.getBirthday())-1) + "");
         informationPhoneTv.setText(user.getPhone());
         informationAddressTv.setText(user.getAddress());
         if (user.getType() == 1) {
@@ -156,14 +161,14 @@ public class MyInformationActivity extends BaseActivity {
         map.put("userID", phone);
         map.put("friendID", user.getPhone());
         map.put("statu", 0 + "");
-         NetworkRequests.getInstance().initViw(this).GetRequests( Constant.UPDATEFRIENDSTATUS, map, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(this).GetRequests(Constant.UPDATEFRIENDSTATUS, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 if (jsonObject.optInt("resCode") == 0) {
                     //getUser();
                     toastor.showSingletonToast("添加成功");
                     finish();
-                }else
+                } else
                     toastor.showSingletonToast(jsonObject.optString("resMessage"));
                 Log.e("CompileActivity", jsonObject.toString());
 
@@ -176,13 +181,13 @@ public class MyInformationActivity extends BaseActivity {
         String phone = MyApplication.newInstance().getUser().getPhone();
         map.put("userID", phone);
         map.put("friendID", user.getPhone());
-         NetworkRequests.getInstance().initViw(this).GetRequests( Constant.DELFRIEND, map, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(this).GetRequests(Constant.DELFRIEND, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 if (jsonObject.optInt("resCode") == 0) {
                     toastor.showSingletonToast("删除成功");
                     finish();
-                }else{
+                } else {
                     toastor.showSingletonToast("删除失败");
                 }
                 Log.e("CompileActivity", jsonObject.toString());

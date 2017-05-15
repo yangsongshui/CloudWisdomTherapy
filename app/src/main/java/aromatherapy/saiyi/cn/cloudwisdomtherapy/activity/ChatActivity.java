@@ -72,7 +72,7 @@ public class ChatActivity extends BaseActivity implements EMCallBack, EaseChatFr
 
         EaseUser easeUser = HxEaseuiHelper.getInstance().getUserInfo(ToChatUsername);
         name = easeUser.getNickname();
-
+        Log.e("ChatActivity",easeUser.getUsername()+" "+ easeUser.getAvatar()+" "+ easeUser.getUsername());
         MyApplication.newInstance().setToChatUsername(ToChatUsername);
         toolbar_left_iv.setVisibility(View.VISIBLE);
         if (name != null) {

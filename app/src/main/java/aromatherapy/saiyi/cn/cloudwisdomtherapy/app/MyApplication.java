@@ -60,13 +60,14 @@ public class MyApplication extends Application {
         super.onCreate();
         instance = this;
         mQueue = Volley.newRequestQueue(this);
+
         DiskLruBasedCache.ImageCacheParams cacheParams = new DiskLruBasedCache.ImageCacheParams(getApplicationContext(), "CacheDirectory");
         cacheParams.setMemCacheSizePercent(0.5f);
         mImageLoader = new SimpleImageLoader(getApplicationContext(), cacheParams);
         PingppLog.DEBUG = true;
         UMShareAPI.get(this);
         HxEaseuiHelper.getInstance().init(instance);
-         NetworkRequests.getInstance().initViw(this).getInstance().init(instance);
+        NetworkRequests.getInstance().initViw(this).getInstance().init(instance);
 
         // Helper.getInstance().init(instance);
     }
@@ -126,6 +127,7 @@ public class MyApplication extends Application {
         //设置参数
         editor.putString("username", user.getPhone());
         editor.putString("password", user.getPsw());
+        editor.putString("uid", user.getUid());
 
         //提交
         editor.commit();
@@ -139,11 +141,13 @@ public class MyApplication extends Application {
         SharedPreferences sharedPre = this.getSharedPreferences("config", this.MODE_PRIVATE);
         String username = sharedPre.getString("username", "");
         String password = sharedPre.getString("password", "");
+        String uid = sharedPre.getString("uid", "");
         Log.e("------", username + " " + password);
         if (username.equals("") || password.equals(""))
             return null;
         user.setPhone(username);
         user.setPsw(password);
+        user.setUid(uid);
         return user;
     }
 

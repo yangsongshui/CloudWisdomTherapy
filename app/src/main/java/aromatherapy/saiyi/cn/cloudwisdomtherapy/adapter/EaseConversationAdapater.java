@@ -61,9 +61,14 @@ public class EaseConversationAdapater extends MyBaseAdapter<EMConversation> {
         }
         // 获取与此用户/群组的会话
         EMConversation conversation = (EMConversation) getItem(position);
+
         // 获取用户username或者群组groupid
         EaseUser easeUser = HxEaseuiHelper.getInstance().getUserInfo(conversation.conversationId());
-        MyApplication.newInstance().getmImageLoader().load(easeUser.getAvatar()).into(holder.news_pic_cv);
+        Log.e("ChatActivity3", easeUser.getUsername() + " " + easeUser.getAvatar() + " " + easeUser.getNick());
+        if (easeUser.getAvatar()!=null)
+            MyApplication.newInstance().getmImageLoader().load(easeUser.getAvatar()).into(holder.news_pic_cv);
+        else
+            holder.news_pic_cv.setImageResource(R.drawable.zhuce_user_icon);
         holder.news_name_tv.setText(easeUser.getNickname());
         if (conversation.getUnreadMsgCount() > 0) {
             // 显示与此用户的消息未读数

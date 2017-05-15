@@ -154,14 +154,19 @@ public class ConfirmActivity extends BaseActivity {
 
         map.put("orderer", phone);
         map.put("commodityList", jsonArray.toString().trim());
-        map.put("consigneeID", address.getID());
+        if (address != null)
+            map.put("consigneeID", address.getID());
+        else {
+            toastor.showSingletonToast("收货地址不能为空");
+            return;
+        }
         map.put("orderPrice", prcice + "");
         if (confirmTuijianrenEt.getText().toString().trim().length() == 11) {
             map.put("recommender", confirmTuijianrenEt.getText().toString().trim());
         }
         if (!confirmTuijianrenEt.getText().toString().trim().equals(phone)) {
             Log.e("JSONObject", jsonArray.toString().trim());
-             NetworkRequests.getInstance().initViw(this).GetRequests(Constant.INSERTORDER, map, new JsonDataReturnListener() {
+            NetworkRequests.getInstance().initViw(this).GetRequests(Constant.INSERTORDER, map, new JsonDataReturnListener() {
                 @Override
                 public void jsonListener(JSONObject jsonObject) {
                     if (jsonObject.optInt("resCode") == 0) {
@@ -181,15 +186,17 @@ public class ConfirmActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RESULT) {
+        if (requestCode == 2 && data != null) {
             address = (Address) data.getSerializableExtra("return");
-            confirmUsernameTv.setText(address.getName());
-            confirmPhoneTv.setText(address.getPhone());
-            String city = address.getSheng();
-            if ("北京".equals(city) || "上海".equals(city) || "天津".equals(city) || "重庆".equals(city) || "澳门".equals(city) || "香港".equals(city)) {
-                confirmAddressTv.setText(address.getShi() + address.getQu() + address.getAddress());
-            } else {
-                confirmAddressTv.setText(city + address.getShi() + address.getQu() + address.getAddress());
+            if (address != null) {
+                confirmUsernameTv.setText(address.getName());
+                confirmPhoneTv.setText(address.getPhone());
+                String city = address.getSheng();
+                if ("北京".equals(city) || "上海".equals(city) || "天津".equals(city) || "重庆".equals(city) || "澳门".equals(city) || "香港".equals(city)) {
+                    confirmAddressTv.setText(address.getShi() + address.getQu() + address.getAddress());
+                } else {
+                    confirmAddressTv.setText(city + address.getShi() + address.getQu() + address.getAddress());
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -209,7 +216,7 @@ public class ConfirmActivity extends BaseActivity {
         map.clear();
         String phone = MyApplication.newInstance().getUser().getPhone();
         map.put("phoneNumber", phone);
-         NetworkRequests.getInstance().initViw(this).GetRequests(Constant.FINDDEFAULTADD, map, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(this).GetRequests(Constant.FINDDEFAULTADD, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 if (jsonObject.optInt("resCode") == 0) {
@@ -231,7 +238,7 @@ public class ConfirmActivity extends BaseActivity {
                         confirmAddressTv.setText(city + address.getShi() + address.getQu() + address.getAddress());
                     }
                 }
-                Log.e("CompileActivity", jsonObject.toString());
+                Log.e("getAddress", jsonObject.toString());
 
             }
         });
@@ -241,7 +248,7 @@ public class ConfirmActivity extends BaseActivity {
         map.clear();
         map.put("phoneNumber", phone);
         Log.e("findUserRole", !(phone.equals(MyApplication.newInstance().getUser().getPhone())));
-         NetworkRequests.getInstance().initViw(this).GetRequests(Constant.FINDUSERROLE, map, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(this).GetRequests(Constant.FINDUSERROLE, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 if (jsonObject.optInt("resCode") != 0 || (phone.equals(MyApplication.newInstance().getUser().getPhone()))) {

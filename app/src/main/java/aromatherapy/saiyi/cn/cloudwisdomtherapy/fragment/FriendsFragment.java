@@ -160,7 +160,7 @@ public class FriendsFragment extends BaseFragment implements TabLayout.OnTabSele
         String phone = MyApplication.newInstance().getUser().getPhone();
         map.put("userID", phone);
         map.put("friendID", friendID);
-         NetworkRequests.getInstance().initViw(getActivity()).GetRequests( Constant.ADDFRIENDREQUEST, map, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(getActivity()).GetRequests(Constant.ADDFRIENDREQUEST, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("PaymentActivity", jsonObject.toString());
@@ -193,9 +193,10 @@ public class FriendsFragment extends BaseFragment implements TabLayout.OnTabSele
         DigitsKeyListener numericOnlyListener = new DigitsKeyListener(false, true);
         final EditText editText = new EditText(getActivity());
         editText.setKeyListener(numericOnlyListener);
-
+        editText.setHint("请输入用户手机号");
         editText.setMaxLines(1);
-        alertDialog.setTitle("请输入").setView(editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        editText.setTextSize(14);
+        alertDialog.setTitle("添加好友").setView(editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (editText.getText().toString().equals("") || editText.getText().toString().length() == 0)

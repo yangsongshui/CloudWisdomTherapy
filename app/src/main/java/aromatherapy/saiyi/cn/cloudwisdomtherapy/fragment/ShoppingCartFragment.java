@@ -348,7 +348,10 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
         super.onHiddenChanged(hidden);
         Log.e("onHiddenChanged", "hidden:" + hidden);
         if (!hidden) {
+            NetworkRequests.getInstance().isShow=false;
+            NetworkRequests.getInstance().isShow=false;
             getCart();
+
             tv_toolbar_right.setText(getResources().getString(R.string.shopping_cart_edit));
             shopping_cart_settlement_tv.setText(getResources().getString(R.string.shopping_cart_settlement));
             adapter.setConceal(false);
@@ -362,7 +365,7 @@ public class ShoppingCartFragment extends BaseFragment implements OnItemCheckLis
     @Override
     public void onResume() {
         super.onResume();
-
+        NetworkRequests.getInstance().isShow=false;
         getCart();
     }
 }

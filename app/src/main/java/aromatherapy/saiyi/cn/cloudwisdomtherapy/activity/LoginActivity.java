@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -55,7 +54,10 @@ public class LoginActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
         initToolbar();
         if (MyApplication.newInstance().getUser() != null) {
-            login(MyApplication.newInstance().getUser().getPhone(), MyApplication.newInstance().getUser().getPsw());
+            if (MyApplication.newInstance().getUser().getUid().length() > 1) {
+                getPlatformInfd(MyApplication.newInstance().getUser().getUid());
+            } else
+                login(MyApplication.newInstance().getUser().getPhone(), MyApplication.newInstance().getUser().getPsw());
         }
     }
 
@@ -87,7 +89,11 @@ public class LoginActivity extends BaseActivity {
                 final String phone = loginPhoneEt.getText().toString().trim();
                 final String psw = loginPswEt.getText().toString().trim();
                 //登陆
-                login(phone, psw);
+                if (phone.length() != 11 || psw.length() < 6) {
+                    toastor.showSingletonToast("账号或密码输入错误");
+                } else {
+                    login(phone, psw);
+                }
 
 
                 break;
@@ -102,36 +108,12 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    private void Ease(String phone, String psw) {
-        if (!HxEaseuiHelper.getInstance().isLoggedIn())
-            EMClient.getInstance().login(phone, psw, new EMCallBack() {//回调
-                @Override
-                public void onSuccess() {
-                    EMClient.getInstance().groupManager().loadAllGroups();
-                    EMClient.getInstance().chatManager().loadAllConversations();
-                    Log.d("main", "登录聊天服务器成功！");
-                }
-
-                @Override
-                public void onProgress(int progress, String status) {
-
-                }
-
-                @Override
-                public void onError(int code, String message) {
-                    Log.d("main", "登录聊天服务器失败！");
-                    Log.e("code", message);
-                    //toastor.showSingletonToast("登录失败");
-                }
-            });
-    }
-
 
     private void login(final String phone, final String psw) {
         map.clear();
         map.put("phoneNumber", phone);
         map.put("passWord", MD5.getMD5(psw));
-         NetworkRequests.getInstance().initViw(this).GetRequests( Constant.LOGIN, map, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(this).Ease(Constant.LOGIN, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("LoginActivity", jsonObject.toString());
@@ -157,11 +139,11 @@ public class LoginActivity extends BaseActivity {
                         user.setType(2);
                     MyApplication.newInstance().setUser(user);
 
-                    Ease(phone, "123456");
+                    //Ease(phone, "123456");
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
                 } else {
-                    toastor.showSingletonToast("登录失败");
+                    toastor.showSingletonToast(jsonObject.optString("resMessage"));
                     EMClient.getInstance().logout(true);
                 }
 
@@ -185,7 +167,7 @@ public class LoginActivity extends BaseActivity {
 
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
-            Toast.makeText(getApplicationContext(), "Authorize succeed", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getApplicationContext(), "Authorize succeed", Toast.LENGTH_SHORT).show();
             for (String key : data.keySet()) {
                 Log.e("-----", "QQ" + "key= " + key + " and value= " + data.get(key));
             }
@@ -235,12 +217,12 @@ public class LoginActivity extends BaseActivity {
     private void getPlatformInfd(final String uid) {
         map.clear();
         map.put("openID", uid);
-         NetworkRequests.getInstance().initViw(this).GetRequests( Constant.THIRDLOGIN, map, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(this).GetRequests(Constant.THIRDLOGIN, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("LoginActivity", jsonObject.toString());
                 if (jsonObject.optInt("resCode") == 0) {
-                    toastor.showSingletonToast(jsonObject.optString("resMessage"));
+
                     JSONObject object = jsonObject.optJSONObject("resBody");
                     User user = new User();
                     user.setAddress(object.optString("city"));
@@ -254,6 +236,7 @@ public class LoginActivity extends BaseActivity {
                     user.setDepartment(object.optString("consultingRoom"));
                     user.setName(object.optString("nickName"));
                     user.setPsw("123456");
+                    user.setUid(uid);
                     if (object.optInt("checkStatu") == 1)
                         user.setType(1);
                     else
@@ -261,14 +244,49 @@ public class LoginActivity extends BaseActivity {
 
                     MyApplication.newInstance().setUser(user);
                     Ease(object.optString("phoneNumber"), "123456");
-
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
+                    toastor.showSingletonToast("登录成功");
+
                 } else {
                     //注册
                     startActivity(new Intent(LoginActivity.this, RegisterActivity.class).putExtra("type", "3").putExtra("openID", uid));
                 }
             }
         });
+    }
+
+    private void Ease(final String phone, final String psw) {
+
+        if (!HxEaseuiHelper.getInstance().isLoggedIn())
+            EMClient.getInstance().login(phone, psw, new EMCallBack() {//回调
+                @Override
+                public void onSuccess() {
+                    EMClient.getInstance().groupManager().loadAllGroups();
+                    EMClient.getInstance().chatManager().loadAllConversations();
+                    Log.d("main", "登录聊天服务器成功！");
+
+
+                }
+
+                @Override
+                public void onProgress(int progress, String status) {
+
+                }
+
+                @Override
+                public void onError(int code, String message) {
+                    Log.d("main", "登录聊天服务器失败！");
+                    Log.e("code", message);
+                    Ease(phone, psw);
+
+                }
+            });
+        else {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
+
+
     }
 }

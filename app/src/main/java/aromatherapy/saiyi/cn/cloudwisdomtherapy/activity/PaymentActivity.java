@@ -43,8 +43,10 @@ public class PaymentActivity extends BaseActivity {
     Map<String, String> map;
     Toastor toastor;
     String orderNo;
+    String prc;
     int prcice = 0;
     String id;
+    boolean iszhifu = false;
     /**
      * 支付支付渠道
      */
@@ -64,10 +66,12 @@ public class PaymentActivity extends BaseActivity {
         map = new HashMap<>();
         toastor = new Toastor(this);
         orderNo = getIntent().getStringExtra("orderNo");
+        prc = getIntent().getStringExtra("prcice");
         prcice = (int) (getIntent().getDoubleExtra("prcice", 0) * 100);
         tvToolbarTitle.setText("支付方式");
         toolbar_left_iv.setVisibility(View.VISIBLE);
         PingppLog.DEBUG = true;
+        paymentTotalPriceTv.setText(prc);
     }
 
     String data;
@@ -78,17 +82,18 @@ public class PaymentActivity extends BaseActivity {
             case R.id.payment_zhifubao_ll:
                 paymentZhifubaoEb.setChecked(true);
                 paymentWeixinRb.setChecked(false);
-                getData(CHANNEL_ALIPAY);
-
-                //new PaymentTask().execute(new PaymentRequest(CHANNEL_ALIPAY, prcice));
+                iszhifu = false;
                 break;
             case R.id.payment_weixin_ll:
                 paymentZhifubaoEb.setChecked(false);
                 paymentWeixinRb.setChecked(true);
-                getData(CHANNEL_WECHAT);
+                iszhifu = true;
                 break;
             case R.id.payment_tv:
-
+                if (iszhifu)
+                    getData(CHANNEL_WECHAT);
+                else
+                    getData(CHANNEL_ALIPAY);
                 break;
             case R.id.toolbar_left_iv:
                 finish();
@@ -100,7 +105,7 @@ public class PaymentActivity extends BaseActivity {
     private void getData(final String type) {
         map.put("orderNo", orderNo);
         map.put("payType", type);
-         NetworkRequests.getInstance().initViw(this).GetRequests( Constant.CREATECHARGE, map, new JsonDataReturnListener() {
+        NetworkRequests.getInstance().initViw(this).GetRequests(Constant.CREATECHARGE, map, new JsonDataReturnListener() {
             @Override
             public void jsonListener(JSONObject jsonObject) {
                 Log.e("PaymentActivity", jsonObject.toString());
@@ -136,7 +141,7 @@ public class PaymentActivity extends BaseActivity {
                     map.put("orderNo", orderNo);
                     map.put("orderStatus", "1");
                     map.put("chargeId", id);
-                     NetworkRequests.getInstance().initViw(this).GetRequests(Constant.UPDATEORDERSTATU, map, new JsonDataReturnListener() {
+                    NetworkRequests.getInstance().initViw(this).GetRequests(Constant.UPDATEORDERSTATU, map, new JsonDataReturnListener() {
                         @Override
                         public void jsonListener(JSONObject jsonObject) {
                             if (jsonObject.optInt("resCode") == 0) {

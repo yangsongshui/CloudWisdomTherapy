@@ -6,12 +6,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.R;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.adapter.DescribeAdapater;
 import aromatherapy.saiyi.cn.cloudwisdomtherapy.bean.BaseActivity;
+import aromatherapy.saiyi.cn.cloudwisdomtherapy.model.Mall;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -24,9 +22,8 @@ public class DescribeActivity extends BaseActivity {
     @BindView(R.id.tv_toolbar_white_title)
     TextView tvToolbarWhiteTitle;
 
-
-    List<String> mList;
     DescribeAdapater adapater;
+    Mall mall;
 
     @Override
     protected int getContentView() {
@@ -37,12 +34,8 @@ public class DescribeActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
         tvToolbarWhiteTitle.setText(getResources().getString(R.string.mall_describe2));
         toolbarLeftWhiteIv.setVisibility(View.VISIBLE);
-        mList = new ArrayList<>();
-        mList.add("http://119.23.72.141:8080/SystemIMG/zixun/81b26fe73a5f4705b73619cf3ba79f04.jpg");
-        mList.add("http://119.23.72.141:8080/SystemIMG/zixun/81b26fe73a5f4705b73619cf3ba79f04.jpg");
-        mList.add("http://119.23.72.141:8080/SystemIMG/zixun/81b26fe73a5f4705b73619cf3ba79f04.jpg");
-        mList.add("http://119.23.72.141:8080/SystemIMG/zixun/81b26fe73a5f4705b73619cf3ba79f04.jpg");
-        adapater = new DescribeAdapater(this, mList);
+        mall = (Mall) getIntent().getSerializableExtra("mall");
+        adapater = new DescribeAdapater(this, mall.getPicList());
         describe_lv.setAdapter(adapater);
     }
 
